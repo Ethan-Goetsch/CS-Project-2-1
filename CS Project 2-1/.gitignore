@@ -5,7 +5,6 @@
 /[Bb]uild/
 /[Bb]uilds/
 /Assets/AssetStoreTools*
-/Assets/Plugins*
 /Assets/Demonstrations*
 /Assets/ML-Agents/Timers*
 /csharp_timers.json
