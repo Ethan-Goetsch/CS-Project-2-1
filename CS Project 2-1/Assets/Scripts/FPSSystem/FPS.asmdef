@@ -1,7 +1,11 @@
 {
-    "name": "Source",
-    "rootNamespace": "Source",
-    "references": ["GUID:85e0054f8e64b47309646d35f8851f81"],
+    "name": "FPS",
+    "rootNamespace": "",
+    "references": [
+        "GUID:85e0054f8e64b47309646d35f8851f81",
+        "GUID:77221876cc6b8244180b96e320b1bcd4",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
