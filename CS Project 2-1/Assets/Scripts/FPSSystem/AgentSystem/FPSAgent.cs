@@ -1,19 +1,28 @@
 ﻿using FPSSystem.DamageSystem;
 using FPSSystem.HealthSystem;
+using FPSSystem.MovementSystem;
+using FPSSystem.WeaponSystem;
 using R3;
 using Sirenix.OdinInspector;
 using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 namespace FPSSystem.AgentSystem
 {
-    public abstract class FPSAgent : Agent, IDamagable, IHealable
+    public class FPSAgent : Agent, IDamagable, IHealable
     {
-        protected readonly Subject<IAgentEvent> OnEvent = new();
+        private readonly Subject<IAgentEvent> _onEvent = new();
 
-        [TitleGroup("Controllers")]
-        protected IFPSController FPSController;
+        [TitleGroup("Components")]
+        [Required, SerializeField]
+        private MovementController movementController;
+
+        [Required, SerializeField]
+        private Weapon weapon;
+
+        private IFPSController _fpsController;
 
         [TitleGroup("Stats")]
         [SerializeField]
@@ -26,26 +35,58 @@ namespace FPSSystem.AgentSystem
         [ShowInInspector, ReadOnly]
         public float Health { get; private set; }
 
-        public Observable<T> OnEntityEvent<T>() where T : IAgentEvent => OnEvent.OfType<IAgentEvent, T>();
+        public Observable<T> OnEntityEvent<T>() where T : IAgentEvent => _onEvent.OfType<IAgentEvent, T>();
 
         public override void Initialize()
         {
-            FPSController = GetComponentInParent<IFPSController>();
+            _fpsController = GetComponentInParent<IFPSController>();
         }
 
         public override void OnEpisodeBegin()
         {
-            var position = FPSController.GetStartingPosition(this);
-            var rotation = FPSController.GetStartingRotation(this);
+            var position = _fpsController.GetStartingPosition(this);
+            var rotation = _fpsController.GetStartingRotation(this);
             transform.SetPositionAndRotation(position, rotation);
 
             Health = MaxHealth;
+            movementController.Initialize();
+            weapon.Initialize(this);
         }
 
         public override void CollectObservations(VectorSensor sensor)
         {
             sensor.AddObservation(transform.localPosition);
             sensor.AddObservation(transform.localRotation);
+        }
+
+        public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
+        {
+            actionMask.SetActionEnabled(3, 1, weapon.CanShoot);
+            actionMask.SetActionEnabled(4, 1, weapon.CanReload);
+        }
+
+        public override void OnActionReceived(ActionBuffers actions)
+        {
+            var horizontalMovement = GetDirectionFromAction(actions.DiscreteActions[0]);
+            var verticalMovement = GetDirectionFromAction(actions.DiscreteActions[1]);
+
+            var horizontalRotation = GetDirectionFromAction(actions.DiscreteActions[2]);
+
+            var shouldAttack = actions.DiscreteActions[3] == 1;
+            var shouldSpecialAttack = actions.DiscreteActions[4] == 1;
+
+            movementController.HandleMovement(new Vector2(horizontalMovement, verticalMovement));
+            movementController.HandleRotation(horizontalRotation);
+
+            if (shouldAttack)
+            {
+                weapon.Shoot();
+            }
+
+            if (shouldSpecialAttack)
+            {
+                weapon.Reload();
+            }
         }
 
         public override string ToString()
@@ -57,11 +98,11 @@ namespace FPSSystem.AgentSystem
         {
             var previous = Health;
             Health -= Mathf.Clamp(damage, 0, MaxHealth);
-            OnEvent.OnNext(new OnDamaged(this, previous, Health));
+            _onEvent.OnNext(new OnDamaged(this, previous, Health));
 
             if (Health == 0)
             {
-                OnEvent.OnNext(new OnKilled(this));
+                _onEvent.OnNext(new OnKilled(this));
             }
         }
 
@@ -69,7 +110,18 @@ namespace FPSSystem.AgentSystem
         {
             var previous = Health;
             Health += Mathf.Clamp(healing, 0, MaxHealth);
-            OnEvent.OnNext(new OnHealed(this, previous, Health));
+            _onEvent.OnNext(new OnHealed(this, previous, Health));
+        }
+
+        private int GetDirectionFromAction(int action)
+        {
+            return action switch
+            {
+                0 => 0,
+                1 => 1,
+                2 => -1,
+                _ => 0
+            };
         }
     }
 }
