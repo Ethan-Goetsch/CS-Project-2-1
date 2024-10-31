@@ -3,6 +3,7 @@ using System.Linq;
 using FPSSystem.DamageSystem;
 using FPSSystem.HealthSystem;
 using FPSSystem.MovementSystem;
+using FPSSystem.Utils;
 using FPSSystem.WeaponSystem;
 using R3;
 using Sirenix.OdinInspector;
@@ -65,13 +66,9 @@ namespace FPSSystem.AgentSystem
         {
             sensor.AddObservation(transform.localPosition);
             sensor.AddObservation(transform.localRotation);
-            sensor.AddObservation(weapon.CurrentAmmo.Normalize(weapon.MaxAmmo, 0));
-            sensor.AddObservation(weapon.MaxAmmo);
-            sensor.AddObservation(transform.localPosition); //Position Sensor
-            sensor.AddObservation(transform.localRotation); //Rotation Sensor
-            sensor.AddObservation(Health/MaxHealth); //Health Sensor
 
-
+            sensor.AddObservation(weapon.CurrentAmmo.Normalize(0, weapon.MaxAmmo));
+            sensor.AddObservation(Health.Normalize(0, MaxHealth));
         }
 
         public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
@@ -124,7 +121,7 @@ namespace FPSSystem.AgentSystem
             var newHealth = Health + healing;
             newHealth = Mathf.Clamp(newHealth, 0, MaxHealth);
             Health = newHealth;
-            
+
             _onEvent.OnNext(new OnHealed(this, previousHealth, Health));
         }
 
