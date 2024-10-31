@@ -4,6 +4,7 @@ using System.Linq;
 using FPSSystem.AgentSystem;
 using FPSSystem.DamageSystem;
 using FPSSystem.ProjectileSystem;
+using FPSSystem.SoundSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,6 +27,10 @@ namespace FPSSystem.WeaponSystem
 
         [SerializeField]
         private float reloadSpeed = 0.2f;
+
+        [TitleGroup("Sound")]
+        [SerializeField]
+        private float shootRadius = 10f, reloadRadius = 5f;
 
         [FoldoutGroup("Events")]
         [SerializeField]
@@ -60,7 +65,13 @@ namespace FPSSystem.WeaponSystem
             onShoot.Invoke();
             CurrentAmmo--;
 
+            var sound = new Sound
+            {
+                Origin = spawnPoint.position,
+                Radius = shootRadius
+            };
             var projectile = ProjectileManager.GetOrCreate(projectileDefinition);
+
             projectile.Enable(new ProjectileArgs
             {
                 Owner = _owner,
@@ -99,10 +110,22 @@ namespace FPSSystem.WeaponSystem
         {
             onStartReload.Invoke();
             IsReloading = true;
+            var beginReloadSound = new Sound
+            {
+                Origin = spawnPoint.position,
+                Radius = reloadRadius
+            };
+            SoundManager.PlaySound(beginReloadSound);
 
             yield return new WaitForSeconds(ReloadSpeed);
 
             CurrentAmmo = MaxAmmo;
+            var stopReloadSound = new Sound
+            {
+                Origin = spawnPoint.position,
+                Radius = reloadRadius
+            };
+            SoundManager.PlaySound(stopReloadSound);
 
             IsReloading = false;
             onStopReload.Invoke();
