@@ -116,9 +116,12 @@ namespace FPSSystem.AgentSystem
 
         public void TakeHealing(float healing)
         {
-            var previous = Health;
-            Health += Mathf.Clamp(healing, 0, MaxHealth);
-            _onEvent.OnNext(new OnHealed(this, previous, Health));
+            var previousHealth = Health;
+            var newHealth = Health + healing;
+            newHealth = Mathf.Clamp(newHealth, 0, MaxHealth);
+            Health = newHealth;
+            
+            _onEvent.OnNext(new OnHealed(this, previousHealth, Health));
         }
 
         private int GetDirectionFromAction(int action)
