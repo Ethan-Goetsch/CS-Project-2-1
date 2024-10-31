@@ -1,6 +1,9 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using FPSSystem.AgentSystem;
 using FPSSystem.DamageSystem;
+using FPSSystem.ProjectileSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -44,7 +47,6 @@ namespace FPSSystem.WeaponSystem
         public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo;
 
         public int MaxAmmo => maxAmmo;
-
         public float ReloadSpeed => reloadSpeed;
 
         public void Initialize(FPSAgent owner)
@@ -65,6 +67,7 @@ namespace FPSSystem.WeaponSystem
                 Weapon = this,
                 Position = spawnPoint.position,
                 Rotation = spawnPoint.rotation,
+                OwnerColliders = _owner.Colliders.ToList(),
                 OnDamagableHit = OnProjectileHit,
                 OnEnvironmentHit = OnProjectileEnvironmentHit,
                 OnExpire = OnProjectileExpire

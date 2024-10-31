@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using FPSSystem.AgentSystem;
 using FPSSystem.DamageSystem;
+using FPSSystem.ProjectileSystem;
 using UnityEngine;
 
 namespace FPSSystem.WeaponSystem
@@ -12,6 +14,8 @@ namespace FPSSystem.WeaponSystem
 
         public Vector3 Position;
         public Quaternion Rotation;
+
+        public List<Collider> OwnerColliders;
 
         public Action<ProjectileController, IDamagable> OnDamagableHit;
         public Action<ProjectileController, GameObject> OnEnvironmentHit;

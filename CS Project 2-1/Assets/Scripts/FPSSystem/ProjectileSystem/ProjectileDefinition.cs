@@ -1,7 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace FPSSystem.WeaponSystem
+namespace FPSSystem.ProjectileSystem
 {
     [CreateAssetMenu]
     public class ProjectileDefinition : SerializedScriptableObject

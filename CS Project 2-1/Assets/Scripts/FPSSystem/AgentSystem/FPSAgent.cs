@@ -1,4 +1,6 @@
-﻿using FPSSystem.DamageSystem;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FPSSystem.DamageSystem;
 using FPSSystem.HealthSystem;
 using FPSSystem.MovementSystem;
 using FPSSystem.WeaponSystem;
@@ -16,6 +18,9 @@ namespace FPSSystem.AgentSystem
         private readonly Subject<IAgentEvent> _onEvent = new();
 
         [TitleGroup("Components")]
+        [Required, SerializeField]
+        private CharacterController characterController;
+
         [Required, SerializeField]
         private MovementController movementController;
 
@@ -35,11 +40,14 @@ namespace FPSSystem.AgentSystem
         [ShowInInspector, ReadOnly]
         public float Health { get; private set; }
 
+        public List<Collider> Colliders { get; private set; }
+
         public Observable<T> OnEntityEvent<T>() where T : IAgentEvent => _onEvent.OfType<IAgentEvent, T>();
 
         public override void Initialize()
         {
             _fpsController = GetComponentInParent<IFPSController>();
+            Colliders = GetComponentsInChildren<Collider>().ToList();
         }
 
         public override void OnEpisodeBegin()
@@ -49,7 +57,7 @@ namespace FPSSystem.AgentSystem
             transform.SetPositionAndRotation(position, rotation);
 
             Health = MaxHealth;
-            movementController.Initialize();
+            movementController.Initialize(characterController);
             weapon.Initialize(this);
         }
 
@@ -62,7 +70,7 @@ namespace FPSSystem.AgentSystem
         public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
         {
             actionMask.SetActionEnabled(3, 1, weapon.CanShoot);
-            actionMask.SetActionEnabled(4, 1, weapon.CanReload);
+            actionMask.SetActionEnabled(3, 2, weapon.CanReload);
         }
 
         public override void OnActionReceived(ActionBuffers actions)
@@ -72,20 +80,17 @@ namespace FPSSystem.AgentSystem
 
             var horizontalRotation = GetDirectionFromAction(actions.DiscreteActions[2]);
 
-            var shouldAttack = actions.DiscreteActions[3] == 1;
-            var shouldSpecialAttack = actions.DiscreteActions[4] == 1;
-
             movementController.HandleMovement(new Vector2(horizontalMovement, verticalMovement));
             movementController.HandleRotation(horizontalRotation);
 
-            if (shouldAttack)
+            switch (actions.DiscreteActions[3])
             {
-                weapon.Shoot();
-            }
-
-            if (shouldSpecialAttack)
-            {
-                weapon.Reload();
+                case 1:
+                    weapon.Shoot();
+                    break;
+                case 2:
+                    weapon.Reload();
+                    break;
             }
         }
 

@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace FPSSystem.WeaponSystem
+namespace FPSSystem.ProjectileSystem
 {
     public class ProjectileManager
     {

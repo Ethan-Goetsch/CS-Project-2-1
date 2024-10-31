@@ -5,10 +5,6 @@ namespace FPSSystem.MovementSystem
 {
     public class MovementController : MonoBehaviour
     {
-        [TitleGroup("Components")]
-        [Required, SerializeField]
-        private CharacterController character;
-
         [TitleGroup("Settings")]
         [Required, SerializeField]
         private float speed = 5f;
@@ -16,9 +12,11 @@ namespace FPSSystem.MovementSystem
         [SerializeField]
         private float rotationSpeed = 200f;
 
-        public void Initialize()
-        {
+        private CharacterController _characterController;
 
+        public void Initialize(CharacterController characterController)
+        {
+            _characterController = characterController;
         }
 
         public void HandleMovement(Vector2 direction)
@@ -28,7 +26,7 @@ namespace FPSSystem.MovementSystem
             movement.y = 0;
             movement *= speed;
 
-            character.Move(movement * Time.deltaTime);
+            _characterController.Move(movement * Time.deltaTime);
         }
 
         public void HandleRotation(int horizontalDirection)
