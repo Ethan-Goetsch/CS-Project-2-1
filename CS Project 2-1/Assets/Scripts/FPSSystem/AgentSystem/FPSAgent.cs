@@ -63,6 +63,10 @@ namespace FPSSystem.AgentSystem
 
         public override void CollectObservations(VectorSensor sensor)
         {
+            sensor.AddObservation(transform.localPosition);
+            sensor.AddObservation(transform.localRotation);
+            sensor.AddObservation(weapon.CurrentAmmo.Normalize(weapon.MaxAmmo, 0));
+            sensor.AddObservation(weapon.MaxAmmo);
             sensor.AddObservation(transform.localPosition); //Position Sensor
             sensor.AddObservation(transform.localRotation); //Rotation Sensor
             sensor.AddObservation(Health/MaxHealth); //Health Sensor
