@@ -272,17 +272,73 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3039534407475660187, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039534407475660187, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_BrainParameters.NumStackedVectorObservations
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4713175855820823721, guid: d7b8936f35cb7764e9bcc7bc88e48403,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 66382b35903af6b4d87ae7dd5d0a93c6, type: 2}
+    - target: {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_RayLength
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_MaxRayDegrees
+      value: 47.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_SphereCastRadius
+      value: 1.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_EndVerticalOffset
+      value: 1.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_ObservationStacks
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_UseBatchedRaycasts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_AlternatingRayOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: m_StartVerticalOffset
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 8289379701388837362, guid: d7b8936f35cb7764e9bcc7bc88e48403,
         type: 3}
       propertyPath: m_Name
       value: Agent 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5887947004563136795, guid: d7b8936f35cb7764e9bcc7bc88e48403, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

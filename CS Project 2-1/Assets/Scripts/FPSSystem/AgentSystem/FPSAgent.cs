@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FPSSystem.AgentSystem.SensorSystem;
 using FPSSystem.DamageSystem;
 using FPSSystem.HealthSystem;
 using FPSSystem.MovementSystem;
 using FPSSystem.WeaponSystem;
 using R3;
+using R3.Triggers;
 using Sirenix.OdinInspector;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+
 using UnityEngine;
 
 namespace FPSSystem.AgentSystem
@@ -44,10 +47,19 @@ namespace FPSSystem.AgentSystem
 
         public Observable<T> OnEntityEvent<T>() where T : IAgentEvent => _onEvent.OfType<IAgentEvent, T>();
 
+        [Required, SerializeField]
+        private FpsVisionSensor _visionSensor;
+
         public override void Initialize()
         {
+
             _fpsController = GetComponentInParent<IFPSController>();
             Colliders = GetComponentsInChildren<Collider>().ToList();
+
+            // add vision sensor
+            _visionSensor = gameObject.AddComponent<FpsVisionSensor>();
+
+
         }
 
         public override void OnEpisodeBegin()
@@ -62,9 +74,18 @@ namespace FPSSystem.AgentSystem
         }
 
         public override void CollectObservations(VectorSensor sensor)
-        {
+        {   
+            // Observe position
             sensor.AddObservation(transform.localPosition);
+
+            // Observe rotation 
             sensor.AddObservation(transform.localRotation);
+
+            // Observe raycasts for vision. Collects a float array from a flattened list of float arrays, where each
+            // array has hot-encoded values for hit object tags, 0/1 if ray hit something at all, and normalized ray distance to hit object (1.0f if missed)
+            sensor.AddObservation(_visionSensor.CollectObservation());
+
+            // We may want to add a second, separate vision sensor so the agent can see in a more wide area vertically, which is more human-like
         }
 
         public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
