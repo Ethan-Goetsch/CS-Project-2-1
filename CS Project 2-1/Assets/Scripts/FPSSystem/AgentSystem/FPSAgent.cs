@@ -29,13 +29,12 @@ namespace FPSSystem.AgentSystem
         [Required, SerializeField]
         private Weapon weapon;
 
-        private FPSEnvironmentController _fpsController;
-
         [TitleGroup("Stats")]
         [SerializeField]
         private float maxHealth = 100;
 
         private float _health;
+        private FPSEnvironmentController _fpsController;
 
         public Vector3 Position => transform.position;
         public float MaxHealth => maxHealth;

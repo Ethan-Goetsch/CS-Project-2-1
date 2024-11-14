@@ -100,8 +100,8 @@ namespace FPSSystem.TrainingSystem
             primary.AddReward(1f);
             secondary.AddReward(-1f);
 
-            primary.EndEpisode();
-            secondary.EndEpisode();
+            // primary.EndEpisode();
+            // secondary.EndEpisode();
         }
 
         private (FPSAgent primary, FPSAgent secondary) GetAgentsFromEvents(FPSAgent agent) => agent == agent1 ? (agent1, agent2) : (agent2, agent1);
