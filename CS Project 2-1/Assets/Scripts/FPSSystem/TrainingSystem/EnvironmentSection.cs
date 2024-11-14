@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace FPSSystem.TrainingSystem
 {
-    public class FPSSpawnPoint : MonoBehaviour
+    public class EnvironmentSection : MonoBehaviour
     {
         [Required]
         public Transform Agent1Spawn;
