@@ -3,6 +3,7 @@ using System.Linq;
 using FPSSystem.DamageSystem;
 using FPSSystem.HealthSystem;
 using FPSSystem.MovementSystem;
+using FPSSystem.TrainingSystem;
 using FPSSystem.Utils;
 using FPSSystem.WeaponSystem;
 using R3;
@@ -28,18 +29,30 @@ namespace FPSSystem.AgentSystem
         [Required, SerializeField]
         private Weapon weapon;
 
-        private IFPSController _fpsController;
+        private FPSEnvironmentController _fpsController;
 
         [TitleGroup("Stats")]
         [SerializeField]
         private float maxHealth = 100;
+
+        private float _health;
 
         public Vector3 Position => transform.position;
         public float MaxHealth => maxHealth;
 
         [TitleGroup("Runtime")]
         [ShowInInspector, ReadOnly]
-        public float Health { get; private set; }
+        public float Health
+        {
+            get => _health;
+            private set
+            {
+                if (Health == value) return;
+                var previous = Health;
+                _health = value;
+                _onEvent.OnNext(new OnHealthChanged(this, previous, value));
+            }
+        }
 
         public List<Collider> Colliders { get; private set; }
 
@@ -47,7 +60,7 @@ namespace FPSSystem.AgentSystem
 
         public override void Initialize()
         {
-            _fpsController = GetComponentInParent<IFPSController>();
+            _fpsController = GetComponentInParent<FPSEnvironmentController>();
             Colliders = GetComponentsInChildren<Collider>().ToList();
         }
 
@@ -90,10 +103,10 @@ namespace FPSSystem.AgentSystem
             switch (actions.DiscreteActions[3])
             {
                 case 1:
-                    weapon.Shoot();
+                    Shoot();
                     break;
                 case 2:
-                    weapon.Reload();
+                    Reload();
                     break;
             }
         }
@@ -123,6 +136,16 @@ namespace FPSSystem.AgentSystem
             Health = newHealth;
 
             _onEvent.OnNext(new OnHealed(this, previousHealth, Health));
+        }
+
+        public void Shoot()
+        {
+            weapon.Shoot();
+        }
+
+        public void Reload()
+        {
+            weapon.Reload();
         }
 
         private int GetDirectionFromAction(int action)

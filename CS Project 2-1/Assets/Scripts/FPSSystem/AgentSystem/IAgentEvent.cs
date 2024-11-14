@@ -16,4 +16,6 @@
     {
         public float Amount => New - Previous;
     }
+
+    public record OnHealthChanged(FPSAgent Agent, float Previous, float New) : IAgentEvent;
 }

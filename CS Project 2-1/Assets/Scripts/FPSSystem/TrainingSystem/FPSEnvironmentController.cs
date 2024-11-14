@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using FPSSystem.AgentSystem;
+using FPSSystem.UISystem.HUD;
 using R3;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace FPSSystem
+namespace FPSSystem.TrainingSystem
 {
-    public class FPSEnvironmentController : MonoBehaviour, IFPSController
+    public class FPSEnvironmentController : MonoBehaviour
     {
         [TitleGroup("Agents")]
         [Required, SerializeField]
@@ -16,9 +17,18 @@ namespace FPSSystem
         [Required, SerializeField]
         private Transform agent1Start, agent2Start;
 
+        [TitleGroup("Info")]
+        [Required, SerializeField]
+        private GameObject environmentCamera;
+
+        [Required, SerializeField]
+        private FPSEnvironmentHUD environmentHUD;
+
         private List<FPSAgent> agents;
 
-        private void Awake()
+        public bool IsFocused { get; private set; }
+
+        public void Initialize()
         {
             agents = new List<FPSAgent>
             {
@@ -38,6 +48,13 @@ namespace FPSSystem
                     .Subscribe(OnAgentKilled)
                     .AddTo(this);
             }
+
+            environmentHUD.Initialize(new FPSEnvironmentHUD.Args
+            {
+                Controller = this,
+                Agent1 = agent1,
+                Agent2 = agent2,
+            });
         }
 
         public Vector3 GetStartingPosition(FPSAgent agent)
@@ -50,25 +67,38 @@ namespace FPSSystem
             return agent == agent1 ? agent1Start.rotation : agent2Start.rotation;
         }
 
+        public void Focus()
+        {
+            IsFocused = true;
+            gameObject.SetActive(true);
+        }
+
+        public void Unfocus()
+        {
+            IsFocused = false;
+            gameObject.SetActive(false);
+        }
+
         private void OnAgentDamaged(OnDamaged evt)
         {
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
-            primary.AddReward(1f);
-            secondary.AddReward(-1f);
+            primary.AddReward(0.1f);
+            secondary.AddReward(-0.1f);
         }
 
         private void OnAgentHealed(OnHealed evt)
         {
-            var reward = 1f * (evt.Agent.MaxHealth / evt.Amount);
+            var reward = 1f * (evt.Amount / evt.Agent.MaxHealth);
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
             primary.AddReward(reward);
+            secondary.AddReward(-reward);
         }
 
         private void OnAgentKilled(OnKilled evt)
         {
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
-            primary.AddReward(10f);
-            secondary.AddReward(-10f);
+            primary.AddReward(1f);
+            secondary.AddReward(-1f);
 
             primary.EndEpisode();
             secondary.EndEpisode();
