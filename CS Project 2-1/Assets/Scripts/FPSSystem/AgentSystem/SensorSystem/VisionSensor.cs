@@ -1,15 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.MLAgents.Sensors;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace FPSSystem.AgentSystem.SensorSystem
 {
-
-    public class FpsVisionSensor : RayPerceptionSensorComponent3D
+    public class VisionSensor : RayPerceptionSensorComponent3D
     {
         private RayPerceptionSensor m_sensorInternals;
 
@@ -22,9 +18,9 @@ namespace FPSSystem.AgentSystem.SensorSystem
             Debug.Log("FpsVisionSensor Awake called.");
         }
 
-        // Required initialization to modify the MLAgents base behaviors 
+        // Required initialization to modify the MLAgents base behaviors
         private void Start()
-        {   
+        {
             name = "FPSVisionSensor";
 
             Debug.Log("FpsVisionSensor Start called.");
@@ -44,14 +40,12 @@ namespace FPSSystem.AgentSystem.SensorSystem
             }
         }
 
-
         public float[] CollectObservation()
         {
 
             List<float[]> raysOutput = new List<float[]>();
 
-
-            // Not sure if we need to call Update ourselves, or if unity will do it, or if it is only called when the 
+            // Not sure if we need to call Update ourselves, or if unity will do it, or if it is only called when the
             // sensor is attached through the editor and not programatically
             m_sensorInternals.Update();
 
@@ -65,7 +59,7 @@ namespace FPSSystem.AgentSystem.SensorSystem
 
             int idx = 0;
             foreach(var RayOutput in m_sensorInternals.RayPerceptionOutput.RayOutputs)
-            {   
+            {
                 float[] buffer = new float[(m_observedTagCount + 2) * m_sensorInternals.RayPerceptionOutput.RayOutputs.Length];
                 // Process each ray (normalize, convert to float array). It is already normalized in the libraries internals
                 // (observed distance is calculated as ratio of the hit distance and full length of ray for PercieveRay() in RayPerceptionSensor.cs)
@@ -84,7 +78,6 @@ namespace FPSSystem.AgentSystem.SensorSystem
             return output;
         }
 
-
         // Add helper methods for processing data
         private static class Helpers
         {
@@ -94,9 +87,9 @@ namespace FPSSystem.AgentSystem.SensorSystem
             /// </summary>
             /// <remarks>
             /// This method initializes the properties of the vision sensor, such as the number of rays per direction,
-            /// detectable tags, etc. 
+            /// detectable tags, etc.
             /// </remarks>
-            public static void SetInputParameters(FpsVisionSensor sensor)
+            public static void SetInputParameters(VisionSensor sensor)
             {
                 //name = "VisionSensor";
                 sensor.RaysPerDirection = 16;
@@ -120,11 +113,7 @@ namespace FPSSystem.AgentSystem.SensorSystem
             {
                 outputToNormalize.ToFloatArray(detectableTags, idx, buffer);
             }
-
-
-
         }
 
     }
-
 }
