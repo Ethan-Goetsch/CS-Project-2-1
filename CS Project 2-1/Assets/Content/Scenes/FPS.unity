@@ -373,7 +373,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 3
+  field of view: 12.041305
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -594,7 +594,13 @@ MonoBehaviour:
   m_PositionMode: 0
   m_RotationMode: 0
   m_UpdateMethod: 2
-  m_Targets: []
+  m_Targets:
+  - target: {fileID: 337335558}
+    weight: 1
+    radius: 0
+  - target: {fileID: 653910809}
+    weight: 1
+    radius: 0
 --- !u!1001 &337335557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -942,7 +948,7 @@ PrefabInstance:
     - target: {fileID: 8289379701388837362, guid: d7b8936f35cb7764e9bcc7bc88e48403,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
