@@ -4,6 +4,7 @@ using FPSSystem.AgentSystem;
 using FPSSystem.DamageSystem;
 using FPSSystem.ProjectileSystem;
 using FPSSystem.SoundSystem;
+using R3;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -35,6 +36,7 @@ namespace FPSSystem.WeaponSystem
         [SerializeField]
         private UnityEvent onShoot, onHit, onMiss, onStartReload, onStopReload;
 
+        private readonly Subject<IWeaponEvent> _onEvent = new();
         private FPSAgent _owner;
 
         [TitleGroup("Runtime")]
@@ -53,6 +55,8 @@ namespace FPSSystem.WeaponSystem
         public int MaxAmmo => maxAmmo;
         public float ReloadSpeed => reloadSpeed;
 
+        public Observable<T> OnEvent<T>() where T : IWeaponEvent => _onEvent.OfType<IWeaponEvent, T>();
+
         public void Initialize(FPSAgent owner)
         {
             _owner = owner;
@@ -61,14 +65,14 @@ namespace FPSSystem.WeaponSystem
 
         public void Shoot()
         {
-            onShoot.Invoke();
             CurrentAmmo--;
 
-            var sound = new Sound
+            SoundManager.PlaySound(new Sound
             {
                 Origin = spawnPoint.position,
                 Radius = shootRadius
-            };
+            });
+
             var projectile = ProjectileManager.GetOrCreate(projectileDefinition);
 
             projectile.Enable(new ProjectileArgs
@@ -82,6 +86,9 @@ namespace FPSSystem.WeaponSystem
                 OnEnvironmentHit = OnProjectileEnvironmentHit,
                 OnExpire = OnProjectileExpire
             });
+
+            onShoot.Invoke();
+            _onEvent.OnNext(new IWeaponEvent.OnShootEvent(this));
         }
 
         public void Reload()
@@ -93,15 +100,18 @@ namespace FPSSystem.WeaponSystem
         {
             damagable.TakeDamage(projectile.Definition.Damage);
             projectile.Disable();
+            _onEvent.OnNext(new IWeaponEvent.OnDamagableHitEvent(this, damagable));
         }
 
         private void OnProjectileEnvironmentHit(ProjectileController projectile, GameObject collision)
         {
+            _onEvent.OnNext(new IWeaponEvent.OnEnvironmentHitEvent(this));
             projectile.Disable();
         }
 
         private void OnProjectileExpire(ProjectileController projectile)
         {
+            _onEvent.OnNext(new IWeaponEvent.OnMissHitEvent(this));
             projectile.Disable();
         }
 
@@ -109,25 +119,25 @@ namespace FPSSystem.WeaponSystem
         {
             onStartReload.Invoke();
             IsReloading = true;
-            var beginReloadSound = new Sound
+
+            SoundManager.PlaySound(new Sound
             {
                 Origin = spawnPoint.position,
                 Radius = reloadRadius
-            };
-            SoundManager.PlaySound(beginReloadSound);
+            });
 
             yield return new WaitForSeconds(ReloadSpeed);
 
             CurrentAmmo = MaxAmmo;
-            var stopReloadSound = new Sound
+            SoundManager.PlaySound(new Sound
             {
                 Origin = spawnPoint.position,
                 Radius = reloadRadius
-            };
-            SoundManager.PlaySound(stopReloadSound);
+            });
 
             IsReloading = false;
             onStopReload.Invoke();
+            _onEvent.OnNext(new IWeaponEvent.OnReloadEvent(this));
         }
     }
 }

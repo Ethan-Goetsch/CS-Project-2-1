@@ -1,35 +1,21 @@
 ﻿using System.Collections.Generic;
 using FPSSystem.SoundSystem;
 using Unity.MLAgents.Sensors;
+using UnityEngine;
 
 namespace FPSSystem.AgentSystem.SensorSystem
 {
-    public class SoundSensorComponent : SensorComponent, ISoundListener
-    {
-        private SoundSensor _sensor;
-
-        public override ISensor[] CreateSensors()
-        {
-            _sensor = new SoundSensor();
-            return new ISensor[] { _sensor };
-        }
-
-        public void HearSound(Sound sound)
-        {
-            _sensor.AddSound(sound);
-        }
-    }
-
-    public class SoundSensor : ISensor
+    public class SoundSensorComponent : SensorComponent, ISoundListener, ISensor
     {
         private List<Sound> _sounds;
 
-        public SoundSensor()
+        public override ISensor[] CreateSensors()
         {
             _sounds = new List<Sound>();
+            return new ISensor[] { this };
         }
 
-        public void AddSound(Sound sound)
+        public void HearSound(Sound sound)
         {
             _sounds.Add(sound);
         }
@@ -53,7 +39,7 @@ namespace FPSSystem.AgentSystem.SensorSystem
             return null;
         }
 
-        public void Update()
+        void ISensor.Update()
         {
             _sounds.Clear();
         }
@@ -70,7 +56,16 @@ namespace FPSSystem.AgentSystem.SensorSystem
 
         public string GetName()
         {
-            return nameof(SoundSensor);
+            return gameObject.name;
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            foreach (var sound in _sounds)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(sound.Origin, sound.Radius);
+            }
         }
     }
 }

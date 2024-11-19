@@ -1,6 +1,7 @@
 ﻿using FPSSystem.AgentSystem;
 using FPSSystem.TrainingSystem;
 using FPSSystem.UISystem.Component;
+using FPSSystem.WeaponSystem;
 using R3;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -29,11 +30,15 @@ namespace FPSSystem.UISystem.HUD
             _args = args;
 
             args.Agent
-                .OnEntityEvent<OnHealthChanged>()
+                .OnEvent<IAgentEvent.OnHealthChanged>()
                 .Subscribe(evt => healthBar.SetValue(evt.New))
                 .AddTo(this);
             args.Agent
-                .OnEntityEvent<IAgentEvent>()
+                .OnEvent<IAgentEvent>()
+                .Subscribe(evt => UpdateInfoLabel())
+                .AddTo(this);
+            args.Agent.Weapon
+                .OnEvent<IWeaponEvent>()
                 .Subscribe(evt => UpdateInfoLabel())
                 .AddTo(this);
 

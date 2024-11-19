@@ -49,16 +49,16 @@ namespace FPSSystem.AgentSystem
                 if (Health == value) return;
                 var previous = Health;
                 _health = value;
-                _onEvent.OnNext(new OnHealthChanged(this, previous, value));
+                _onEvent.OnNext(new IAgentEvent.OnHealthChanged(this, previous, value));
             }
         }
 
         [ShowInInspector, ReadOnly]
-        public float Ammo => weapon.CurrentAmmo;
-
+        public float Ammo => Weapon.CurrentAmmo;
+        public Weapon Weapon => weapon;
         public List<Collider> Colliders { get; private set; }
 
-        public Observable<T> OnEntityEvent<T>() where T : IAgentEvent => _onEvent.OfType<IAgentEvent, T>();
+        public Observable<T> OnEvent<T>() where T : IAgentEvent => _onEvent.OfType<IAgentEvent, T>();
 
         public override void Initialize()
         {
@@ -74,7 +74,7 @@ namespace FPSSystem.AgentSystem
 
             Health = MaxHealth;
             movementController.Initialize(characterController);
-            weapon.Initialize(this);
+            Weapon.Initialize(this);
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -82,14 +82,14 @@ namespace FPSSystem.AgentSystem
             sensor.AddObservation(transform.localPosition);
             sensor.AddObservation(transform.localRotation);
 
-            sensor.AddObservation(weapon.CurrentAmmo.Normalize(0, weapon.MaxAmmo));
+            sensor.AddObservation(Weapon.CurrentAmmo.Normalize(0, Weapon.MaxAmmo));
             sensor.AddObservation(Health.Normalize(0, MaxHealth));
         }
 
         public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
         {
-            actionMask.SetActionEnabled(3, 1, weapon.CanShoot);
-            actionMask.SetActionEnabled(3, 2, weapon.CanReload);
+            actionMask.SetActionEnabled(3, 1, Weapon.CanShoot);
+            actionMask.SetActionEnabled(3, 2, Weapon.CanReload);
         }
 
         public override void OnActionReceived(ActionBuffers actions)
@@ -122,11 +122,11 @@ namespace FPSSystem.AgentSystem
         {
             var previous = Health;
             Health -= Mathf.Clamp(damage, 0, MaxHealth);
-            _onEvent.OnNext(new OnDamaged(this, previous, Health));
+            _onEvent.OnNext(new IAgentEvent.OnDamaged(this, previous, Health));
 
             if (Health == 0)
             {
-                _onEvent.OnNext(new OnKilled(this));
+                _onEvent.OnNext(new IAgentEvent.OnKilled(this));
             }
         }
 
@@ -137,17 +137,17 @@ namespace FPSSystem.AgentSystem
             newHealth = Mathf.Clamp(newHealth, 0, MaxHealth);
             Health = newHealth;
 
-            _onEvent.OnNext(new OnHealed(this, previousHealth, Health));
+            _onEvent.OnNext(new IAgentEvent.OnHealed(this, previousHealth, Health));
         }
 
         public void Shoot()
         {
-            weapon.Shoot();
+            Weapon.Shoot();
         }
 
         public void Reload()
         {
-            weapon.Reload();
+            Weapon.Reload();
         }
 
         private int GetDirectionFromAction(int action)

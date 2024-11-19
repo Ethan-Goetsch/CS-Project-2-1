@@ -38,13 +38,13 @@ namespace FPSSystem.TrainingSystem
 
             foreach (var agent in agents)
             {
-                agent.OnEntityEvent<OnDamaged>()
+                agent.OnEvent<IAgentEvent.OnDamaged>()
                     .Subscribe(OnAgentDamaged)
                     .AddTo(this);
-                agent.OnEntityEvent<OnHealed>()
+                agent.OnEvent<IAgentEvent.OnHealed>()
                     .Subscribe(OnAgentHealed)
                     .AddTo(this);
-                agent.OnEntityEvent<OnKilled>()
+                agent.OnEvent<IAgentEvent.OnKilled>()
                     .Subscribe(OnAgentKilled)
                     .AddTo(this);
             }
@@ -79,29 +79,27 @@ namespace FPSSystem.TrainingSystem
             gameObject.SetActive(false);
         }
 
-        private void OnAgentDamaged(OnDamaged evt)
+        private void OnAgentDamaged(IAgentEvent.OnDamaged evt)
         {
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
-            primary.AddReward(0.1f);
-            secondary.AddReward(-0.1f);
+            primary.AddReward(0.5f);
         }
 
-        private void OnAgentHealed(OnHealed evt)
+        private void OnAgentHealed(IAgentEvent.OnHealed evt)
         {
             var reward = 1f * (evt.Amount / evt.Agent.MaxHealth);
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
             primary.AddReward(reward);
-            secondary.AddReward(-reward);
         }
 
-        private void OnAgentKilled(OnKilled evt)
+        private void OnAgentKilled(IAgentEvent.OnKilled evt)
         {
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
             primary.AddReward(1f);
             secondary.AddReward(-1f);
 
-            // primary.EndEpisode();
-            // secondary.EndEpisode();
+            primary.EndEpisode();
+            secondary.EndEpisode();
         }
 
         private (FPSAgent primary, FPSAgent secondary) GetAgentsFromEvents(FPSAgent agent) => agent == agent1 ? (agent1, agent2) : (agent2, agent1);
