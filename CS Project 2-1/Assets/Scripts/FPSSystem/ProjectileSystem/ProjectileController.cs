@@ -60,16 +60,18 @@ namespace FPSSystem.ProjectileSystem
 
         public void Disable()
         {
+            gameObject.SetActive(false);
+
             _args.OwnerColliders.ForEach(c => Physics.IgnoreCollision(collider, c, false));
 
             _args = new ProjectileArgs();
             _damagedTargets = null;
-
-            gameObject.SetActive(false);
         }
 
         private void OnCollisionEnter(Collision other)
         {
+            if (!gameObject.activeInHierarchy) return;
+
             var damagable = other.gameObject.GetComponentInParent<IDamagable>();
             if (damagable != null && !_damagedTargets.Contains(damagable))
             {

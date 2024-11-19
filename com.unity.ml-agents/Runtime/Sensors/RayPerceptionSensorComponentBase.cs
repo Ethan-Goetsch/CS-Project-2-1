@@ -370,6 +370,7 @@ namespace Unity.MLAgents.Sensors
             }
         }
 
+
         /// <summary>
         /// Draw the debug information from the sensor (if available).
         /// </summary>

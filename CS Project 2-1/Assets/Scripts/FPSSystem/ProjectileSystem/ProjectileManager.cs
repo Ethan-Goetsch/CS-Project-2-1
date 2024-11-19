@@ -46,6 +46,7 @@ namespace FPSSystem.ProjectileSystem
                 });
             }
 
+            projectile.gameObject.name += $" {_projectileDictionary[definition].Count}";
             return projectile;
         }
     }

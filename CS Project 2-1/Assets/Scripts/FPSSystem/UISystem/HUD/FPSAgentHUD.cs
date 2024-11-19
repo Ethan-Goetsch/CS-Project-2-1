@@ -22,13 +22,28 @@ namespace FPSSystem.UISystem.HUD
         [Required, SerializeField]
         private TextMeshProUGUI infoLabel;
 
+        private Args _args;
+
         public void Initialize(Args args)
         {
-            healthBar.Initialize(args.Agent.MaxHealth, args.Agent.Health);
+            _args = args;
+
             args.Agent
                 .OnEntityEvent<OnHealthChanged>()
                 .Subscribe(evt => healthBar.SetValue(evt.New))
                 .AddTo(this);
+            args.Agent
+                .OnEntityEvent<IAgentEvent>()
+                .Subscribe(evt => UpdateInfoLabel())
+                .AddTo(this);
+
+            healthBar.Initialize(args.Agent.MaxHealth, args.Agent.Health);
+            UpdateInfoLabel();
+        }
+
+        private void UpdateInfoLabel()
+        {
+            infoLabel.text = $"Health: {_args.Agent.Health} \nAmmo: {_args.Agent.Ammo}";
         }
     }
 }

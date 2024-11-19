@@ -31,6 +31,12 @@ TagManager:
   - purpleGoal
   - tile
   - Box
+  - lock
+  - dragon
+  - key
+  - portal
+  - Agent
+  - Environment
   layers:
   - Default
   - TransparentFX

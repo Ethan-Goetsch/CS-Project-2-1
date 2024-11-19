@@ -180,8 +180,8 @@ MonoBehaviour:
     type: 2}
   maxAmmo: 24
   reloadSpeed: 0.2
-  shootRadius: 10
-  reloadRadius: 5
+  shootRadius: 25
+  reloadRadius: 15
   onShoot:
     m_PersistentCalls:
       m_Calls: []
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 6267302052572995088}
   m_Layer: 0
   m_Name: FPS_Agent
-  m_TagString: Untagged
+  m_TagString: Agent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -311,9 +311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d61b6e43273410c9f0e16ce0d10177d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2.5
-  rotationSpeed: 50
-  soundRadius: 5
+  speed: 5
+  rotationSpeed: 200
+  soundRadius: 10
 --- !u!114 &4959158370312640751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,13 +348,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 1.8
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &8936957814870335761
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +381,7 @@ Transform:
   m_GameObject: {fileID: 8936957814870335761}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -400,7 +400,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SensorName: RayPerceptionSensor
-  m_DetectableTags: []
+  m_DetectableTags:
+  - Agent
+  - Environment
   m_RaysPerDirection: 3
   m_MaxRayDegrees: 70
   m_SphereCastRadius: 0.5

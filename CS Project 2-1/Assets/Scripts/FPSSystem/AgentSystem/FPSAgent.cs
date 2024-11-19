@@ -53,6 +53,9 @@ namespace FPSSystem.AgentSystem
             }
         }
 
+        [ShowInInspector, ReadOnly]
+        public float Ammo => weapon.CurrentAmmo;
+
         public List<Collider> Colliders { get; private set; }
 
         public Observable<T> OnEntityEvent<T>() where T : IAgentEvent => _onEvent.OfType<IAgentEvent, T>();
