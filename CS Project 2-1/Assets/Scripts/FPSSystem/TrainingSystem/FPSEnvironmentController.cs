@@ -30,19 +30,19 @@ namespace FPSSystem.TrainingSystem
         [Required, SerializeField]
         private FPSEnvironmentHUD environmentHUD;
 
-        private List<FPSAgent> agents;
+        private List<FPSAgent> _agents;
 
         public bool IsFocused { get; private set; }
 
         public void Initialize()
         {
-            agents = new List<FPSAgent>
+            _agents = new List<FPSAgent>
             {
                 agent1,
                 agent2
             };
 
-            foreach (var agent in agents)
+            foreach (var agent in _agents)
             {
                 agent.OnEvent<IAgentEvent.OnDamaged>()
                     .Subscribe(OnAgentDamaged)
