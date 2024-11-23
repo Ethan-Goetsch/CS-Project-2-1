@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using FPSSystem.AgentSystem;
 using FPSSystem.UISystem.HUD;
+using FPSSystem.WeaponSystem;
 using R3;
+using R3.Triggers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,6 +14,10 @@ namespace FPSSystem.TrainingSystem
         [TitleGroup("Agents")]
         [Required, SerializeField]
         private FPSAgent agent1, agent2;
+
+        [TitleGroup("Bounds")]
+        [Required, SerializeField]
+        private Collider bounds;
 
         [TitleGroup("Transforms")]
         [Required, SerializeField]
@@ -47,6 +53,10 @@ namespace FPSSystem.TrainingSystem
                 agent.OnEvent<IAgentEvent.OnKilled>()
                     .Subscribe(OnAgentKilled)
                     .AddTo(this);
+                agent.Weapon
+                    .OnEvent<IWeaponEvent.OnMissHitEvent>()
+                    .Subscribe(evt => OnAgentMissed(agent, evt))
+                    .AddTo(this);
             }
 
             environmentHUD.Initialize(new FPSEnvironmentHUD.Args
@@ -55,6 +65,10 @@ namespace FPSSystem.TrainingSystem
                 Agent1 = agent1,
                 Agent2 = agent2,
             });
+
+            bounds.OnTriggerExitAsObservable()
+                .Subscribe(OnExitBound)
+                .AddTo(this);
         }
 
         public Vector3 GetStartingPosition(FPSAgent agent)
@@ -83,6 +97,7 @@ namespace FPSSystem.TrainingSystem
         {
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
             primary.AddReward(0.5f);
+            secondary.AddReward(-0.1f);
         }
 
         private void OnAgentHealed(IAgentEvent.OnHealed evt)
@@ -97,6 +112,21 @@ namespace FPSSystem.TrainingSystem
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
             primary.AddReward(1f);
             secondary.AddReward(-1f);
+
+            primary.EndEpisode();
+            secondary.EndEpisode();
+        }
+
+        private void OnAgentMissed(FPSAgent agent, IWeaponEvent.OnMissHitEvent evt)
+        {
+            agent.AddReward(-0.1f);
+        }
+
+        private void OnExitBound(Collider evt)
+        {
+            if (!evt.gameObject.TryGetComponent<FPSAgent>(out var agent)) return;
+            var (primary, secondary) = GetAgentsFromEvents(agent);
+            primary.AddReward(-1f);
 
             primary.EndEpisode();
             secondary.EndEpisode();

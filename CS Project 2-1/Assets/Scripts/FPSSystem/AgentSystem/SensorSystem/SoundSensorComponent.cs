@@ -61,6 +61,7 @@ namespace FPSSystem.AgentSystem.SensorSystem
 
         private void OnDrawGizmosSelected()
         {
+            if (_sounds == null) return;
             foreach (var sound in _sounds)
             {
                 Gizmos.color = Color.blue;
