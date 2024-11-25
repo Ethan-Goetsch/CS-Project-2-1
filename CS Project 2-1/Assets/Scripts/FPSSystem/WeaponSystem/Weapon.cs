@@ -24,6 +24,7 @@ namespace FPSSystem.WeaponSystem
         [TitleGroup("Ammo")]
         [SerializeField]
         private int maxAmmo = 24;
+        private int maxReloads = 2;
 
         [SerializeField]
         private float reloadSpeed = 0.2f;
@@ -43,6 +44,9 @@ namespace FPSSystem.WeaponSystem
         [ShowInInspector, ReadOnly]
         public int CurrentAmmo { get; private set; }
 
+        public int CurrentReloads { get; private set; }
+
+
         [ShowInInspector, ReadOnly]
         public bool IsReloading { get; private set; }
 
@@ -50,9 +54,10 @@ namespace FPSSystem.WeaponSystem
         public bool CanShoot => !IsReloading && CurrentAmmo > 0;
 
         [ShowInInspector, ReadOnly]
-        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo;
+        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo && CurrentReloads < maxReloads;
 
         public int MaxAmmo => maxAmmo;
+        public int MaxReloads => maxReloads;
         public float ReloadSpeed => reloadSpeed;
 
         public Observable<T> OnEvent<T>() where T : IWeaponEvent => _onEvent.OfType<IWeaponEvent, T>();
@@ -61,6 +66,7 @@ namespace FPSSystem.WeaponSystem
         {
             _owner = owner;
             CurrentAmmo = maxAmmo;
+            CurrentReloads = maxReloads;
         }
 
         public void Shoot()
@@ -92,7 +98,7 @@ namespace FPSSystem.WeaponSystem
         }
 
         public void Reload()
-        {
+        {            
             StartCoroutine(ReloadAmmo());
         }
 
@@ -117,6 +123,8 @@ namespace FPSSystem.WeaponSystem
 
         private IEnumerator ReloadAmmo()
         {
+            CurrentReloads--;
+
             onStartReload.Invoke();
             IsReloading = true;
 
