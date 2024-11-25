@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using FPSSystem.AgentSystem;
 using FPSSystem.DamageSystem;
@@ -26,7 +27,7 @@ namespace FPSSystem.WeaponSystem
         private int maxAmmo = 24;
 
         [SerializeField]
-        private float reloadSpeed = 0.2f;
+        private float reloadDuration = 2f;
 
         [TitleGroup("Sound")]
         [SerializeField]
@@ -47,13 +48,18 @@ namespace FPSSystem.WeaponSystem
         public bool IsReloading { get; private set; }
 
         [ShowInInspector, ReadOnly]
-        public bool CanShoot => !IsReloading && CurrentAmmo > 0;
+        public float FireTimer { get; private set; }
+
+        [ShowInInspector, ReadOnly]
+        public bool CanShoot => !IsReloading && CurrentAmmo > 0 && FireTimer <= 0;
 
         [ShowInInspector, ReadOnly]
         public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo;
 
         public int MaxAmmo => maxAmmo;
-        public float ReloadSpeed => reloadSpeed;
+        public float ReloadDuration => reloadDuration;
+
+        public ProjectileDefinition Definition => projectileDefinition;
 
         public Observable<T> OnEvent<T>() where T : IWeaponEvent => _onEvent.OfType<IWeaponEvent, T>();
 
@@ -63,17 +69,21 @@ namespace FPSSystem.WeaponSystem
             CurrentAmmo = maxAmmo;
         }
 
+        private void Update()
+        {
+            if (FireTimer > 0)
+            {
+                FireTimer -= Time.deltaTime;
+            }
+        }
+
         public void Shoot()
         {
             CurrentAmmo--;
+            FireTimer = Definition.RateOfFire;
+            PlaySound(shootRadius);
 
-            SoundManager.PlaySound(new Sound
-            {
-                Origin = spawnPoint.position,
-                Radius = shootRadius
-            });
-
-            var projectile = ProjectileManager.GetOrCreate(projectileDefinition);
+            var projectile = ProjectileManager.GetOrCreate(Definition);
 
             projectile.Enable(new ProjectileArgs
             {
@@ -117,27 +127,30 @@ namespace FPSSystem.WeaponSystem
 
         private IEnumerator ReloadAmmo()
         {
+            var previous = CurrentAmmo;
+
             onStartReload.Invoke();
             IsReloading = true;
+            PlaySound(reloadRadius);
 
-            SoundManager.PlaySound(new Sound
-            {
-                Origin = spawnPoint.position,
-                Radius = reloadRadius
-            });
-
-            yield return new WaitForSeconds(ReloadSpeed);
+            yield return new WaitForSeconds(ReloadDuration);
 
             CurrentAmmo = MaxAmmo;
-            SoundManager.PlaySound(new Sound
-            {
-                Origin = spawnPoint.position,
-                Radius = reloadRadius
-            });
 
+            PlaySound(reloadRadius);
             IsReloading = false;
             onStopReload.Invoke();
-            _onEvent.OnNext(new IWeaponEvent.OnReloadEvent(this));
+
+            _onEvent.OnNext(new IWeaponEvent.OnReloadEvent(this, MaxAmmo, previous, CurrentAmmo));
+        }
+
+        private void PlaySound(float radius)
+        {
+            SoundManager.PlaySound(new Sound
+            {
+                Origin = _owner.transform.position,
+                Radius = radius
+            });
         }
     }
 }

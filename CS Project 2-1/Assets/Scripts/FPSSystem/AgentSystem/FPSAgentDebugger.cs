@@ -8,6 +8,12 @@ namespace FPSSystem.AgentSystem
     {
         private FPSAgent _agent;
 
+        [ShowInInspector, ReadOnly]
+        public float Health => _agent.Health;
+
+        [ShowInInspector, ReadOnly]
+        public float Ammo => _agent.Ammo;
+
         private void Awake()
         {
             _agent = GetComponent<FPSAgent>();

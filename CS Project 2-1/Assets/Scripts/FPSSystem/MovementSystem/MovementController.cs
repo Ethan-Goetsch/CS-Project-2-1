@@ -17,7 +17,12 @@ namespace FPSSystem.MovementSystem
         [SerializeField]
         private float soundRadius = 5f;
 
+        private Vector3 _gravityForce;
         private CharacterController _characterController;
+
+        [TitleGroup("Debug")]
+        [ShowInInspector, ReadOnly]
+        public bool IsGrounded { get; private set; }
 
         public void Initialize(CharacterController characterController)
         {
@@ -26,6 +31,8 @@ namespace FPSSystem.MovementSystem
 
         public void HandleMovement(Vector2 direction)
         {
+            HandleGravity();
+
             if (direction == Vector2.zero) return;
 
             var movement = new Vector3(direction.x, 0, direction.y);
@@ -43,11 +50,25 @@ namespace FPSSystem.MovementSystem
             _characterController.Move(movement * Time.deltaTime);
         }
 
-        public void HandleRotation(int horizontalDirection)
+        public void HandleRotation(Vector2 direction)
         {
-            if (horizontalDirection == 0) return;
-            var horizontalRotation = transform.up * horizontalDirection;
+            if (direction == Vector2.zero) return;
+            var horizontalRotation = transform.up * direction.x;
             transform.Rotate(horizontalRotation, Time.deltaTime * rotationSpeed);
+        }
+
+        private void HandleGravity()
+        {
+            if (IsGrounded)
+            {
+                _gravityForce = Vector3.down;
+            }
+            else
+            {
+                _gravityForce += Physics.gravity * Time.deltaTime;
+            }
+
+            _characterController.Move(_gravityForce * Time.deltaTime);
         }
     }
 }

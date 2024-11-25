@@ -23,5 +23,6 @@ MonoBehaviour:
     SerializationNodes: []
   Prefab: {fileID: 8582752587190505777, guid: 31a383f014c016e499cb2d7928e539f8, type: 3}
   Lifetime: 10
-  Speed: 5
-  Damage: 25
+  FireRate: 2
+  Speed: 15
+  Damage: 10

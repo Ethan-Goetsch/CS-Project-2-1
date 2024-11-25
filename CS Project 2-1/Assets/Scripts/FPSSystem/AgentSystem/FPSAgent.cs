@@ -84,25 +84,30 @@ namespace FPSSystem.AgentSystem
 
             sensor.AddObservation(Weapon.CurrentAmmo.Normalize(0, Weapon.MaxAmmo));
             sensor.AddObservation(Health.Normalize(0, MaxHealth));
+
+            sensor.AddObservation(Weapon.CanShoot);
+            sensor.AddObservation(Weapon.CanReload);
+            sensor.AddObservation(Weapon.FireTimer.Normalize(0f, Weapon.Definition.RateOfFire));
         }
 
         public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
         {
-            actionMask.SetActionEnabled(3, 1, Weapon.CanShoot);
-            actionMask.SetActionEnabled(3, 2, Weapon.CanReload);
+            actionMask.SetActionEnabled(0, 1, Weapon.CanShoot);
+            actionMask.SetActionEnabled(0, 2, Weapon.CanReload);
         }
 
         public override void OnActionReceived(ActionBuffers actions)
         {
-            var horizontalMovement = GetDirectionFromAction(actions.DiscreteActions[0]);
-            var verticalMovement = GetDirectionFromAction(actions.DiscreteActions[1]);
+            var horizontalMovement = actions.ContinuousActions[0];
+            var verticalMovement = actions.ContinuousActions[1];
 
-            var horizontalRotation = GetDirectionFromAction(actions.DiscreteActions[2]);
+            var horizontalRotation = actions.ContinuousActions[2];
+            var verticalRotation = actions.ContinuousActions[3];
 
             movementController.HandleMovement(new Vector2(horizontalMovement, verticalMovement));
-            movementController.HandleRotation(horizontalRotation);
+            movementController.HandleRotation(new Vector2(horizontalRotation, verticalRotation));
 
-            switch (actions.DiscreteActions[3])
+            switch (actions.DiscreteActions[0])
             {
                 case 1:
                     Shoot();
@@ -148,17 +153,6 @@ namespace FPSSystem.AgentSystem
         public void Reload()
         {
             Weapon.Reload();
-        }
-
-        private int GetDirectionFromAction(int action)
-        {
-            return action switch
-            {
-                0 => 0,
-                1 => 1,
-                2 => -1,
-                _ => 0
-            };
         }
     }
 }

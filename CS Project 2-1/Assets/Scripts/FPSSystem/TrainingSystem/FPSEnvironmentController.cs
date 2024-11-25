@@ -3,7 +3,6 @@ using FPSSystem.AgentSystem;
 using FPSSystem.UISystem.HUD;
 using FPSSystem.WeaponSystem;
 using R3;
-using R3.Triggers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -14,10 +13,6 @@ namespace FPSSystem.TrainingSystem
         [TitleGroup("Agents")]
         [Required, SerializeField]
         private FPSAgent agent1, agent2;
-
-        [TitleGroup("Bounds")]
-        [Required, SerializeField]
-        private Collider bounds;
 
         [TitleGroup("Transforms")]
         [Required, SerializeField]
@@ -54,8 +49,20 @@ namespace FPSSystem.TrainingSystem
                     .Subscribe(OnAgentKilled)
                     .AddTo(this);
                 agent.Weapon
+                    .OnEvent<IWeaponEvent.OnShootEvent>()
+                    .Subscribe(evt => OnAgentShoot(agent, evt))
+                    .AddTo(this);
+                agent.Weapon
+                    .OnEvent<IWeaponEvent.OnReloadEvent>()
+                    .Subscribe(evt => OnAgentReload(agent, evt))
+                    .AddTo(this);
+                agent.Weapon
                     .OnEvent<IWeaponEvent.OnMissHitEvent>()
                     .Subscribe(evt => OnAgentMissed(agent, evt))
+                    .AddTo(this);
+                agent.Weapon
+                    .OnEvent<IWeaponEvent.OnEnvironmentHitEvent>()
+                    .Subscribe(evt => OnAgentHitEnvironment(agent, evt))
                     .AddTo(this);
             }
 
@@ -65,10 +72,6 @@ namespace FPSSystem.TrainingSystem
                 Agent1 = agent1,
                 Agent2 = agent2,
             });
-
-            bounds.OnTriggerExitAsObservable()
-                .Subscribe(OnExitBound)
-                .AddTo(this);
         }
 
         public Vector3 GetStartingPosition(FPSAgent agent)
@@ -84,20 +87,26 @@ namespace FPSSystem.TrainingSystem
         public void Focus()
         {
             IsFocused = true;
-            gameObject.SetActive(true);
+            environmentCamera.SetActive(true);
+            environmentHUD.gameObject.SetActive(true);
         }
 
         public void Unfocus()
         {
             IsFocused = false;
-            gameObject.SetActive(false);
+            environmentCamera.SetActive(false);
+            environmentHUD.gameObject.SetActive(false);
+        }
+
+        private void OnAgentShoot(FPSAgent agent, IWeaponEvent.OnShootEvent evt)
+        {
+            agent.AddReward(0.1f);
         }
 
         private void OnAgentDamaged(IAgentEvent.OnDamaged evt)
         {
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
-            primary.AddReward(0.5f);
-            secondary.AddReward(-0.1f);
+            secondary.AddReward(0.5f);
         }
 
         private void OnAgentHealed(IAgentEvent.OnHealed evt)
@@ -110,26 +119,38 @@ namespace FPSSystem.TrainingSystem
         private void OnAgentKilled(IAgentEvent.OnKilled evt)
         {
             var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
-            primary.AddReward(1f);
-            secondary.AddReward(-1f);
-
-            primary.EndEpisode();
-            secondary.EndEpisode();
-        }
-
-        private void OnAgentMissed(FPSAgent agent, IWeaponEvent.OnMissHitEvent evt)
-        {
-            agent.AddReward(-0.1f);
-        }
-
-        private void OnExitBound(Collider evt)
-        {
-            if (!evt.gameObject.TryGetComponent<FPSAgent>(out var agent)) return;
-            var (primary, secondary) = GetAgentsFromEvents(agent);
+            secondary.AddReward(1f);
             primary.AddReward(-1f);
 
             primary.EndEpisode();
             secondary.EndEpisode();
+        }
+
+        private void OnAgentReload(FPSAgent agent, IWeaponEvent.OnReloadEvent evt)
+        {
+            // var reward = evt.AmountReloaded >= evt.MaxAmmo / 2
+            //     ? 1f * evt.AmountReloaded
+            //     : -1f * ((evt.MaxAmmo / 2) - evt.AmountReloaded);
+            // agent.AddReward(reward);
+
+            if (evt.AmountReloaded > 1)
+            {
+                agent.AddReward(0.1f);
+            }
+            else
+            {
+                agent.AddReward(-0.1f);
+            }
+        }
+
+        private void OnAgentMissed(FPSAgent agent, IWeaponEvent.OnMissHitEvent evt)
+        {
+            agent.AddReward(-0.05f);
+        }
+
+        private void OnAgentHitEnvironment(FPSAgent agent, IWeaponEvent.OnEnvironmentHitEvent evt)
+        {
+            agent.AddReward(-0.05f);
         }
 
         private (FPSAgent primary, FPSAgent secondary) GetAgentsFromEvents(FPSAgent agent) => agent == agent1 ? (agent1, agent2) : (agent2, agent1);

@@ -33,10 +33,7 @@ namespace FPSSystem.ProjectileSystem
             else
             {
                 _args.OnExpire?.Invoke(this);
-                return;
             }
-
-            transform.position += transform.forward * (Definition.Speed * Time.deltaTime);
         }
 
         public void Initialize(ProjectileDefinition definition)
@@ -50,12 +47,13 @@ namespace FPSSystem.ProjectileSystem
             _args = args;
             _damagedTargets = new List<IDamagable>();
 
-            _time = Definition.Damage;
-
+            _time = Definition.Lifetime;
             _args.OwnerColliders.ForEach(c => Physics.IgnoreCollision(collider, c, true));
 
             transform.SetPositionAndRotation(_args.Position, _args.Rotation);
             gameObject.SetActive(true);
+
+            rigidbody.AddForce(transform.forward * Definition.Speed, ForceMode.Impulse);
         }
 
         public void Disable()
