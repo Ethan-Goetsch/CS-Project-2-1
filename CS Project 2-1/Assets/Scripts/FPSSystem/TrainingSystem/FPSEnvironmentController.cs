@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FPSSystem.AgentSystem;
-using FPSSystem.HealthSystem;
 using FPSSystem.UISystem.HUD;
 using FPSSystem.WeaponSystem;
 using R3;
@@ -18,10 +17,6 @@ namespace FPSSystem.TrainingSystem
         [TitleGroup("Transforms")]
         [Required, SerializeField]
         private Transform agent1Start, agent2Start;
-
-        [TitleGroup("Pickups")]
-        [Required, SerializeField]
-        private HealthPickupGlobalController healthPickUpController;
 
         [TitleGroup("Info")]
         [Required, SerializeField]
@@ -41,10 +36,6 @@ namespace FPSSystem.TrainingSystem
                 agent1,
                 agent2
             };
-
-            agent1.OnEvent<IAgentEvent.OnEpisodeBegin>()
-                .Subscribe(evt => BeginEpisode())
-                .AddTo(this);
 
             foreach (var agent in _agents)
             {
@@ -107,17 +98,6 @@ namespace FPSSystem.TrainingSystem
             environmentHUD.gameObject.SetActive(false);
         }
 
-        private void BeginEpisode()
-        {
-            healthPickUpController.Initialize();
-        }
-
-        private void EndEpisode()
-        {
-            agent1.EndEpisode();
-            agent2.EndEpisode();
-        }
-
         private void OnAgentShoot(FPSAgent agent, IWeaponEvent.OnShootEvent evt)
         {
             agent.AddReward(0.1f);
@@ -142,7 +122,8 @@ namespace FPSSystem.TrainingSystem
             secondary.AddReward(1f);
             primary.AddReward(-1f);
 
-            EndEpisode();
+            primary.EndEpisode();
+            secondary.EndEpisode();
         }
 
         private void OnAgentReload(FPSAgent agent, IWeaponEvent.OnReloadEvent evt)
