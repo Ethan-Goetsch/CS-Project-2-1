@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 694381c88230cd743be798d35ea3f6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SensorName: RayPerceptionSensor
+  m_SensorName: RayPerceptionSensor Lower Body
   m_DetectableTags:
   - Agent
   - Environment
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 694381c88230cd743be798d35ea3f6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SensorName: RayPerceptionSensor
+  m_SensorName: RayPerceptionSensor Head
   m_DetectableTags:
   - Agent
   - Environment
