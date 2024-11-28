@@ -11,10 +11,10 @@ namespace FPSSystem.HealthSystem
         private HealthPickup healthPickup;
 
         [SerializeField]
-        private List<Transform> spawnPoints;
+        private float respawnInterval = 10f;
 
         [SerializeField]
-        private float respawnInterval = 10f;
+        private List<Transform> spawnPoints;
 
         public void Initialize()
         {
