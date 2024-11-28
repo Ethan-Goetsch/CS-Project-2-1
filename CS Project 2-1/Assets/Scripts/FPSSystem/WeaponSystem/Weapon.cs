@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using FPSSystem.AgentSystem;
 using FPSSystem.DamageSystem;
@@ -25,9 +24,10 @@ namespace FPSSystem.WeaponSystem
         [TitleGroup("Ammo")]
         [SerializeField]
         private int maxAmmo = 24;
+        private int maxReloads = 2;
 
         [SerializeField]
-        private float reloadDuration = 2f;
+        private float reloadSpeed = 0.2f;
 
         [TitleGroup("Sound")]
         [SerializeField]
@@ -44,22 +44,21 @@ namespace FPSSystem.WeaponSystem
         [ShowInInspector, ReadOnly]
         public int CurrentAmmo { get; private set; }
 
+        public int CurrentReloads { get; private set; }
+
+
         [ShowInInspector, ReadOnly]
         public bool IsReloading { get; private set; }
 
         [ShowInInspector, ReadOnly]
-        public float FireTimer { get; private set; }
+        public bool CanShoot => !IsReloading && CurrentAmmo > 0;
 
         [ShowInInspector, ReadOnly]
-        public bool CanShoot => !IsReloading && CurrentAmmo > 0 && FireTimer <= 0;
-
-        [ShowInInspector, ReadOnly]
-        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo;
+        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo && CurrentReloads < maxReloads;
 
         public int MaxAmmo => maxAmmo;
-        public float ReloadDuration => reloadDuration;
-
-        public ProjectileDefinition Definition => projectileDefinition;
+        public int MaxReloads => maxReloads;
+        public float ReloadSpeed => reloadSpeed;
 
         public Observable<T> OnEvent<T>() where T : IWeaponEvent => _onEvent.OfType<IWeaponEvent, T>();
 
@@ -67,14 +66,7 @@ namespace FPSSystem.WeaponSystem
         {
             _owner = owner;
             CurrentAmmo = maxAmmo;
-        }
-
-        private void Update()
-        {
-            if (FireTimer > 0)
-            {
-                FireTimer -= Time.deltaTime;
-            }
+            CurrentReloads = maxReloads;
         }
 
         public void TakeAmmo(int ammo)
@@ -90,10 +82,14 @@ namespace FPSSystem.WeaponSystem
         public void Shoot()
         {
             CurrentAmmo--;
-            FireTimer = Definition.RateOfFire;
-            PlaySound(shootRadius);
 
-            var projectile = ProjectileManager.GetOrCreate(Definition);
+            SoundManager.PlaySound(new Sound
+            {
+                Origin = spawnPoint.position,
+                Radius = shootRadius
+            });
+
+            var projectile = ProjectileManager.GetOrCreate(projectileDefinition);
 
             projectile.Enable(new ProjectileArgs
             {
@@ -112,7 +108,7 @@ namespace FPSSystem.WeaponSystem
         }
 
         public void Reload()
-        {
+        {            
             StartCoroutine(ReloadAmmo());
         }
 
@@ -137,30 +133,29 @@ namespace FPSSystem.WeaponSystem
 
         private IEnumerator ReloadAmmo()
         {
-            var previous = CurrentAmmo;
+            CurrentReloads--;
 
             onStartReload.Invoke();
             IsReloading = true;
-            PlaySound(reloadRadius);
 
-            yield return new WaitForSeconds(ReloadDuration);
-
-            CurrentAmmo = MaxAmmo;
-
-            PlaySound(reloadRadius);
-            IsReloading = false;
-            onStopReload.Invoke();
-
-            _onEvent.OnNext(new IWeaponEvent.OnReloadEvent(this, MaxAmmo, previous, CurrentAmmo));
-        }
-
-        private void PlaySound(float radius)
-        {
             SoundManager.PlaySound(new Sound
             {
-                Origin = _owner.transform.position,
-                Radius = radius
+                Origin = spawnPoint.position,
+                Radius = reloadRadius
             });
+
+            yield return new WaitForSeconds(ReloadSpeed);
+
+            CurrentAmmo = MaxAmmo;
+            SoundManager.PlaySound(new Sound
+            {
+                Origin = spawnPoint.position,
+                Radius = reloadRadius
+            });
+
+            IsReloading = false;
+            onStopReload.Invoke();
+            _onEvent.OnNext(new IWeaponEvent.OnReloadEvent(this));
         }
     }
 }
