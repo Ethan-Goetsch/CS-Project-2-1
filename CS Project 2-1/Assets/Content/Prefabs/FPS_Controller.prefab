@@ -1231,11 +1231,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1385070250315041470}
     m_Modifications:
-    - target: {fileID: 588478788393600378, guid: d7b8936f35cb7764e9bcc7bc88e48403,
-        type: 3}
-      propertyPath: m_StartVerticalOffset
-      value: 1.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1295370956496699078, guid: d7b8936f35cb7764e9bcc7bc88e48403,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1286,16 +1281,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 66382b35903af6b4d87ae7dd5d0a93c6, type: 2}
-    - target: {fileID: 5568100225957887911, guid: d7b8936f35cb7764e9bcc7bc88e48403,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7496479393225283580, guid: d7b8936f35cb7764e9bcc7bc88e48403,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8289379701388837362, guid: d7b8936f35cb7764e9bcc7bc88e48403,
         type: 3}
       propertyPath: m_Name
@@ -1305,16 +1290,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194799848212382010, guid: d7b8936f35cb7764e9bcc7bc88e48403,
-        type: 3}
-      propertyPath: m_EndVerticalOffset
-      value: -1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194799848212382010, guid: d7b8936f35cb7764e9bcc7bc88e48403,
-        type: 3}
-      propertyPath: m_StartVerticalOffset
-      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
