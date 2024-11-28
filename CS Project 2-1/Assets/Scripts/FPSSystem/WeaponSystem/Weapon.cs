@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using FPSSystem.AgentSystem;
 using FPSSystem.DamageSystem;
@@ -24,10 +25,12 @@ namespace FPSSystem.WeaponSystem
         [TitleGroup("Ammo")]
         [SerializeField]
         private int maxAmmo = 24;
+
+        [SerializeField]
         private int maxReloads = 2;
 
         [SerializeField]
-        private float reloadSpeed = 0.2f;
+        private float reloadDuration = 0.2f;
 
         [TitleGroup("Sound")]
         [SerializeField]
@@ -46,21 +49,33 @@ namespace FPSSystem.WeaponSystem
 
         public int CurrentReloads { get; private set; }
 
+        public float FireTimer { get; private set; }
+
 
         [ShowInInspector, ReadOnly]
         public bool IsReloading { get; private set; }
 
         [ShowInInspector, ReadOnly]
-        public bool CanShoot => !IsReloading && CurrentAmmo > 0;
+        public bool CanShoot => !IsReloading && CurrentAmmo > 0 && FireTimer <= 0;
 
         [ShowInInspector, ReadOnly]
-        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo && CurrentReloads < maxReloads;
+        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo && CurrentReloads < MaxReloads;
 
         public int MaxAmmo => maxAmmo;
         public int MaxReloads => maxReloads;
-        public float ReloadSpeed => reloadSpeed;
+        public float ReloadDuration => reloadDuration;
+
+        public ProjectileDefinition Definition => projectileDefinition;
 
         public Observable<T> OnEvent<T>() where T : IWeaponEvent => _onEvent.OfType<IWeaponEvent, T>();
+
+        private void Update()
+        {
+            if (FireTimer > 0)
+            {
+                FireTimer -= Time.deltaTime;
+            }
+        }
 
         public void Initialize(FPSAgent owner)
         {
@@ -82,6 +97,7 @@ namespace FPSSystem.WeaponSystem
         public void Shoot()
         {
             CurrentAmmo--;
+            FireTimer = Definition.FireRate;
 
             SoundManager.PlaySound(new Sound
             {
@@ -89,7 +105,7 @@ namespace FPSSystem.WeaponSystem
                 Radius = shootRadius
             });
 
-            var projectile = ProjectileManager.GetOrCreate(projectileDefinition);
+            var projectile = ProjectileManager.GetOrCreate(Definition);
 
             projectile.Enable(new ProjectileArgs
             {
@@ -108,7 +124,7 @@ namespace FPSSystem.WeaponSystem
         }
 
         public void Reload()
-        {            
+        {
             StartCoroutine(ReloadAmmo());
         }
 
@@ -133,6 +149,7 @@ namespace FPSSystem.WeaponSystem
 
         private IEnumerator ReloadAmmo()
         {
+            var previous = CurrentAmmo;
             CurrentReloads--;
 
             onStartReload.Invoke();
@@ -144,7 +161,7 @@ namespace FPSSystem.WeaponSystem
                 Radius = reloadRadius
             });
 
-            yield return new WaitForSeconds(ReloadSpeed);
+            yield return new WaitForSeconds(ReloadDuration);
 
             CurrentAmmo = MaxAmmo;
             SoundManager.PlaySound(new Sound
@@ -155,7 +172,7 @@ namespace FPSSystem.WeaponSystem
 
             IsReloading = false;
             onStopReload.Invoke();
-            _onEvent.OnNext(new IWeaponEvent.OnReloadEvent(this));
+            _onEvent.OnNext(new IWeaponEvent.OnReloadEvent(this, MaxAmmo, previous, CurrentAmmo));
         }
     }
 }
