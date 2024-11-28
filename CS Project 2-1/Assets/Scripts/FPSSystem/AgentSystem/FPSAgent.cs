@@ -75,6 +75,8 @@ namespace FPSSystem.AgentSystem
             Health = MaxHealth;
             movementController.Initialize(characterController);
             Weapon.Initialize(this);
+
+            _onEvent.OnNext(new IAgentEvent.OnEpisodeBegin(this));
         }
 
         public override void CollectObservations(VectorSensor sensor)

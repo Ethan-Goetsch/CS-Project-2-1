@@ -2,6 +2,7 @@
 {
     public interface IAgentEvent
     {
+        public record OnEpisodeBegin(FPSAgent Agent) : IAgentEvent;
         public record OnKilled(FPSAgent Agent) : IAgentEvent;
 
         public record OnHealed(FPSAgent Agent, float Previous, float New) : IAgentEvent

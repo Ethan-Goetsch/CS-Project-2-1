@@ -1,55 +1,57 @@
-
 using System.Collections;
 using System.Collections.Generic;
+using R3;
 using UnityEngine;
 
 namespace FPSSystem.HealthSystem
 {
-
     public class HealthPickupGlobalController : MonoBehaviour
     {
+        [SerializeField]
+        private HealthPickup healthPickup;
 
         [SerializeField]
-        private GameObject _healthPickupPrefab;
+        private List<Transform> spawnPoints;
 
         [SerializeField]
-        private List<Transform> _spawnPoints;
+        private float respawnInterval = 10f;
 
-        [SerializeField]
-        private float _respawnInterval = 10f;
-
-        private Dictionary<Transform, GameObject> _activePickups = new();
+        public void Initialize()
+        {
+            SpawnPickupAtRandomPoint(healthPickup);
+        }
 
         private void Start()
         {
-
-            foreach (var spawnPoint in _spawnPoints)
-            {
-                SpawnPickup(spawnPoint);
-            }
+            healthPickup.OnPickUpCollected
+                .Subscribe(_ => OnPickUpCollected(healthPickup))
+                .AddTo(this);
+            healthPickup.OnPickUpDespawn
+                .Subscribe(_ => OnPickUpDespawned(healthPickup))
+                .AddTo(this);
         }
 
-        private void SpawnPickup(Transform spawnPoint)
+        private void OnPickUpCollected(HealthPickup pickup)
         {
-            if (_activePickups.ContainsKey(spawnPoint) && _activePickups[spawnPoint] != null)
-                return;
-
-            var pickup = Instantiate(_healthPickupPrefab, spawnPoint.position, spawnPoint.rotation);
-            _activePickups[spawnPoint] = pickup;
-
-            
-            pickup.GetComponent<HealthPickup>().OnPickupCollected += () =>
-            {
-                StartCoroutine(RespawnPickup(spawnPoint));
-            };
+            pickup.Disable();
+            StartCoroutine(RespawnPickup(pickup));
         }
 
-        private IEnumerator RespawnPickup(Transform spawnPoint)
+        private void OnPickUpDespawned(HealthPickup pickup)
         {
-            yield return new WaitForSeconds(_respawnInterval);
-            SpawnPickup(spawnPoint);
+            SpawnPickupAtRandomPoint(pickup);
         }
 
+        private IEnumerator RespawnPickup(HealthPickup pickup)
+        {
+            yield return new WaitForSeconds(respawnInterval);
+            SpawnPickupAtRandomPoint(pickup);
+        }
+
+        private void SpawnPickupAtRandomPoint(HealthPickup pickup)
+        {
+            var spawnIndex = Random.Range(0, spawnPoints.Count);
+            pickup.Enable(spawnPoints[spawnIndex]);
+        }
     }
-
 }
