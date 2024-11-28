@@ -77,6 +77,16 @@ namespace FPSSystem.WeaponSystem
             }
         }
 
+        public void TakeAmmo(int ammo)
+        {
+            var previousAmmo = CurrentAmmo;
+            var newAmmo = CurrentAmmo + ammo;
+            newAmmo = Math.Clamp(newAmmo, 0, MaxAmmo);
+            CurrentAmmo = newAmmo;
+
+            _onEvent.OnNext(new IWeaponEvent.OnAmmoRestoredEvent(this, MaxAmmo, previousAmmo, newAmmo));
+        }
+
         public void Shoot()
         {
             CurrentAmmo--;

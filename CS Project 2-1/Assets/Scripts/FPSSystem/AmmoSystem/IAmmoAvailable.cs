@@ -2,6 +2,6 @@
 {
     public interface IAmmoAvailable
     {
-        public void TakeAmmo(float ammo);
+        public void TakeAmmo(int ammo);
     }
 }

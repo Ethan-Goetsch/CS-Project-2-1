@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FPSSystem.AmmoSystem;
 using FPSSystem.DamageSystem;
 using FPSSystem.HealthSystem;
 using FPSSystem.MovementSystem;
@@ -15,7 +16,7 @@ using UnityEngine;
 
 namespace FPSSystem.AgentSystem
 {
-    public class FPSAgent : Agent, IDamagable, IHealable
+    public class FPSAgent : Agent, IDamagable, IHealable, IAmmoAvailable
     {
         private readonly Subject<IAgentEvent> _onEvent = new();
 
@@ -145,6 +146,11 @@ namespace FPSSystem.AgentSystem
             Health = newHealth;
 
             _onEvent.OnNext(new IAgentEvent.OnHealed(this, previousHealth, Health));
+        }
+
+        public void TakeAmmo(int ammo)
+        {
+            Weapon.TakeAmmo(ammo);
         }
 
         public void Shoot()

@@ -1,33 +1,19 @@
-using System;
+using FPSSystem.PickupSystem;
 using UnityEngine;
-using Sirenix.OdinInspector;
 
 namespace FPSSystem.AmmoSystem
-{   
-
-    public class AmmoPickup : MonoBehaviour
+{
+    public class AmmoPickup : Pickup
     {
         [SerializeField]
-        private float _ammoAmount = 10f;
+        private int restoreAmmount = 10;
 
-        public event Action OnPickupCollected;
-        
-        private void OnTriggerEnter(Collider other){
-            IAmmoAvailable ammoAvailable = other.GetComponent<IAmmoAvailable>();
-            if (ammoAvailable != null)
+        protected override void OnPickup(Collider other)
+        {
+            if (other.TryGetComponent<IAmmoAvailable>(out var ammoAvailable))
             {
-                ammoAvailable.TakeAmmo(_ammoAmount);
-                Debug.Log("Ammo taken");
-                Destroy(gameObject);
-                OnPickupCollected?.Invoke();
+                ammoAvailable.TakeAmmo(restoreAmmount);
             }
         }
-
-        [Button]
-        private void Consume(){
-            Destroy(gameObject);
-            OnPickupCollected?.Invoke();
-        }
-
     }
 }
