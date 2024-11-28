@@ -37,6 +37,8 @@ TagManager:
   - portal
   - Agent
   - Environment
+  - HealthPickup
+  - AmmoPickup
   layers:
   - Default
   - TransparentFX

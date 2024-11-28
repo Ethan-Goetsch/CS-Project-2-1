@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FPSSystem.AgentSystem;
+using FPSSystem.AmmoSystem;
 using FPSSystem.HealthSystem;
 using FPSSystem.UISystem.HUD;
 using FPSSystem.WeaponSystem;
@@ -23,6 +24,9 @@ namespace FPSSystem.TrainingSystem
         [Required, SerializeField]
         private HealthPickupGlobalController healthPickUpController;
 
+        [Required, SerializeField]
+        private AmmoPickupGlobalController ammoPickUpController;
+
         [TitleGroup("Info")]
         [Required, SerializeField]
         private GameObject environmentCamera;
@@ -30,12 +34,15 @@ namespace FPSSystem.TrainingSystem
         [Required, SerializeField]
         private FPSEnvironmentHUD environmentHUD;
 
+        private TrainingManager _trainingManager;
         private List<FPSAgent> _agents;
 
         public bool IsFocused { get; private set; }
+        private Reward CurrentReward => _trainingManager.CurrentReward;
 
-        public void Initialize()
+        public void Initialize(TrainingManager trainingManager)
         {
+            _trainingManager = trainingManager;
             _agents = new List<FPSAgent>
             {
                 agent1,
@@ -65,6 +72,9 @@ namespace FPSSystem.TrainingSystem
                     .OnEvent<IWeaponEvent.OnReloadEvent>()
                     .Subscribe(evt => OnAgentReload(agent, evt))
                     .AddTo(this);
+                agent.Weapon
+                    .OnEvent<IWeaponEvent.OnAmmoRestoredEvent>()
+                    .Subscribe(evt => OnAgentAmmoRestored(agent, evt));
                 agent.Weapon
                     .OnEvent<IWeaponEvent.OnMissHitEvent>()
                     .Subscribe(evt => OnAgentMissed(agent, evt))
@@ -110,6 +120,7 @@ namespace FPSSystem.TrainingSystem
         private void BeginEpisode()
         {
             healthPickUpController.Initialize();
+            ammoPickUpController.Initialize();
         }
 
         private void EndEpisode()
@@ -120,27 +131,30 @@ namespace FPSSystem.TrainingSystem
 
         private void OnAgentShoot(FPSAgent agent, IWeaponEvent.OnShootEvent evt)
         {
-            agent.AddReward(0.1f);
+            agent.AddReward(CurrentReward.ShootReward);
         }
 
         private void OnAgentDamaged(IAgentEvent.OnDamaged evt)
         {
-            var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
-            secondary.AddReward(0.5f);
+            var (damagedAgent, damageAgent) = GetAgentsFromEvents(evt.Agent);
+
+            damagedAgent.AddReward(CurrentReward.DamagedReward);
+            damageAgent.AddReward(CurrentReward.DamageReward);
         }
 
         private void OnAgentHealed(IAgentEvent.OnHealed evt)
         {
-            var reward = 1f * (evt.Amount / evt.Agent.MaxHealth);
-            var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
-            primary.AddReward(reward);
+            // var rewardMultiplier = 1f * (evt.Amount / evt.Agent.MaxHealth);
+            var (healedAgent, otherAgent) = GetAgentsFromEvents(evt.Agent);
+
+            healedAgent.AddReward(CurrentReward.HealedReward);
         }
 
         private void OnAgentKilled(IAgentEvent.OnKilled evt)
         {
-            var (primary, secondary) = GetAgentsFromEvents(evt.Agent);
-            secondary.AddReward(1f);
-            primary.AddReward(-1f);
+            var (killedAgent, killAgent) = GetAgentsFromEvents(evt.Agent);
+            killedAgent.AddReward(CurrentReward.KilledReward);
+            killAgent.AddReward(CurrentReward.KillReward);
 
             EndEpisode();
         }
@@ -152,24 +166,24 @@ namespace FPSSystem.TrainingSystem
             //     : -1f * ((evt.MaxAmmo / 2) - evt.AmountReloaded);
             // agent.AddReward(reward);
 
-            if (evt.AmountReloaded > 1)
-            {
-                agent.AddReward(0.1f);
-            }
-            else
-            {
-                agent.AddReward(-0.1f);
-            }
+            agent.AddReward(evt.AmountReloaded > 1
+                ? CurrentReward.GoodReloadReward
+                : CurrentReward.BadReloadReward);
+        }
+
+        private void OnAgentAmmoRestored(FPSAgent agent, IWeaponEvent.OnAmmoRestoredEvent evt)
+        {
+            agent.AddReward(CurrentReward.AmmoRestoredReward);
         }
 
         private void OnAgentMissed(FPSAgent agent, IWeaponEvent.OnMissHitEvent evt)
         {
-            agent.AddReward(-0.05f);
+            agent.AddReward(CurrentReward.BulletMissReward);
         }
 
         private void OnAgentHitEnvironment(FPSAgent agent, IWeaponEvent.OnEnvironmentHitEvent evt)
         {
-            agent.AddReward(-0.05f);
+            agent.AddReward(CurrentReward.BulletMissReward);
         }
 
         private (FPSAgent primary, FPSAgent secondary) GetAgentsFromEvents(FPSAgent agent) => agent == agent1 ? (agent1, agent2) : (agent2, agent1);

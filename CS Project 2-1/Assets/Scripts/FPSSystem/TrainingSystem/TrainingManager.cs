@@ -8,15 +8,20 @@ namespace FPSSystem.TrainingSystem
 {
     public class TrainingManager : MonoBehaviour
     {
+        [SerializeField]
+        private Reward currentReward;
+
         [Required, SerializeField]
         private FPSTrainingHUD hud;
 
         private List<FPSEnvironmentController> _controllers;
+        public Reward CurrentReward => currentReward;
 
         private void Awake()
         {
             _controllers = GetComponentsInChildren<FPSEnvironmentController>(true).ToList();
-            _controllers.ForEach(c => c.Initialize());
+            _controllers.ForEach(c => c.Initialize(this));
+
             hud.Initialize(new FPSTrainingHUD.Args
             {
                 Manager = this,

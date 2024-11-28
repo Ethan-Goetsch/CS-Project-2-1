@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using R3;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,7 +9,7 @@ namespace FPSSystem.PickupSystem
 {
     public abstract class PickupController<T> : MonoBehaviour where T : Pickup
     {
-        [SerializeField]
+        [Required, SerializeField]
         protected T pickup;
 
         [SerializeField]

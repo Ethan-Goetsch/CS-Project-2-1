@@ -9,10 +9,10 @@ namespace FPSSystem.AgentSystem
         private FPSAgent _agent;
 
         [ShowInInspector, ReadOnly]
-        public float Health => _agent.Health;
+        public float Health => _agent != null ? _agent.Health : -1f;
 
         [ShowInInspector, ReadOnly]
-        public float Ammo => _agent.Ammo;
+        public float Ammo => _agent != null ? _agent.Ammo : -1f;
 
         private void Awake()
         {

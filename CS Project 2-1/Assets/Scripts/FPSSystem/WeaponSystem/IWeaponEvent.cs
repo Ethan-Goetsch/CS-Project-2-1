@@ -11,9 +11,10 @@ namespace FPSSystem.WeaponSystem
             public int AmountReloaded => New - Previous;
         }
 
-        public record OnAmmoRestoredEvent(Weapon Weapon, int MaxAmmo, int Previous, int New) : IWeaponEvent
+        public record OnAmmoRestoredEvent(Weapon Weapon, int MaxAmmo, int PreviousAmmo, int NewAmmo, int MaxReload, int PreviousReloads, int NewReloads) : IWeaponEvent
         {
-            public int AmountReloaded => New - Previous;
+            public int AmountReloaded => NewAmmo - PreviousAmmo;
+            public int ReloadsGained => NewReloads - PreviousReloads;
         }
 
         public abstract record OnHitEvent(Weapon Weapon) : IWeaponEvent;
