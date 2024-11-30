@@ -49,8 +49,10 @@ namespace FPSSystem.WeaponSystem
         [ShowInInspector, ReadOnly]
         public int CurrentAmmo { get; private set; }
 
+        [ShowInInspector, ReadOnly]
         public int CurrentReloads { get; private set; }
 
+        [ShowInInspector, ReadOnly]
         public float FireTimer { get; private set; }
 
 
@@ -61,7 +63,7 @@ namespace FPSSystem.WeaponSystem
         public bool CanShoot => !IsReloading && CurrentAmmo > 0 && FireTimer <= 0;
 
         [ShowInInspector, ReadOnly]
-        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo && CurrentReloads < MaxReloads;
+        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo;
 
         public int MaxAmmo => maxAmmo;
         public int MaxReloads => maxReloads;

@@ -104,6 +104,7 @@ namespace FPSSystem.AgentSystem
             sensor.AddObservation(Weapon.CanShoot);
             sensor.AddObservation(Weapon.CanReload);
             sensor.AddObservation(Weapon.FireTimer.Normalize(0f, Weapon.Definition.RateOfFire));
+            sensor.AddObservation(Weapon.CurrentReloads.Normalize(0, Weapon.MaxReloads));
         }
 
         public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
