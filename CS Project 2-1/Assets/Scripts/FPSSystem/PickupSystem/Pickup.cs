@@ -1,4 +1,5 @@
-﻿using R3;
+﻿using FPSSystem.SoundSystem;
+using R3;
 using UnityEngine;
 
 namespace FPSSystem.PickupSystem
@@ -6,7 +7,10 @@ namespace FPSSystem.PickupSystem
     public abstract class Pickup : MonoBehaviour
     {
         [SerializeField]
-        private float activeDuration = 10f;
+        protected float activeDuration = 10f;
+
+        [SerializeField]
+        protected float soundRadius = 5f;
 
         protected readonly Subject<IPickupEvent> _onEvent = new();
 
@@ -34,6 +38,12 @@ namespace FPSSystem.PickupSystem
         public virtual void Enable(Transform spawnPoint)
         {
             _activeTimer = activeDuration;
+
+            SoundManager.PlaySound(new Sound
+            {
+                Origin = transform.position,
+                Radius = soundRadius,
+            });
 
             transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
             gameObject.SetActive(true);

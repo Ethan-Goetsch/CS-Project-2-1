@@ -30,9 +30,6 @@ namespace FPSSystem.WeaponSystem
         [SerializeField]
         private int maxReloads = 2;
 
-        [SerializeField]
-        private float reloadDuration = 0.2f;
-
         [TitleGroup("Sound")]
         [SerializeField]
         private float shootRadius = 10f, reloadRadius = 5f;
@@ -67,7 +64,6 @@ namespace FPSSystem.WeaponSystem
 
         public int MaxAmmo => maxAmmo;
         public int MaxReloads => maxReloads;
-        public float ReloadDuration => reloadDuration;
 
         public ProjectileDefinition Definition => projectileDefinition;
 
@@ -177,7 +173,7 @@ namespace FPSSystem.WeaponSystem
                 Radius = reloadRadius
             });
 
-            yield return new WaitForSeconds(ReloadDuration);
+            yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(1).normalizedTime < 1 || _animator.IsInTransition(1));
 
             CurrentAmmo = MaxAmmo;
             SoundManager.PlaySound(new Sound

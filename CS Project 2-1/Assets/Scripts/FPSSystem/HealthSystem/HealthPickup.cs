@@ -1,4 +1,5 @@
 using FPSSystem.PickupSystem;
+using FPSSystem.SoundSystem;
 using UnityEngine;
 
 namespace FPSSystem.HealthSystem
@@ -10,10 +11,13 @@ namespace FPSSystem.HealthSystem
 
         protected override void OnPickup(Collider other)
         {
-            if (other.TryGetComponent<IHealable>(out var healable))
+            if (!other.TryGetComponent<IHealable>(out var healable)) return;
+            SoundManager.PlaySound(new Sound
             {
-                healable.TakeHealing(healAmount);
-            }
+                Origin = transform.position,
+                Radius = soundRadius,
+            });
+            healable.TakeHealing(healAmount);
         }
     }
 }

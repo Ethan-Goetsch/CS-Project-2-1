@@ -50,7 +50,7 @@ MonoBehaviour:
     type: 2}
   maxAmmo: 10
   maxReloads: 10
-  reloadDuration: 0.2
+  reloadDuration: 0.75
   shootRadius: 25
   reloadRadius: 15
   onShoot:
