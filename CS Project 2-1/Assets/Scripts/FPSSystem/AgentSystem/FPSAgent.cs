@@ -142,16 +142,18 @@ namespace FPSSystem.AgentSystem
 
         public void TakeDamage(float damage)
         {
-            var previous = Health;
-            Health -= Mathf.Clamp(damage, 0, MaxHealth);
-            _onEvent.OnNext(new IAgentEvent.OnDamaged(this, previous, Health));
+            var previousHealth = Health;
+            var newHealth = Health - damage;
+            newHealth = Mathf.Clamp(newHealth, 0, MaxHealth);
+            Health = newHealth;
 
             animator.SetFloat(AnimationParameters.DamageCount, AnimationParameters.GetRandomDamage());
             animator.SetTrigger(AnimationParameters.Damage);
 
             onDamaged.Invoke();
+            _onEvent.OnNext(new IAgentEvent.OnDamaged(this, previousHealth, Health));
 
-            if (Health == 0)
+            if (Health <= 0 && previousHealth > 0)
             {
                 OnKilled();
             }

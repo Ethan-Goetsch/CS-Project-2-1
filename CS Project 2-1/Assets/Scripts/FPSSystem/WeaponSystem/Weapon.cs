@@ -118,8 +118,7 @@ namespace FPSSystem.WeaponSystem
             {
                 Owner = _owner,
                 Weapon = this,
-                Position = spawnPoint.position,
-                Rotation = spawnPoint.rotation,
+                SpawnPoint = spawnPoint,
                 OwnerColliders = _owner.Colliders.ToList(),
                 OnDamagableHit = OnProjectileHit,
                 OnEnvironmentHit = OnProjectileEnvironmentHit,

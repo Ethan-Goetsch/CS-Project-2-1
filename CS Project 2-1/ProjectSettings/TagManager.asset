@@ -39,6 +39,7 @@ TagManager:
   - Environment
   - HealthPickup
   - AmmoPickup
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -49,11 +50,11 @@ TagManager:
   - Sound
   - Bound
   - Invisible
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Projectile
+  - Effect
+  - Pickup
+  - Agent
+  - Environment
   - 
   - 
   - 

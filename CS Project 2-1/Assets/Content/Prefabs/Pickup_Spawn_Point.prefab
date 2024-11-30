@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3976252466420400495}
   - component: {fileID: 5478963062921905016}
   - component: {fileID: 4214404151635993894}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,8 +92,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7211327376080689523}
-  m_Layer: 0
-  m_Name: Health_Spawn_Point
+  m_Layer: 11
+  m_Name: Pickup_Spawn_Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
