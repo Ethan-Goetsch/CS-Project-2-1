@@ -1258,6 +1258,21 @@ PrefabInstance:
       propertyPath: TeamId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3389924271054378773, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389924271054378773, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389924271054378773, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: color.r
+      value: 0.7802448
+      objectReference: {fileID: 0}
     - target: {fileID: 4713175855820823721, guid: d7b8936f35cb7764e9bcc7bc88e48403,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1353,6 +1368,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389924271054378773, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389924271054378773, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389924271054378773, guid: d7b8936f35cb7764e9bcc7bc88e48403,
+        type: 3}
+      propertyPath: color.r
+      value: 0.01666689
       objectReference: {fileID: 0}
     - target: {fileID: 4713175855820823721, guid: d7b8936f35cb7764e9bcc7bc88e48403,
         type: 3}
@@ -1619,7 +1649,7 @@ PrefabInstance:
     - target: {fileID: 6087737516090956416, guid: 384d6723c89a71a408a8d3fddaf4136e,
         type: 3}
       propertyPath: m_text
-      value: Agent 2
+      value: Purple Agent
       objectReference: {fileID: 0}
     - target: {fileID: 6447246983477211952, guid: 384d6723c89a71a408a8d3fddaf4136e,
         type: 3}
@@ -1956,7 +1986,7 @@ PrefabInstance:
     - target: {fileID: 6087737516090956416, guid: 384d6723c89a71a408a8d3fddaf4136e,
         type: 3}
       propertyPath: m_text
-      value: Agent 1
+      value: Blue Agent
       objectReference: {fileID: 0}
     - target: {fileID: 6447246983477211952, guid: 384d6723c89a71a408a8d3fddaf4136e,
         type: 3}

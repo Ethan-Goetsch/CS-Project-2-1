@@ -53,7 +53,7 @@ namespace FPSSystem.UISystem.HUD
                              $"\nCan Shoot: {_args.Agent.Weapon.CanShoot}" +
                              $"\nCan Reload: {_args.Agent.Weapon.CanReload}" +
                              $"\nIs Reloading: {_args.Agent.Weapon.IsReloading}" +
-                             $"\nFire Timer: {Mathf.Round(_args.Agent.Weapon.FireTimer * 100f) / 100f}";
+                             $"\nShoot Cooldown: {Mathf.Round(_args.Agent.Weapon.ShootTimer * 100f) / 100f}";
         }
     }
 }

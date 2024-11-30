@@ -50,14 +50,14 @@ namespace FPSSystem.WeaponSystem
         public int CurrentReloads { get; private set; }
 
         [ShowInInspector, ReadOnly]
-        public float FireTimer { get; private set; }
+        public float ShootTimer { get; private set; }
 
 
         [ShowInInspector, ReadOnly]
         public bool IsReloading { get; private set; }
 
         [ShowInInspector, ReadOnly]
-        public bool CanShoot => !IsReloading && CurrentAmmo > 0 && FireTimer <= 0;
+        public bool CanShoot => !IsReloading && CurrentAmmo > 0 && ShootTimer <= 0;
 
         [ShowInInspector, ReadOnly]
         public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo;
@@ -71,9 +71,9 @@ namespace FPSSystem.WeaponSystem
 
         private void Update()
         {
-            if (FireTimer > 0)
+            if (ShootTimer > 0)
             {
-                FireTimer -= Time.deltaTime;
+                ShootTimer -= Time.deltaTime;
             }
         }
 
@@ -104,7 +104,7 @@ namespace FPSSystem.WeaponSystem
         public void Shoot()
         {
             CurrentAmmo--;
-            FireTimer = Definition.FireRate;
+            ShootTimer = Definition.FireRate;
 
             SoundManager.PlaySound(new Sound
             {
