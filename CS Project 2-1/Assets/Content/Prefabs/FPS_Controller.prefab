@@ -323,6 +323,9 @@ MonoBehaviour:
   agent2Start: {fileID: 2228725684174799437}
   healthPickUpController: {fileID: 6477849662952281851}
   ammoPickUpController: {fileID: 3539754111633986020}
+  environmentRenderer: {fileID: 4219389578992924515}
+  winMaterial: {fileID: 2100000, guid: 1237a7cc174d7774a94db3a6184b16fa, type: 2}
+  loseMaterial: {fileID: 2100000, guid: 1913bb007913e594d971f503f563da43, type: 2}
   environmentCamera: {fileID: 1406653035448609653}
   environmentHUD: {fileID: 1541976040738743646}
 --- !u!1 &1626588792429850198
@@ -1186,6 +1189,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 217681664837228983}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &4219389578992924515 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4146430033795657428, guid: b80622d5664eeef458e4141318760004,
+    type: 3}
+  m_PrefabInstance: {fileID: 217681664837228983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &335313286068032308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1391,6 +1400,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 945950095138299361}
     m_Modifications:
+    - target: {fileID: 2738195277254803799, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2738195277254803799, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491287631941815075, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491287631941815075, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5522966719382323385, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7122084481825243736, guid: a7b19d1e973a00c488e75c1ecd56b93d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1441,10 +1475,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7368857249894888385, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7368857249894888385, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8202751683946537525, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8849934691804926795, guid: a7b19d1e973a00c488e75c1ecd56b93d,
         type: 3}
       propertyPath: m_Name
       value: Health Pickup Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 8954705434550164806, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8954705434550164806, guid: a7b19d1e973a00c488e75c1ecd56b93d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1713,6 +1772,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 945950095138299361}
     m_Modifications:
+    - target: {fileID: 830572560134900561, guid: e1cf4afc7baa5a044a8535aa5a2c95bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039221140808641278, guid: e1cf4afc7baa5a044a8535aa5a2c95bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039221140808641278, guid: e1cf4afc7baa5a044a8535aa5a2c95bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348039011844004978, guid: e1cf4afc7baa5a044a8535aa5a2c95bf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5143406559230847188, guid: e1cf4afc7baa5a044a8535aa5a2c95bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1767,6 +1846,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ammo Pickip Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077525110418679485, guid: e1cf4afc7baa5a044a8535aa5a2c95bf,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

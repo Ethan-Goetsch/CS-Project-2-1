@@ -28,6 +28,13 @@ namespace FPSSystem.TrainingSystem
         [Required, SerializeField]
         private AmmoPickupGlobalController ammoPickUpController;
 
+        [TitleGroup("Environment")]
+        [Required, SerializeField]
+        private MeshRenderer environmentRenderer;
+
+        [Required, SerializeField]
+        private Material winMaterial, loseMaterial;
+
         [TitleGroup("Info")]
         [Required, SerializeField]
         private GameObject environmentCamera;
@@ -130,6 +137,8 @@ namespace FPSSystem.TrainingSystem
             loser.Lose();
 
             yield return new WaitForSeconds(2f);
+
+            environmentRenderer.material = winner == agent1 ? winMaterial : loseMaterial;
 
             winner.EndEpisode();
             loser.EndEpisode();
