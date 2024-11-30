@@ -1,4 +1,5 @@
-﻿using FPSSystem.SoundSystem;
+﻿using FPSSystem.AnimationSystem;
+using FPSSystem.SoundSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -18,14 +19,16 @@ namespace FPSSystem.MovementSystem
         private float soundRadius = 5f;
 
         private Vector3 _gravityForce;
+        private Animator _animator;
         private CharacterController _characterController;
 
         [TitleGroup("Debug")]
         [ShowInInspector, ReadOnly]
         public bool IsGrounded { get; private set; }
 
-        public void Initialize(CharacterController characterController)
+        public void Initialize(Animator animator, CharacterController characterController)
         {
+            _animator = animator;
             _characterController = characterController;
         }
 
@@ -33,7 +36,13 @@ namespace FPSSystem.MovementSystem
         {
             HandleGravity();
 
-            if (direction == Vector2.zero) return;
+            if (direction == Vector2.zero)
+            {
+                _animator.SetFloat(AnimationParameters.HorizontalDirection, 0);
+                _animator.SetFloat(AnimationParameters.VerticalDirection, 0);
+                _animator.SetBool(AnimationParameters.IsMoving, false);
+                return;
+            }
 
             var movement = new Vector3(direction.x, 0, direction.y);
             movement.Normalize();
@@ -47,6 +56,11 @@ namespace FPSSystem.MovementSystem
             };
 
             SoundManager.PlaySound(sound);
+
+            _animator.SetFloat(AnimationParameters.HorizontalDirection, movement.x);
+            _animator.SetFloat(AnimationParameters.VerticalDirection, movement.y);
+            _animator.SetBool(AnimationParameters.IsMoving, true);
+
             _characterController.Move(movement * Time.deltaTime);
         }
 

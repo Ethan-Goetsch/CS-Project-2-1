@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using FPSSystem.AgentSystem;
+using FPSSystem.AnimationSystem;
 using FPSSystem.DamageSystem;
 using FPSSystem.ProjectileSystem;
 using FPSSystem.SoundSystem;
@@ -38,10 +39,11 @@ namespace FPSSystem.WeaponSystem
 
         [FoldoutGroup("Events")]
         [SerializeField]
-        private UnityEvent onShoot, onHit, onMiss, onStartReload, onStopReload;
+        private UnityEvent onShoot, onHit, onMiss, onAmmoRestored, onStartReload, onStopReload;
 
         private readonly Subject<IWeaponEvent> _onEvent = new();
         private FPSAgent _owner;
+        private Animator _animator;
 
         [TitleGroup("Runtime")]
         [ShowInInspector, ReadOnly]
@@ -77,11 +79,13 @@ namespace FPSSystem.WeaponSystem
             }
         }
 
-        public void Initialize(FPSAgent owner)
+        public void Initialize(FPSAgent owner, Animator animator)
         {
             _owner = owner;
-            CurrentAmmo = maxAmmo;
-            CurrentReloads = maxReloads;
+            _animator = animator;
+
+            CurrentAmmo = MaxAmmo;
+            CurrentReloads = MaxReloads;
         }
 
         public void TakeAmmo(int ammo)
@@ -95,6 +99,7 @@ namespace FPSSystem.WeaponSystem
 
             CurrentReloads = MaxReloads;
 
+            onAmmoRestored.Invoke();
             _onEvent.OnNext(new IWeaponEvent.OnAmmoRestoredEvent(this, MaxAmmo, previousAmmo, newAmmo, MaxReloads, previousReloads, CurrentReloads));
         }
 
@@ -122,6 +127,9 @@ namespace FPSSystem.WeaponSystem
                 OnEnvironmentHit = OnProjectileEnvironmentHit,
                 OnExpire = OnProjectileExpire
             });
+
+            _animator.SetFloat(AnimationParameters.ShootCount, AnimationParameters.GetRandomShoot());
+            _animator.SetTrigger(AnimationParameters.Shoot);
 
             onShoot.Invoke();
             _onEvent.OnNext(new IWeaponEvent.OnShootEvent(this));
@@ -158,6 +166,8 @@ namespace FPSSystem.WeaponSystem
 
             onStartReload.Invoke();
             IsReloading = true;
+
+            _animator.SetTrigger(AnimationParameters.Reload);
 
             SoundManager.PlaySound(new Sound
             {

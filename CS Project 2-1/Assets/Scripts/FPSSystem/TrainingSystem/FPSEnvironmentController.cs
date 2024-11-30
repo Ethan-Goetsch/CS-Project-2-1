@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using FPSSystem.AgentSystem;
 using FPSSystem.AmmoSystem;
 using FPSSystem.HealthSystem;
@@ -123,10 +124,15 @@ namespace FPSSystem.TrainingSystem
             ammoPickUpController.Initialize();
         }
 
-        private void EndEpisode()
+        private IEnumerator EndEpisode(FPSAgent winner, FPSAgent loser)
         {
-            agent1.EndEpisode();
-            agent2.EndEpisode();
+            winner.Win();
+            loser.Lose();
+
+            yield return new WaitForSeconds(2f);
+
+            winner.EndEpisode();
+            loser.EndEpisode();
         }
 
         private void OnAgentShoot(FPSAgent agent, IWeaponEvent.OnShootEvent evt)
@@ -156,7 +162,7 @@ namespace FPSSystem.TrainingSystem
             killedAgent.AddReward(CurrentReward.KilledReward);
             killAgent.AddReward(CurrentReward.KillReward);
 
-            EndEpisode();
+            StartCoroutine(EndEpisode(killAgent, killedAgent));
         }
 
         private void OnAgentReload(FPSAgent agent, IWeaponEvent.OnReloadEvent evt)

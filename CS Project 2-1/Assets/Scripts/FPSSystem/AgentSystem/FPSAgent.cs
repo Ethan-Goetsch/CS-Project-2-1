@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FPSSystem.AmmoSystem;
+using FPSSystem.AnimationSystem;
 using FPSSystem.DamageSystem;
 using FPSSystem.HealthSystem;
 using FPSSystem.MovementSystem;
@@ -13,6 +14,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace FPSSystem.AgentSystem
 {
@@ -21,6 +23,9 @@ namespace FPSSystem.AgentSystem
         private readonly Subject<IAgentEvent> _onEvent = new();
 
         [TitleGroup("Components")]
+        [Required, SerializeField]
+        private Animator animator;
+
         [Required, SerializeField]
         private CharacterController characterController;
 
@@ -33,6 +38,10 @@ namespace FPSSystem.AgentSystem
         [TitleGroup("Stats")]
         [SerializeField]
         private float maxHealth = 100;
+
+        [FoldoutGroup("Events")]
+        [SerializeField]
+        private UnityEvent onDamaged, onHealed, onKilled, onWin, onLose;
 
         private float _health;
         private FPSEnvironmentController _fpsController;
@@ -69,13 +78,17 @@ namespace FPSSystem.AgentSystem
 
         public override void OnEpisodeBegin()
         {
+            Health = MaxHealth;
+
+            animator.Rebind();
+            animator.Update(0);
+
+            movementController.Initialize(animator, characterController);
+            Weapon.Initialize(this, animator);
+
             var position = _fpsController.GetStartingPosition(this);
             var rotation = _fpsController.GetStartingRotation(this);
             transform.SetPositionAndRotation(position, rotation);
-
-            Health = MaxHealth;
-            movementController.Initialize(characterController);
-            Weapon.Initialize(this);
 
             _onEvent.OnNext(new IAgentEvent.OnEpisodeBegin(this));
         }
@@ -132,10 +145,21 @@ namespace FPSSystem.AgentSystem
             Health -= Mathf.Clamp(damage, 0, MaxHealth);
             _onEvent.OnNext(new IAgentEvent.OnDamaged(this, previous, Health));
 
+            animator.SetFloat(AnimationParameters.DamageCount, AnimationParameters.GetRandomDamage());
+            animator.SetTrigger(AnimationParameters.Damage);
+
+            onDamaged.Invoke();
+
             if (Health == 0)
             {
-                _onEvent.OnNext(new IAgentEvent.OnKilled(this));
+                OnKilled();
             }
+        }
+
+        private void OnKilled()
+        {
+            onKilled.Invoke();
+            _onEvent.OnNext(new IAgentEvent.OnKilled(this));
         }
 
         public void TakeHealing(float healing)
@@ -145,6 +169,7 @@ namespace FPSSystem.AgentSystem
             newHealth = Mathf.Clamp(newHealth, 0, MaxHealth);
             Health = newHealth;
 
+            onHealed.Invoke();
             _onEvent.OnNext(new IAgentEvent.OnHealed(this, previousHealth, Health));
         }
 
@@ -161,6 +186,18 @@ namespace FPSSystem.AgentSystem
         public void Reload()
         {
             Weapon.Reload();
+        }
+
+        public void Win()
+        {
+            animator.SetTrigger(AnimationParameters.Win);
+            onWin.Invoke();
+        }
+
+        public void Lose()
+        {
+            animator.SetTrigger(AnimationParameters.Lose);
+            onLose.Invoke();
         }
     }
 }
