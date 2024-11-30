@@ -335,7 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 945950095138299361}
   m_Layer: 0
-  m_Name: Logic
+  m_Name: Pickups
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

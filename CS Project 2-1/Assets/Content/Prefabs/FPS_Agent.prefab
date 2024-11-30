@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 1717527238932497202}
   - component: {fileID: 9217605879248630014}
   - component: {fileID: 6915879241203384063}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: Sound Sensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -421,6 +421,7 @@ MonoBehaviour:
   - Environment
   - HealthPickup
   - AmmoPickup
+  - Projectile
   m_RaysPerDirection: 3
   m_MaxRayDegrees: 70
   m_SphereCastRadius: 0.5
