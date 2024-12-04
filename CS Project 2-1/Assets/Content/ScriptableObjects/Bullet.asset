@@ -27,5 +27,5 @@ MonoBehaviour:
   HitFX: {fileID: 8753411672210061608, guid: 9de8e305506213a4cacfa81b62a8dbc2, type: 3}
   Lifetime: 10
   FireRate: 2
-  Speed: 15
+  Speed: 30
   Damage: 10
