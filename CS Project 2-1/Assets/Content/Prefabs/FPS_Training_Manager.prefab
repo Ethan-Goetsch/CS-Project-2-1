@@ -188,6 +188,18 @@ MonoBehaviour:
     GoodReloadReward: 0.1
     BadReloadReward: -0.1
     AmmoRestoredReward: 0.1
+  rewardHandler:
+    rewardSetupDirectory: 
+    currentRewardSetup:
+      DamagedReward: 0
+      DamageReward: 0.5
+      HealedReward: 0.5
+      ShootReward: 0.1
+      BulletMissReward: -0.05
+      GoodReloadReward: 0.1
+      BadReloadReward: -0.1
+      AmmoRestoredReward: 0.1
+    rewardSetups: []
   hud: {fileID: 6318125399546998905}
 --- !u!1 &5122126811528360643
 GameObject:

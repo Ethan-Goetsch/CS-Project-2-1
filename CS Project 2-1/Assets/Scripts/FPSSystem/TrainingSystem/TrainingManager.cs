@@ -8,14 +8,21 @@ namespace FPSSystem.TrainingSystem
 {
     public class TrainingManager : MonoBehaviour
     {
-        [SerializeField]
+        //[SerializeField]
         private Reward currentReward;
+
+        [Required, SerializeField]
+        private RewardHandler rewardHandler;
 
         [Required, SerializeField]
         private FPSTrainingHUD hud;
 
         private List<FPSEnvironmentController> _controllers;
-        public Reward CurrentReward => currentReward;
+
+        public Reward CurrentReward(){
+            
+            return rewardHandler.CurrentReward;
+        }
 
         private void Awake()
         {
@@ -27,6 +34,8 @@ namespace FPSSystem.TrainingSystem
                 Manager = this,
                 EnvironmentCount = _controllers.Count
             });
+
+            currentReward = rewardHandler.CurrentReward;
         }
 
         private void Start()
@@ -53,4 +62,5 @@ namespace FPSSystem.TrainingSystem
             }
         }
     }
+
 }
