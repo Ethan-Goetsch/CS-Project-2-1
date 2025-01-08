@@ -16,5 +16,7 @@
         }
 
         public record OnHealthChanged(FPSAgent Agent, float Previous, float New) : IAgentEvent;
+
+        public FPSAgent Agent { get; }
     }
 }

@@ -65,6 +65,7 @@ namespace FPSSystem.AgentSystem
 
         [ShowInInspector, ReadOnly]
         public float Ammo => Weapon.CurrentAmmo;
+        public MovementController MovementController => movementController;
         public Weapon Weapon => weapon;
         public List<Collider> Colliders { get; private set; }
 
@@ -83,7 +84,7 @@ namespace FPSSystem.AgentSystem
             animator.Rebind();
             animator.Update(0);
 
-            movementController.Initialize(animator, characterController);
+            movementController.Initialize(this, animator, characterController);
             Weapon.Initialize(this, animator);
 
             var position = _fpsController.GetStartingPosition(this);
