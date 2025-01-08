@@ -179,27 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac623c53f1ed421ab9820593ab1484be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentReward:
-    DamagedReward: 0
-    DamageReward: 0.5
-    HealedReward: 0.5
-    ShootReward: 0.1
-    BulletMissReward: -0.05
-    GoodReloadReward: 0.1
-    BadReloadReward: -0.1
-    AmmoRestoredReward: 0.1
-  rewardHandler:
-    rewardSetupDirectory: 
-    currentRewardSetup:
-      DamagedReward: 0
-      DamageReward: 0.5
-      HealedReward: 0.5
-      ShootReward: 0.1
-      BulletMissReward: -0.05
-      GoodReloadReward: 0.1
-      BadReloadReward: -0.1
-      AmmoRestoredReward: 0.1
-    rewardSetups: []
+  rewardHandler: {fileID: 0}
   hud: {fileID: 6318125399546998905}
 --- !u!1 &5122126811528360643
 GameObject:

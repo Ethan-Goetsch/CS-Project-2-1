@@ -258,11 +258,73 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7495629446262886680, guid: df5bfc5bd64a0b74a99d96efa8467b14,
+        type: 3}
+      propertyPath: rewardHandler
+      value: 
+      objectReference: {fileID: 1124363265}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df5bfc5bd64a0b74a99d96efa8467b14, type: 3}
+--- !u!1 &1124363264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1124363266}
+  - component: {fileID: 1124363265}
+  m_Layer: 0
+  m_Name: RewardHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1124363265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124363264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ead543b5005c1ce85c466e31cd85e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardSetupDirectory: /Rewards/
+  currentRewardSetup:
+    DamagedReward: 0
+    DamageReward: 0.5
+    HealedReward: 0.5
+    ShootReward: 0.1
+    BulletMissReward: -0.05
+    GoodReloadReward: 0.1
+    BadReloadReward: -0.1
+    AmmoRestoredReward: 0.1
+  saveRewardSetupToFile: 1
+  rewardFilename: Test
+  setupFile: {fileID: 0}
+--- !u!4 &1124363266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124363264}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1450660507
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,4 +622,5 @@ SceneRoots:
   - {fileID: 1535118785}
   - {fileID: 1450660509}
   - {fileID: 16106200}
+  - {fileID: 1124363266}
   - {fileID: 331130504}
