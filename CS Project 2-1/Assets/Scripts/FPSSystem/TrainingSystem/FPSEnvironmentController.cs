@@ -50,8 +50,6 @@ namespace FPSSystem.TrainingSystem
         [Tooltip("The angle in which the agent is rewarded for facing the other agent")]
         public float rewardAngle = 10;
 
-
-
         private TrainingManager _trainingManager;
         private List<FPSAgent> _agents;
 
