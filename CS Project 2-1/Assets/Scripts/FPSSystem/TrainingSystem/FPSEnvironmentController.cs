@@ -54,7 +54,7 @@ namespace FPSSystem.TrainingSystem
         private List<FPSAgent> _agents;
 
         public bool IsFocused { get; private set; }
-        private Reward CurrentReward => _trainingManager.CurrentReward;
+        private Reward CurrentReward => _trainingManager.CurrentReward();
 
         public void Initialize(TrainingManager trainingManager)
         {

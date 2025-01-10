@@ -3,19 +3,31 @@ using System.Linq;
 using FPSSystem.UISystem.HUD;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using FPSSystem.UISystem;
+using HUD;
 
 namespace FPSSystem.TrainingSystem
 {
     public class TrainingManager : MonoBehaviour
     {
-        [SerializeField]
+        //[SerializeField]
         private Reward currentReward;
+
+        [Required, SerializeField]
+        private RewardHandler rewardHandler;
 
         [Required, SerializeField]
         private FPSTrainingHUD hud;
 
+        [Required, SerializeField]
+        private RewardsHUD rewardsHUD;
+
         private List<FPSEnvironmentController> _controllers;
-        public Reward CurrentReward => currentReward;
+
+        public Reward CurrentReward(){
+            
+            return rewardHandler.CurrentReward;
+        }
 
         private void Awake()
         {
@@ -27,6 +39,10 @@ namespace FPSSystem.TrainingSystem
                 Manager = this,
                 EnvironmentCount = _controllers.Count
             });
+
+            rewardsHUD.Initialize();
+
+            currentReward = rewardHandler.CurrentReward;
         }
 
         private void Start()
@@ -53,4 +69,5 @@ namespace FPSSystem.TrainingSystem
             }
         }
     }
+
 }

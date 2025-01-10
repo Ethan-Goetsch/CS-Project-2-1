@@ -1,5 +1,6 @@
 ﻿using FPSSystem.TrainingSystem;
 using FPSSystem.UISystem.Component;
+using HUD;
 using R3;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -35,6 +36,7 @@ namespace FPSSystem.UISystem.HUD
                     .Subscribe(evt => args.Manager.SetTrainingEnvironment(environmentInstance))
                     .AddTo(this);
             }
+            
         }
     }
 }
