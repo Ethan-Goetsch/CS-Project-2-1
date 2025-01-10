@@ -198,7 +198,7 @@ namespace FPSSystem.TrainingSystem
         {
             var (movedAgent, towardsAgent) = GetAgentsFromEvents(evt.Agent);
 
-            if(Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < rewardAngle)
+            if (Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < rewardAngle)
             {
                 movedAgent.AddReward(CurrentReward.FacingReward);
             }
@@ -208,7 +208,7 @@ namespace FPSSystem.TrainingSystem
         {
             var (movedAgent, towardsAgent) = GetAgentsFromEvents(evt.Agent);
 
-            if(Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < rewardAngle)
+            if (Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < rewardAngle)
             {
                 movedAgent.AddReward(CurrentReward.FacingReward);
             }
