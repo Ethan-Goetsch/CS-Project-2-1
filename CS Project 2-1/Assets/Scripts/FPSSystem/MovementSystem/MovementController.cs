@@ -1,5 +1,7 @@
-﻿using FPSSystem.AnimationSystem;
+﻿using FPSSystem.AgentSystem;
+using FPSSystem.AnimationSystem;
 using FPSSystem.SoundSystem;
+using R3;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -19,6 +21,8 @@ namespace FPSSystem.MovementSystem
         private float soundRadius = 5f;
 
         private Vector3 _gravityForce;
+
+        private FPSAgent _agent;
         private Animator _animator;
         private CharacterController _characterController;
 
@@ -26,8 +30,13 @@ namespace FPSSystem.MovementSystem
         [ShowInInspector, ReadOnly]
         public bool IsGrounded { get; private set; }
 
-        public void Initialize(Animator animator, CharacterController characterController)
+        private readonly Subject<IMovementEvent> _subject = new();
+
+        public Observable<T> OnEvent<T>() where T : IMovementEvent => _subject.OfType<IMovementEvent, T>();
+
+        public void Initialize(FPSAgent agent, Animator animator, CharacterController characterController)
         {
+            _agent = agent;
             _animator = animator;
             _characterController = characterController;
         }
@@ -61,7 +70,10 @@ namespace FPSSystem.MovementSystem
             _animator.SetFloat(AnimationParameters.VerticalDirection, movement.y);
             _animator.SetBool(AnimationParameters.IsMoving, true);
 
-            _characterController.Move(movement * Time.deltaTime);
+            movement *= Time.deltaTime;
+
+            _characterController.Move(movement);
+            _subject.OnNext(new IMovementEvent.AgentMoveEvent(_agent, movement));
         }
 
         public void HandleRotation(Vector2 direction)
@@ -69,6 +81,7 @@ namespace FPSSystem.MovementSystem
             if (direction == Vector2.zero) return;
             var horizontalRotation = transform.up * direction.x;
             transform.Rotate(horizontalRotation, Time.deltaTime * rotationSpeed);
+            _subject.OnNext(new IMovementEvent.AgentRotateEvent(_agent, horizontalRotation));
         }
 
         private void HandleGravity()

@@ -42,6 +42,11 @@ namespace FPSSystem.TrainingSystem
         [Tooltip("Reward given to an agent for picking up an Ammo Pickup")]
         public float AmmoRestoredReward = 0.1f;
 
+        [TitleGroup("Movement")]
+        [Range(-1f, 1f)]
+        [Tooltip("Reward given to an agent for facing the opponent")]
+        public float FacingReward = 0.1f;
+
         public readonly float KillReward = 1f;
         public readonly float KilledReward = -1f;
     }

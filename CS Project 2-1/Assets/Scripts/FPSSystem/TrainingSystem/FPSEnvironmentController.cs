@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using FPSSystem.AgentSystem;
 using FPSSystem.AmmoSystem;
 using FPSSystem.HealthSystem;
+using FPSSystem.MovementSystem;
 using FPSSystem.UISystem.HUD;
 using FPSSystem.WeaponSystem;
 using R3;
@@ -42,6 +44,12 @@ namespace FPSSystem.TrainingSystem
         [Required, SerializeField]
         private FPSEnvironmentHUD environmentHUD;
 
+        [TitleGroup("Angle")]
+        [Required, SerializeField]
+        [Range(0, 30)]
+        [Tooltip("The angle in which the agent is rewarded for facing the other agent")]
+        public float rewardAngle = 10;
+
         private TrainingManager _trainingManager;
         private List<FPSAgent> _agents;
 
@@ -72,6 +80,16 @@ namespace FPSSystem.TrainingSystem
                 agent.OnEvent<IAgentEvent.OnKilled>()
                     .Subscribe(OnAgentKilled)
                     .AddTo(this);
+
+                agent.MovementController
+                    .OnEvent<IMovementEvent.AgentMoveEvent>()
+                    .Subscribe(OnAgentMove)
+                    .AddTo(this);
+                agent.MovementController
+                    .OnEvent<IMovementEvent.AgentRotateEvent>()
+                    .Subscribe(OnAgentRotate)
+                    .AddTo(this);
+
                 agent.Weapon
                     .OnEvent<IWeaponEvent.OnShootEvent>()
                     .Subscribe(evt => OnAgentShoot(agent, evt))
@@ -172,6 +190,26 @@ namespace FPSSystem.TrainingSystem
             killAgent.AddReward(CurrentReward.KillReward);
 
             StartCoroutine(EndEpisode(killAgent, killedAgent));
+        }
+
+        private void OnAgentMove(IMovementEvent.AgentMoveEvent evt)
+        {
+            var (movedAgent, towardsAgent) = GetAgentsFromEvents(evt.Agent);
+
+            if (Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < rewardAngle)
+            {
+                movedAgent.AddReward(CurrentReward.FacingReward);
+            }
+        }
+
+        private void OnAgentRotate(IMovementEvent.AgentRotateEvent evt)
+        {
+            var (movedAgent, towardsAgent) = GetAgentsFromEvents(evt.Agent);
+
+            if (Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < rewardAngle)
+            {
+                movedAgent.AddReward(CurrentReward.FacingReward);
+            }
         }
 
         private void OnAgentReload(FPSAgent agent, IWeaponEvent.OnReloadEvent evt)
