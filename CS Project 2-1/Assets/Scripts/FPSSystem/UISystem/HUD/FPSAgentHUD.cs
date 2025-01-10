@@ -42,6 +42,8 @@ namespace FPSSystem.UISystem.HUD
                 .Subscribe(evt => UpdateInfoLabel())
                 .AddTo(this);
 
+            
+
             healthBar.Initialize(args.Agent.MaxHealth, args.Agent.Health);
             UpdateInfoLabel();
         }

@@ -181,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardHandler: {fileID: 0}
   hud: {fileID: 6318125399546998905}
+  rewardsHUD: {fileID: 0}
 --- !u!1 &5122126811528360643
 GameObject:
   m_ObjectHideFlags: 0

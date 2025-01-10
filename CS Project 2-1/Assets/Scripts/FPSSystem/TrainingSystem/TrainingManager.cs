@@ -3,6 +3,8 @@ using System.Linq;
 using FPSSystem.UISystem.HUD;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using FPSSystem.UISystem;
+using HUD;
 
 namespace FPSSystem.TrainingSystem
 {
@@ -16,6 +18,9 @@ namespace FPSSystem.TrainingSystem
 
         [Required, SerializeField]
         private FPSTrainingHUD hud;
+
+        [Required, SerializeField]
+        private RewardsHUD rewardsHUD;
 
         private List<FPSEnvironmentController> _controllers;
 
@@ -34,6 +39,8 @@ namespace FPSSystem.TrainingSystem
                 Manager = this,
                 EnvironmentCount = _controllers.Count
             });
+
+            rewardsHUD.Initialize();
 
             currentReward = rewardHandler.CurrentReward;
         }

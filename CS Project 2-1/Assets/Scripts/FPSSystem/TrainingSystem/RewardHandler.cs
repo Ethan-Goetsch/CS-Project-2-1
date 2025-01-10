@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using System.IO;
 using UnityEngine.AI;
 using System.Diagnostics.Eventing.Reader;
+using System.Collections;
 
 namespace FPSSystem.TrainingSystem
 {
@@ -33,6 +34,9 @@ namespace FPSSystem.TrainingSystem
 
         private String gameDataPath;
 
+        private String finalRewardPath;
+        public String FinalRewardPath() => finalRewardPath;
+
         public void SaveRewardSetup(Reward data, string filePath)
         {
             string json = JsonUtility.ToJson(data, prettyPrint: true);
@@ -46,7 +50,31 @@ namespace FPSSystem.TrainingSystem
         {
             gameDataPath = Application.dataPath;
             Debug.Log("dataPath : " + gameDataPath);
+            finalRewardPath = gameDataPath + rewardSetupDirectory;
 
+        }
+
+        public ArrayList availableFiles;
+
+        public ArrayList GetAvailable(){
+
+            ArrayList paths = new ArrayList();
+
+            foreach(string filename in Directory.GetFiles(gameDataPath + rewardSetupDirectory))
+            {
+                if(!filename.Contains(".meta")){
+                    paths.Add(filename);
+                }
+
+            }
+
+            this.availableFiles = paths;
+            return paths;
+        }
+
+        public void ReadRewardSetup(String path){
+            this.currentRewardSetup = JsonUtility.FromJson<Reward>(File.ReadAllText(path));
+            Debug.Log("Read reward setup from " + path);
         }
 
         public void Awake(){
