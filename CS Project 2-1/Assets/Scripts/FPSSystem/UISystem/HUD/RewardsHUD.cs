@@ -31,11 +31,10 @@ namespace HUD
 
             foreach (string path in paths)
             {
-                Debug.Log(path);
+                Debug.Log($"Registering button for {path}");
                 var button = Instantiate(environmentButtonPrefab, buttonPanel).GetComponent<ButtonComponent>();
                 button.Initialize(path.Replace(finalPath, "").Replace(".json", ""));
                 button.OnClicked.Subscribe(evt => rewardHandler.ReadRewardSetup(path)).AddTo(this);
-
             }
 
         }

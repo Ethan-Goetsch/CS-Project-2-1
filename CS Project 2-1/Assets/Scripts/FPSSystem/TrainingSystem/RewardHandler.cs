@@ -12,12 +12,15 @@ namespace FPSSystem.TrainingSystem
     [Serializable]
     public class RewardHandler : MonoBehaviour
     {
-
-        [SerializeField]
         private String rewardSetupDirectory = "/Rewards/";
 
+        private String gameDataPath;
+
+        private String finalRewardPath;
+        public String FinalRewardPath() => finalRewardPath;
+
         [SerializeField]
-        private Reward currentRewardSetup;
+        private Reward currentRewardSetup; // The setup where you can adjust rewards with sliders in the editor
 
         [SerializeField]
         [Tooltip("Save the current reward setup made in the editor to a file after a training run is started")]
@@ -32,10 +35,6 @@ namespace FPSSystem.TrainingSystem
         [Tooltip("Pre-made reward setup .json to load for next training run")]
         private TextAsset setupFile;
 
-        private String gameDataPath;
-
-        private String finalRewardPath;
-        public String FinalRewardPath() => finalRewardPath;
 
         public void SaveRewardSetup(Reward data, string filePath)
         {
@@ -48,10 +47,9 @@ namespace FPSSystem.TrainingSystem
 
         public RewardHandler()
         {
-            gameDataPath = Application.dataPath;
-            Debug.Log("dataPath : " + gameDataPath);
+            gameDataPath = Application.streamingAssetsPath;
             finalRewardPath = gameDataPath + rewardSetupDirectory;
-
+            Debug.Log("Saving rewards to : " + finalRewardPath);
         }
 
         public ArrayList availableFiles;
@@ -83,9 +81,8 @@ namespace FPSSystem.TrainingSystem
             }
             else if(saveRewardSetupToFile)
             {
-                SaveRewardSetup(currentRewardSetup, gameDataPath + rewardSetupDirectory + rewardFilename + ".json");
+                SaveRewardSetup(currentRewardSetup, finalRewardPath + rewardFilename + ".json");
             }
-
         }
 
 
