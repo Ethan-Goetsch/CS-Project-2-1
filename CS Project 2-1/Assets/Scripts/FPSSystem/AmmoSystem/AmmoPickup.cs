@@ -1,4 +1,5 @@
 using FPSSystem.PickupSystem;
+using FPSSystem.SoundSystem;
 using UnityEngine;
 
 namespace FPSSystem.AmmoSystem
@@ -10,10 +11,13 @@ namespace FPSSystem.AmmoSystem
 
         protected override void OnPickup(Collider other)
         {
-            if (other.TryGetComponent<IAmmoAvailable>(out var ammoAvailable))
+            if (!other.TryGetComponent<IAmmoAvailable>(out var ammoAvailable)) return;
+            SoundManager.PlaySound(new Sound
             {
-                ammoAvailable.TakeAmmo(restoreAmmount);
-            }
+                Origin = transform.position,
+                Radius = soundRadius,
+            });
+            ammoAvailable.TakeAmmo(restoreAmmount);
         }
     }
 }

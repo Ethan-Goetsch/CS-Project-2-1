@@ -11,9 +11,7 @@ namespace FPSSystem.WeaponSystem
     {
         public FPSAgent Owner;
         public Weapon Weapon;
-
-        public Vector3 Position;
-        public Quaternion Rotation;
+        public Transform SpawnPoint;
 
         public List<Collider> OwnerColliders;
 

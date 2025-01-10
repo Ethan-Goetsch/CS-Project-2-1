@@ -22,7 +22,10 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   Prefab: {fileID: 8582752587190505777, guid: 31a383f014c016e499cb2d7928e539f8, type: 3}
+  MuzzleFX: {fileID: 6779356364454924247, guid: 261a6204da078dc40bab9bfad1e59b25,
+    type: 3}
+  HitFX: {fileID: 8753411672210061608, guid: 9de8e305506213a4cacfa81b62a8dbc2, type: 3}
   Lifetime: 10
   FireRate: 2
-  Speed: 15
+  Speed: 30
   Damage: 10

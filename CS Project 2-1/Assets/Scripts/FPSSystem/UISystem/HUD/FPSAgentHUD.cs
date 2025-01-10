@@ -48,7 +48,12 @@ namespace FPSSystem.UISystem.HUD
 
         private void UpdateInfoLabel()
         {
-            infoLabel.text = $"Health: {_args.Agent.Health} \nAmmo: {_args.Agent.Ammo}";
+            infoLabel.text = $"Health/Max Health: {_args.Agent.Health}/{_args.Agent.MaxHealth}" +
+                             $"\nAmmo/Max Ammo: {_args.Agent.Ammo}/{_args.Agent.Weapon.MaxAmmo}" +
+                             $"\nCan Shoot: {_args.Agent.Weapon.CanShoot}" +
+                             $"\nCan Reload: {_args.Agent.Weapon.CanReload}" +
+                             $"\nIs Reloading: {_args.Agent.Weapon.IsReloading}" +
+                             $"\nShoot Cooldown: {Mathf.Round(_args.Agent.Weapon.ShootTimer * 100f) / 100f}";
         }
     }
 }

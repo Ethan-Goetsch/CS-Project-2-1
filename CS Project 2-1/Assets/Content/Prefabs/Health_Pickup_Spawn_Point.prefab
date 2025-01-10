@@ -8,6 +8,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2611070753248071527, guid: ccad1264d60006842b9d010f61743d52,
+        type: 3}
+      propertyPath: color.b
+      value: 0.16456035
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611070753248071527, guid: ccad1264d60006842b9d010f61743d52,
+        type: 3}
+      propertyPath: color.g
+      value: 0.20375796
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611070753248071527, guid: ccad1264d60006842b9d010f61743d52,
+        type: 3}
+      propertyPath: color.r
+      value: 0.8113208
+      objectReference: {fileID: 0}
     - target: {fileID: 4214404151635993894, guid: ccad1264d60006842b9d010f61743d52,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -16,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 6521084031167186267, guid: ccad1264d60006842b9d010f61743d52,
         type: 3}
       propertyPath: m_Name
-      value: Health_Pickup_Spawn_Point Variant
+      value: Health_Pickup_Spawn_Point
       objectReference: {fileID: 0}
     - target: {fileID: 7211327376080689523, guid: ccad1264d60006842b9d010f61743d52,
         type: 3}

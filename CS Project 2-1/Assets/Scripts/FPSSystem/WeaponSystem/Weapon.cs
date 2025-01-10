@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using FPSSystem.AgentSystem;
+using FPSSystem.AnimationSystem;
 using FPSSystem.DamageSystem;
 using FPSSystem.ProjectileSystem;
 using FPSSystem.SoundSystem;
@@ -29,41 +30,40 @@ namespace FPSSystem.WeaponSystem
         [SerializeField]
         private int maxReloads = 2;
 
-        [SerializeField]
-        private float reloadDuration = 0.2f;
-
         [TitleGroup("Sound")]
         [SerializeField]
         private float shootRadius = 10f, reloadRadius = 5f;
 
         [FoldoutGroup("Events")]
         [SerializeField]
-        private UnityEvent onShoot, onHit, onMiss, onStartReload, onStopReload;
+        private UnityEvent onShoot, onHit, onMiss, onAmmoRestored, onStartReload, onStopReload;
 
         private readonly Subject<IWeaponEvent> _onEvent = new();
         private FPSAgent _owner;
+        private Animator _animator;
 
         [TitleGroup("Runtime")]
         [ShowInInspector, ReadOnly]
         public int CurrentAmmo { get; private set; }
 
+        [ShowInInspector, ReadOnly]
         public int CurrentReloads { get; private set; }
 
-        public float FireTimer { get; private set; }
+        [ShowInInspector, ReadOnly]
+        public float ShootTimer { get; private set; }
 
 
         [ShowInInspector, ReadOnly]
         public bool IsReloading { get; private set; }
 
         [ShowInInspector, ReadOnly]
-        public bool CanShoot => !IsReloading && CurrentAmmo > 0 && FireTimer <= 0;
+        public bool CanShoot => !IsReloading && CurrentAmmo > 0 && ShootTimer <= 0;
 
         [ShowInInspector, ReadOnly]
-        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo && CurrentReloads < MaxReloads;
+        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo;
 
         public int MaxAmmo => maxAmmo;
         public int MaxReloads => maxReloads;
-        public float ReloadDuration => reloadDuration;
 
         public ProjectileDefinition Definition => projectileDefinition;
 
@@ -71,17 +71,19 @@ namespace FPSSystem.WeaponSystem
 
         private void Update()
         {
-            if (FireTimer > 0)
+            if (ShootTimer > 0)
             {
-                FireTimer -= Time.deltaTime;
+                ShootTimer -= Time.deltaTime;
             }
         }
 
-        public void Initialize(FPSAgent owner)
+        public void Initialize(FPSAgent owner, Animator animator)
         {
             _owner = owner;
-            CurrentAmmo = maxAmmo;
-            CurrentReloads = maxReloads;
+            _animator = animator;
+
+            CurrentAmmo = MaxAmmo;
+            CurrentReloads = MaxReloads;
         }
 
         public void TakeAmmo(int ammo)
@@ -95,13 +97,14 @@ namespace FPSSystem.WeaponSystem
 
             CurrentReloads = MaxReloads;
 
+            onAmmoRestored.Invoke();
             _onEvent.OnNext(new IWeaponEvent.OnAmmoRestoredEvent(this, MaxAmmo, previousAmmo, newAmmo, MaxReloads, previousReloads, CurrentReloads));
         }
 
         public void Shoot()
         {
             CurrentAmmo--;
-            FireTimer = Definition.FireRate;
+            ShootTimer = Definition.FireRate;
 
             SoundManager.PlaySound(new Sound
             {
@@ -115,13 +118,15 @@ namespace FPSSystem.WeaponSystem
             {
                 Owner = _owner,
                 Weapon = this,
-                Position = spawnPoint.position,
-                Rotation = spawnPoint.rotation,
+                SpawnPoint = spawnPoint,
                 OwnerColliders = _owner.Colliders.ToList(),
                 OnDamagableHit = OnProjectileHit,
                 OnEnvironmentHit = OnProjectileEnvironmentHit,
                 OnExpire = OnProjectileExpire
             });
+
+            _animator.SetFloat(AnimationParameters.ShootCount, AnimationParameters.GetRandomShoot());
+            _animator.SetTrigger(AnimationParameters.Shoot);
 
             onShoot.Invoke();
             _onEvent.OnNext(new IWeaponEvent.OnShootEvent(this));
@@ -159,13 +164,15 @@ namespace FPSSystem.WeaponSystem
             onStartReload.Invoke();
             IsReloading = true;
 
+            _animator.SetTrigger(AnimationParameters.Reload);
+
             SoundManager.PlaySound(new Sound
             {
                 Origin = spawnPoint.position,
                 Radius = reloadRadius
             });
 
-            yield return new WaitForSeconds(ReloadDuration);
+            yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(1).normalizedTime < 1 || _animator.IsInTransition(1));
 
             CurrentAmmo = MaxAmmo;
             SoundManager.PlaySound(new Sound
