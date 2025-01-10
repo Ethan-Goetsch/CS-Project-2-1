@@ -1,0 +1,193 @@
+\documentclass[a4paper,12pt]{article}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{titlesec}  % For title formatting
+\geometry{margin=1in}
+\setstretch{1.5}
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Lab Report Title}
+\fancyhead[R]{\thepage}
+
+% Title Formatting
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+
+% Cover Page
+\title{
+    \vspace{2cm} % Adjust vertical space
+    \includegraphics[width=0.55\textwidth]{um-fse-logo.png} \\ % Add your logo here (change "logo.png" to the actual filename)
+    \vspace{1cm} % Adjust vertical space after the logo
+    \textbf{\Huge Project 2.1 - AI and Machine Learning
+Controlling Agents in the Unity Game Engine} \\
+    \vspace{1cm} % Adjust vertical space
+    \large 21/1/2025
+}
+\author{Žilinskas G., Mäntele KJJ, Goetsch E., Elkaffas SSMHO, Cioc A., \\Christoforou A., Bertini S.}
+\date{}
+
+\begin{document}
+
+% Title Page
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+% Table of Contents
+% Start page numbering from the Table of Contents
+\setcounter{page}{1}  % Start counting from 1
+\tableofcontents
+\newpage
+
+% 1. Abstract
+\section{Abstract}
+This section should briefly describe the main goals and objectives of the lab report.
+\begin{itemize}
+    \item Motivation: Why the study was conducted.
+    \item Problem statement: What the study investigates.
+    \item Approach: Methods used in the study.
+    \item Main results: Key outcomes of the research.
+    \item Conclusion: Implications of the findings.
+
+
+    The aim of Project 2.1 is the evaluation of machine learning solutions for agent training in a real-time three dimensional environment. This paper investigates the application and performance of Reinforcement Learning algorithms in agent training within Unity's ML-Agents framework. The approach included creating custom sensors, setting the training parameters, training the agents and evaluating their performance. The study demonstrates the performance change over training with different variable weights. The study demonstrates  
+        
+    The central topic of Project 2.1 (Computer Science programme, AI and Machine Learning
+module) is to evaluate and analyse the performance of Machine Learning (ML) solutions
+for automatically controlling agents in a real-time video game engine. Along the way, you
+will gain experience combining your own code with large existing frameworks, libraries,
+and code written by others.
+\end{itemize}
+
+% 2. Introduction
+\section{Introduction}
+Provide a detailed description of the problems or tasks tackled in the lab. This can include circuit specifications, structures, or any other given challenges.
+\begin{itemize}
+    \item Primary research question: What the study aims to answer.
+    \item Relevance: Why the question matters to the field.
+    \item Sub-questions: Secondary questions addressed.
+    \item State-of-the-art: Current knowledge and gaps.
+    \item Key approaches/algorithms: Existing methods (with citations).
+    \item Limitations: Shortcomings of current approaches.
+    \item Starting point: Initial focus and rationale.
+    \item Main idea: Non-technical summary of the proposed approach.
+    \item Novelty: Unique contributions.
+    \item Report structure: Overview of sections.
+\end{itemize}
+
+% 3. Methods
+\section{Methods}
+Detail the steps taken to design or implement the solution to the problem. Explain any algorithms, designs, or specific procedures used.
+\begin{itemize}
+    \item Approach details: Algorithms and techniques used.
+    \item Provide sufficient detail for replication.
+    \item Cite original works for extraneous details.
+    \item Dataset descriptions:
+    \item Main properties of datasets.
+    \item Suitability for research questions.
+    \item Mathematical elements:
+    \item Include relevant lemmas/theorems/properties.
+    \item Cite external work or provide proofs for original work.
+\end{itemize}
+
+% 4. Implementation
+\section{Implementation}
+Summarize the data gathered during the lab, including measurements and observations. You can use tables or figures to present this data.
+
+\begin{itemize}
+    \item Software details:
+    \item Implementation structure.
+    \item External dependencies.
+    \item Innovative data structures or techniques.
+    \item Optional UML diagrams: To describe software (include in appendix if necessary).
+    \item Pseudo code: Brief segments if necessary.
+    \item Avoid:
+    \item Copying code directly.
+    \item User documentation.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image} % Example of adding a figure
+    \caption{Test results for circuit 1}
+    \label{fig:circuit1}
+\end{figure}
+
+% 5. Experiments
+\section{Experiments}
+Interpret the results obtained. Compare them with theoretical values, explain discrepancies, and discuss their significance.
+\begin{itemize}
+    \item Experiment details:
+    \item Description of all tests, analyses, and simulations.
+    \item Logical sequence tied to research questions.
+    \item Motivation: Why specific experiments were chosen.
+    \item Design: Test answers to research questions (not code correctness).
+    \item Settings: Provide all parameters for reproducibility.
+\end{itemize}
+
+% 6. Results
+\section{Results}
+Provide conclusions based on the results and discuss any recommendations for improvements, future work, or alternative solutions.
+\begin{itemize}
+    \item Purpose: Present results without interpretation.
+    \item Clarity:
+    \item Use tables/figures with captions and titles.
+    \item Refer to figures/tables in text.
+    \item Option: Interleave algorithms with results, if applicable.
+\end{itemize}
+
+% 7. Discussion
+\section{Discussion}
+\begin{itemize}
+    \item Interpret results:
+    \item Answer research questions.
+    \item Explain findings with evidence.
+    \item Advancing the field:
+    \item Highlight novelty factors.
+    \item Address discrepancies with prior work.
+    \item Issues and limitations:
+    \item Report unexpected results and solutions.
+    \item Identify study limitations and propose future directions.
+\end{itemize}
+
+% 8. Conclusion
+\section{Conclusion}
+\begin{itemize}
+    \item Summary: Recap main results (answer "What?").
+    \item Conclusion: Discuss implications (answer "So what?").
+    \item Outlook: Suggest future research and improvements.
+    \item Note: Avoid introducing new information.
+\end{itemize}
+
+% 9. References
+\section{References}
+\begin{itemize}
+    \item Style: Use APA7 consistently.
+    \item Source quality:
+    \item Prefer peer-reviewed journals, conferences, and academic books.
+    \item Use websites/blogs sparingly.
+    \item Versions: Cite one version (preferably journal/conference).
+\end{itemize}
+
+% 10. Appendix
+\section{Appendix}
+\begin{itemize}
+    \item Additional material:
+    \item Raw data.
+    \item (Pseudo)-code.
+    \item Extra tables/figures.
+    \item Labeling: Refer to appendices in the main text.
+\end{itemize}
+
+\newpage
+% Bibliography (if required)
+\bibliographystyle{plain}
+\bibliography{references}  % Add a .bib file if you have references
+
+\end{document}
