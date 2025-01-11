@@ -10,7 +10,6 @@ namespace FPSSystem.TrainingSystem
 {
     public class TrainingManager : MonoBehaviour
     {
-        //[SerializeField]
         private Reward currentReward;
 
         [Required, SerializeField]
@@ -42,7 +41,6 @@ namespace FPSSystem.TrainingSystem
 
             rewardsHUD.Initialize();
 
-            currentReward = rewardHandler.CurrentReward;
         }
 
         private void Start()

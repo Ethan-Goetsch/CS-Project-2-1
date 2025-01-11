@@ -4,6 +4,8 @@ using HUD;
 using R3;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Unity.MLAgents;
+using UnityEngine.UI;
 
 namespace FPSSystem.UISystem.HUD
 {
@@ -21,6 +23,11 @@ namespace FPSSystem.UISystem.HUD
         [Required, SerializeField]
         private GameObject environmentButtonPrefab;
 
+        [Required, SerializeField]
+        private Image trainingIndicator;
+        private Color trainingFalseColor = Color.red; 
+        private Color trainingTrueColor = Color.green;
+
         private Args _args;
 
         public void Initialize(Args args)
@@ -31,12 +38,20 @@ namespace FPSSystem.UISystem.HUD
             {
                 var environmentInstance = i;
                 var button = Instantiate(environmentButtonPrefab, buttonPanel).GetComponent<ButtonComponent>();
-                button.Initialize($"Env {i + 1}");
+                button.Initialize($"{i + 1}");
                 button.OnClicked
                     .Subscribe(evt => args.Manager.SetTrainingEnvironment(environmentInstance))
                     .AddTo(this);
             }
-            
+
+            if(Academy.Instance.IsCommunicatorOn)
+            {
+                trainingIndicator.color = trainingTrueColor;
+            } 
+            else {
+                trainingIndicator.color = trainingFalseColor;
+            }
+
         }
     }
 }
