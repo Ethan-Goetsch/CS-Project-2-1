@@ -352,7 +352,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 5000
+  MaxStep: 20000
   animator: {fileID: 1368635111048841128}
   characterController: {fileID: 6267302052572995088}
   movementController: {fileID: 1828863212898367799}

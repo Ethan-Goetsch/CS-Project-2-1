@@ -28,4 +28,4 @@ MonoBehaviour:
   Lifetime: 10
   FireRate: 2
   Speed: 30
-  Damage: 10
+  Damage: 50
