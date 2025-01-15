@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1862864872153271172}
   - component: {fileID: 5034895400649861565}
   - component: {fileID: 1187220363623457459}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Health_Pickup
   m_TagString: HealthPickup
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 5296008138008995411}
   - component: {fileID: 4766021971435998621}
   - component: {fileID: 8607271303518331686}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}

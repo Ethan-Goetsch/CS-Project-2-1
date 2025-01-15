@@ -33,6 +33,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ammo_Pickup_Spawn_Point
       objectReference: {fileID: 0}
+    - target: {fileID: 6521084031167186267, guid: ccad1264d60006842b9d010f61743d52,
+        type: 3}
+      propertyPath: m_TagString
+      value: AmmoPickupSpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 7211327376080689523, guid: ccad1264d60006842b9d010f61743d52,
         type: 3}
       propertyPath: m_LocalPosition.x

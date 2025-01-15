@@ -40,6 +40,8 @@ TagManager:
   - HealthPickup
   - AmmoPickup
   - Projectile
+  - HealthPickupSpawnPoint
+  - AmmoPickupSpawnPoint
   layers:
   - Default
   - TransparentFX
