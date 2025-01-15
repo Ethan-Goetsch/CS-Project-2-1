@@ -328,7 +328,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 5de26cbba14650c4ab43c68386d4ba27, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 53f2d79ed8e061a7396a21567ac7f673, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: FPS
