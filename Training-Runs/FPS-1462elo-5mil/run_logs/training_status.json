@@ -1,0 +1,66 @@
+{
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0.dev0",
+        "torch_version": "2.5.1+cu124"
+    },
+    "FPS": {
+        "elo": 1462.5377176706004,
+        "checkpoints": [
+            {
+                "steps": 4999998,
+                "file_path": "results/6/FPS/FPS-4999998.onnx",
+                "reward": 444.13758051395416,
+                "creation_time": 1736972097.5054853,
+                "auxillary_file_paths": [
+                    "results/6/FPS/FPS-4999998.pt"
+                ]
+            },
+            {
+                "steps": 5099957,
+                "file_path": "results/6/FPS/FPS-5099957.onnx",
+                "reward": 216.7006159722805,
+                "creation_time": 1736972347.2508845,
+                "auxillary_file_paths": [
+                    "results/6/FPS/FPS-5099957.pt"
+                ]
+            },
+            {
+                "steps": 5199952,
+                "file_path": "results/6/FPS/FPS-5199952.onnx",
+                "reward": 383.7169682979584,
+                "creation_time": 1736972609.9394782,
+                "auxillary_file_paths": [
+                    "results/6/FPS/FPS-5199952.pt"
+                ]
+            },
+            {
+                "steps": 5299936,
+                "file_path": "results/6/FPS/FPS-5299936.onnx",
+                "reward": 577.0709636285901,
+                "creation_time": 1736972880.2756424,
+                "auxillary_file_paths": [
+                    "results/6/FPS/FPS-5299936.pt"
+                ]
+            },
+            {
+                "steps": 5301888,
+                "file_path": "results/6/FPS/FPS-5301888.onnx",
+                "reward": 477.47457038760183,
+                "creation_time": 1736972908.859736,
+                "auxillary_file_paths": [
+                    "results/6/FPS/FPS-5301888.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 5301888,
+            "file_path": "results/6/FPS.onnx",
+            "reward": 477.47457038760183,
+            "creation_time": 1736972908.859736,
+            "auxillary_file_paths": [
+                "results/6/FPS/FPS-5301888.pt"
+            ]
+        }
+    }
+}
