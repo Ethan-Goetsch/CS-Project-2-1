@@ -118,6 +118,7 @@ MonoBehaviour:
   buttonPanel: {fileID: 4882000135209579960}
   environmentButtonPrefab: {fileID: 4954248151231410332, guid: b3e5a4d1c88605c4f9149c58b5bee926,
     type: 3}
+  trainingIndicator: {fileID: 0}
 --- !u!1 &5069403865136533387
 GameObject:
   m_ObjectHideFlags: 0
