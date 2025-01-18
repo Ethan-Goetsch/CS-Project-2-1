@@ -1,0 +1,66 @@
+{
+    "FPS": {
+        "elo": 1200.5,
+        "checkpoints": [
+            {
+                "steps": 5099963,
+                "file_path": "results/5/FPS/FPS-5099963.onnx",
+                "reward": null,
+                "creation_time": 1736916199.1738124,
+                "auxillary_file_paths": [
+                    "results/5/FPS/FPS-5099963.pt"
+                ]
+            },
+            {
+                "steps": 5199995,
+                "file_path": "results/5/FPS/FPS-5199995.onnx",
+                "reward": 468.939664484933,
+                "creation_time": 1736916422.5456965,
+                "auxillary_file_paths": [
+                    "results/5/FPS/FPS-5199995.pt"
+                ]
+            },
+            {
+                "steps": 5299963,
+                "file_path": "results/5/FPS/FPS-5299963.onnx",
+                "reward": 448.0292868372053,
+                "creation_time": 1736916714.803456,
+                "auxillary_file_paths": [
+                    "results/5/FPS/FPS-5299963.pt"
+                ]
+            },
+            {
+                "steps": 5399995,
+                "file_path": "results/5/FPS/FPS-5399995.onnx",
+                "reward": 406.31279274635017,
+                "creation_time": 1736916961.983118,
+                "auxillary_file_paths": [
+                    "results/5/FPS/FPS-5399995.pt"
+                ]
+            },
+            {
+                "steps": 5444219,
+                "file_path": "results/5/FPS/FPS-5444219.onnx",
+                "reward": 621.1767736449838,
+                "creation_time": 1736917094.47093,
+                "auxillary_file_paths": [
+                    "results/5/FPS/FPS-5444219.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 5444219,
+            "file_path": "results/5/FPS.onnx",
+            "reward": 621.1767736449838,
+            "creation_time": 1736917094.47093,
+            "auxillary_file_paths": [
+                "results/5/FPS/FPS-5444219.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0.dev0",
+        "torch_version": "2.5.1+cu124"
+    }
+}
