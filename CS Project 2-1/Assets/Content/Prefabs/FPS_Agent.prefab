@@ -503,7 +503,7 @@ MonoBehaviour:
     m_Bits: 14848
   m_ObservationStacks: 1
   m_AlternatingRayOrder: 1
-  m_UseBatchedRaycasts: 0
+  m_UseBatchedRaycasts: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
   m_StartVerticalOffset: 1.5
@@ -568,7 +568,7 @@ MonoBehaviour:
     m_Bits: 14848
   m_ObservationStacks: 1
   m_AlternatingRayOrder: 1
-  m_UseBatchedRaycasts: 0
+  m_UseBatchedRaycasts: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
   m_StartVerticalOffset: 1.5

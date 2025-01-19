@@ -84,7 +84,6 @@ namespace FPSSystem.WeaponSystem
 
             CurrentAmmo = MaxAmmo;
             CurrentReloads = MaxReloads;
-            Debug.Log("Current reloads : " + CurrentReloads);
         }
 
         public void TakeAmmo(int ammo)

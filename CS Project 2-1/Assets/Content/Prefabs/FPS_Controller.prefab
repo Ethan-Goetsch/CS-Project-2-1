@@ -328,7 +328,6 @@ MonoBehaviour:
   loseMaterial: {fileID: 2100000, guid: 1913bb007913e594d971f503f563da43, type: 2}
   environmentCamera: {fileID: 1406653035448609653}
   environmentHUD: {fileID: 1541976040738743646}
-  rewardAngle: 10
 --- !u!1 &1626588792429850198
 GameObject:
   m_ObjectHideFlags: 0
