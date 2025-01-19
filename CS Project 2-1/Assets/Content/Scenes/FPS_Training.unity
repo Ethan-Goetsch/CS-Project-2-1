@@ -419,6 +419,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -12
       objectReference: {fileID: 0}
+    - target: {fileID: 5425175152362138790, guid: df5bfc5bd64a0b74a99d96efa8467b14,
+        type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6318125399546998905, guid: df5bfc5bd64a0b74a99d96efa8467b14,
         type: 3}
       propertyPath: rewardsHUD
@@ -819,19 +824,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRewardSetup:
-    DamagedReward: -1
+    DamagedReward: -0.414
     DamageReward: 1
-    HealedReward: -1
-    ShootReward: -0.462
-    BulletMissReward: 0.857
-    GoodReloadReward: 0.6
-    BadReloadReward: -0.901
-    AmmoRestoredReward: 0.867
-    FacingReward: 0.867
-    rewardAngle: 10
-  saveRewardSetupToFile: 1
-  customFilename: defaultRewardSetupName
-  setupFile: {fileID: 0}
+    HealedReward: 1
+    ShootReward: 0.36
+    BulletMissReward: -1
+    GoodReloadReward: 1
+    BadReloadReward: -0.35
+    AmmoRestoredReward: 1
+    FacingReward: 1
+    rewardAngle: 14
+  saveRewardSetupToFile: 0
+  customFilename: training_run_8
+  setupFile: {fileID: 4900000, guid: 3595d3876f575fc72a75046029de94b4, type: 3}
 --- !u!4 &1124363266
 Transform:
   m_ObjectHideFlags: 0
@@ -1264,7 +1269,7 @@ Transform:
   m_GameObject: {fileID: 1535118782}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 50, y: 10, z: 138}
+  m_LocalPosition: {x: 50, y: 10, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

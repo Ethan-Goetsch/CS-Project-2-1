@@ -33,6 +33,7 @@ namespace FPSSystem.PickupSystem
         private void OnTriggerEnter(Collider other)
         {
             OnPickup(other);
+            
         }
 
         public virtual void Enable(Transform spawnPoint)
