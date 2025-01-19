@@ -94,53 +94,44 @@ Actions for which agents are punished include:
     \item Walking over health and ammo pickups when health or ammo is already high.
 \end{enumerate}
 
-% 4. Implementation
-\section{Implementation}
-Summarize the data gathered during the lab, including measurements and observations. You can use tables or figures to present this data.
-
-\begin{itemize}
-    \item Software details:
-    \item Implementation structure.
-    \item External dependencies.
-    \item Innovative data   structures or techniques.
-    \item Optional UML diagrams: To describe software (include in appendix if necessary).
-    \item Pseudo code: Brief segments if necessary.
-    \item Avoid:
-    \item Copying code directly.
-    \item User documentation.
-\end{itemize}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{example-image} % Example of adding a figure
-    \caption{Test results for circuit 1}
-    \label{fig:circuit1}
-\end{figure}
-
-% 5. Experiments
+% 4. Experiments
 \section{Experiments}
-Interpret the results obtained. Compare them with theoretical values, explain discrepancies, and discuss their significance.
-\begin{itemize}
-    \item Experiment details:
-    \item Description of all tests, analyses, and simulations.
-    \item Logical sequence tied to research questions.
-    \item Motivation: Why specific experiments were chosen.
-    \item Design: Test answers to research questions (not code correctness).
-    \item Settings: Provide all parameters for reproducibility.
-\end{itemize}
+The goal of our experiments is to find the training parameters that create the best agent model, where agents are rated on their ELO score against the other agent in the training environment. These experiments should tell us how to optimize the training parameters such that the ELO attains the highest ELO possible. 
 
-% 6. Results
+The specific parameters being modified in this experiment are
+\begin{enumerate}
+    \item Health Parameters
+    \begin{enumerate}
+        \item \textbf{Damaged Punishment}: a punishment given to the agent if they are damaged by the other agent.
+        \item \textbf{Damage Reward}: a reward given to the agent if they damage the other agent.
+        \item \textbf{Healed Reward}: a reward given to the agent if they walk over a health pickup.
+    \end{enumerate}
+    \item Shooting Parameters
+    \begin{enumerate}
+        \item \textbf{Shoot Reward}: a reward given to the agent for every time they shoot.
+        \item \textbf{Bullet Missed Punishment}: a punishment given to the agent if they shoot and miss.
+    \end{enumerate}
+    \item Reloading Parameters
+    \begin{enumerate}
+        \item \textbf{Good Reload Reward}: a reward given to the agent if they reload while low on our out of ammo.
+        \item \textbf{Bad Reload Punishment}: a punishment given to the agent if they reload while their magazine is already close to full.
+        \item \textbf{Ammo Restored Reward}: a reward given to the agent when it walks over an ammo pickup.
+    \end{enumerate}
+    \item Movement Parameters
+        \begin{enumerate}
+            \item \textbf{Facing Reward}: a reward given to the agent if it is properly facing the other agent.
+        \end{enumerate}
+\end{enumerate}
+Training parameters are all defined on the range \mathbf{[-1,1]}, where parameters with a positive value are rewards, and parameters with a negative value are punishments.
+
+% 5. Results
 \section{Results}
-Provide conclusions based on the results and discuss any recommendations for improvements, future work, or alternative solutions.
-\begin{itemize}
-    \item Purpose: Present results without interpretation.
-    \item Clarity:
-    \item Use tables/figures with captions and titles.
-    \item Refer to figures/tables in text.
-    \item Option: Interleave algorithms with results, if applicable.
-\end{itemize}
+The following is a graph from one of our experiments. 
+\includegraphics[width=0.55\textwidth]{results.png}
 
-% 7. Discussion
+The x-axis is the number of training iterations the run was allowed to go on for, and the y-axis is the ELO of the agent. Each line on the graph is a separate test run showing different parameters. As we can see from the graph, some parameters didn't allow the agent to improve at all, while others allowed for more stable development.
+
+% 6. Discussion
 \section{Discussion}
 \begin{itemize}
     \item Interpret results:
@@ -154,7 +145,7 @@ Provide conclusions based on the results and discuss any recommendations for imp
     \item Identify study limitations and propose future directions.
 \end{itemize}
 
-% 8. Conclusion
+% 7. Conclusion
 \section{Conclusion}
 \begin{itemize}
     \item Summary: Recap main results (answer "What?").
@@ -162,18 +153,9 @@ Provide conclusions based on the results and discuss any recommendations for imp
     \item Outlook: Suggest future research and improvements.
     \item Note: Avoid introducing new information.
 \end{itemize}
+Our project shows that agents can be trained using adversarial techniques and reinforcement learning on the Unity game engine. To extend the engine with the necessary tools, we used Unity's ML-Agents library. We also performed experiments that show the most 
 
-% 9. References
-\section{References}
-\begin{itemize}
-    \item Style: Use APA7 consistently.
-    \item Source quality:
-    \item Prefer peer-reviewed journals, conferences, and academic books.
-    \item Use websites/blogs sparingly.
-    \item Versions: Cite one version (preferably journal/conference).
-\end{itemize}
-
-% 10. Appendix
+% 8. Appendix
 \section{Appendix}
 \begin{itemize}
     \item Additional material:
@@ -183,9 +165,8 @@ Provide conclusions based on the results and discuss any recommendations for imp
     \item Labeling: Refer to appendices in the main text.
 \end{itemize}
 
+% 9. References
 \newpage
-% Bibliography (if required)
 \bibliographystyle{plain}
-\bibliography{references}  % Add a .bib file if you have references
-
+\bibliography{references}  
 \end{document}
