@@ -98,3 +98,4 @@ coverage.xml
 
 # yamato-parser temporary output files:
 .yamato/unfolded/
+launch_venv+train.bat

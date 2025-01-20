@@ -1,0 +1,11 @@
+{
+    "DamagedReward": -0.5,
+    "DamageReward": 1,
+    "HealedReward": 0.5,
+    "ShootReward": 0.10,
+    "BulletMissReward": -0.4,
+    "GoodReloadReward": 0.5,
+    "BadReloadReward": -0.5,
+    "AmmoRestoredReward": 0.8
+	"FacingReward": 0.3
+}
