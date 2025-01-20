@@ -18,6 +18,9 @@ namespace FPSSystem.AmmoSystem
                 Radius = soundRadius,
             });
             ammoAvailable.TakeAmmo(restoreAmmount);
+            _onEvent.OnNext(new IPickupEvent.OnPickupCollected(this));
         }
+
+        
     }
 }

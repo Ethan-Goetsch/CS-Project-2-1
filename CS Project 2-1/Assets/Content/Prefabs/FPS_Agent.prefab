@@ -328,7 +328,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 53f2d79ed8e061a7396a21567ac7f673, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 381f9a6bd5671604cb2417fd539b680c, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: FPS
@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 5
+  DecisionPeriod: 3
   DecisionStep: 0
   TakeActionsBetweenDecisions: 0
 --- !u!143 &6267302052572995088
@@ -503,7 +503,7 @@ MonoBehaviour:
     m_Bits: 14848
   m_ObservationStacks: 1
   m_AlternatingRayOrder: 1
-  m_UseBatchedRaycasts: 0
+  m_UseBatchedRaycasts: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
   m_StartVerticalOffset: 1.5
@@ -568,7 +568,7 @@ MonoBehaviour:
     m_Bits: 14848
   m_ObservationStacks: 1
   m_AlternatingRayOrder: 1
-  m_UseBatchedRaycasts: 0
+  m_UseBatchedRaycasts: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
   m_StartVerticalOffset: 1.5

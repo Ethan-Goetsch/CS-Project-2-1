@@ -42,13 +42,7 @@ namespace FPSSystem.TrainingSystem
         private GameObject environmentCamera;
 
         [Required, SerializeField]
-        private FPSEnvironmentHUD environmentHUD;
-
-        [TitleGroup("Angle")]
-        [Required, SerializeField]
-        [Range(0, 30)]
-        [Tooltip("The angle in which the agent is rewarded for facing the other agent")]
-        public float rewardAngle = 10;
+        private FPSEnvironmentHUD environmentHUD;      
 
         private TrainingManager _trainingManager;
         private List<FPSAgent> _agents;
@@ -196,7 +190,7 @@ namespace FPSSystem.TrainingSystem
         {
             var (movedAgent, towardsAgent) = GetAgentsFromEvents(evt.Agent);
 
-            if (Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < rewardAngle)
+            if (Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < CurrentReward.rewardAngle)
             {
                 movedAgent.AddReward(CurrentReward.FacingReward);
             }
@@ -206,7 +200,7 @@ namespace FPSSystem.TrainingSystem
         {
             var (movedAgent, towardsAgent) = GetAgentsFromEvents(evt.Agent);
 
-            if (Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < rewardAngle)
+            if (Vector3.Angle(movedAgent.transform.forward, towardsAgent.transform.position - movedAgent.transform.position) < CurrentReward.rewardAngle)
             {
                 movedAgent.AddReward(CurrentReward.FacingReward);
             }
