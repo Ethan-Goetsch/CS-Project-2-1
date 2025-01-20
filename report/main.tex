@@ -43,40 +43,53 @@ Controlling Agents in the Unity Game Engine} \\
 
 % Table of Contents
 % Start page numbering from the Table of Contents
-\setcounter{page}{1}  % Start counting from 1
+\thispagestyle{empty}
 \tableofcontents
 \newpage
 
+\setcounter{page}{1}
 % 1. Introduction
 \section{Abstract}
 This project exploits the possibility of machine learning solutions for agent training in a real-time three-dimensional environment. We investigate the application and performance of Reinforcement Learning algorithms in agent training within Unity's ML-Agents framework. The approach included creating custom sensors, setting the training parameters, training the agents, and evaluating their performance using statistical techniques. We also performed experiments to find out which parameters best optimize agent training. The study demonstrates the performance change over training with different variable weights and the use of machine learning solutions in the Unity game engine. 
 
 \section{Introduction}
+In this project, we aim to answer two main research questions:
+\begin{enumerate}
+    \item Is it possible to use machine learning solutions to train an agent in Unity?
+    \item If so, what is the most efficient reward structure to achieve this goal? 
+\end{enumerate}
+These questions are important for certain fields such as game development and machine learning. The 
+
+Our approach mainly consists of using ML-Agents' Reinforced Learning algorithms. Reinforced Learning works by setting up a reward structure for the machine learning model, where the model is rewarded for certain actions that bring it closer to a certain goal, and punished for certain actions that prevent it from achieving said goal. The model then uses this reward structure to optimize itself over multiple training iterations, altering its behavior such that it maximizes how much it is rewarded and how little it is punished. Instead of using one of ML-Agents' pre-made agents, we created our own prototype first person shooter (FPS) game and designed agents that can function as non-playable characters (NPCs) in our game. The machine learning model we trained on these agents could theoretically be used as (NPCs) in a fully fleshed out FPS game. How these NPCs could be implemented in such a game represents another possible avenue of research that follows from our project.
+
+In section 3 of the report, we will describe our approach to training agents in Unity, including technical details of our implementation. These will be provided in sufficient detail to allow the reader to replicate our project. In section 4, we describe the set-up of our experiments and what we wanted to test with our experiments. In section 5, we display the results of our experiments in graph form. In section 6, we discuss the significance of our findings and what they say about the optimal reward structure for our agents.  
 
 % 2. Methods
 \section{Methods}
 Agents were created and trained in the Unity game engine, a commonly used engine in the development of 3D real-time video games. We also made use of the Unity Machine Learning Agents Toolkit, also known as ML-Agents \cite{juliani2020unity}. This adds a collection of Deep Reinforcement Learning algorithms and environments that can be used to test them. For the purposes of our experiments, we decided to create our own custom environments for testing agent behavior.
 
-For our custom environments, we created a rudimentary first-person shooter (FPS) game, complete with guns, bullets, health and ammo stats, and the necessary animations. In each training environment, there are two agents with guns, who both have the objective of killing the other agent. Environments also include 10 pickup spawn locations dotted across every environment, divided between 5 health pickup locations and 5 ammo pickup locations. At any given point in time, only one health pickup and one ammo pickup are present in the training environment. When an agent walks over a pickup, a small amount of health or ammo is given o them, and the pickup disappears. The pickup will then respawn at one of the other locations at random after a certain cooldown period. 
+For our custom environments, we created a rudimentary first-person shooter (FPS) game, complete with guns, bullets, health and ammo stats, and the necessary animations. In each training environment, there are two agents with guns, who both have the objective of killing the other agent. Environments also include 10 pickup spawn locations dotted across every environment, divided between 5 health pickup locations and 5 ammo pickup locations. At any given point in time, only one health pickup and one ammo pickup are present in the training environment. When an agent walks over a pickup, a small amount of health or ammo is given o them, and the pickup disappears. The pickup will then respawn at one of the other locations at random after a certain cooldown period. In the scene we use in Unity to train agents, there are 16 training environments running simultaneously. This helps speed up the training process and increase its efficiency.
 
-We trained our agents using ML-Agents' Reinforcement Learning algorithms. Reinforcement Learning is a training protocol where agents are given a number of points to reward "good" behavior, and have points taken away to punish "bad" behavior. This allows the machine learning model to modify its training parameters over numerous training iterations such that it is able to achieve the highest number of points possible given the training protocol. For the purposes of this project, agents were rewarded for actions that helped them kill the other agent, and were punished for actions that lead to their death or did not move them towards achieving his goal. Actions for which agents are rewarded can include: 
+We trained our agents using ML-Agents' Reinforcement Learning algorithms. Reinforcement Learning is a training protocol where agents are given a number of points to reward "good" behavior, and have points taken away to punish "bad" behavior. This allows the machine learning model to modify its training parameters over numerous training iterations such that it is able to achieve the highest number of points possible given the training protocol. For the purposes of this project, agents were rewarded for actions that helped them kill the other agent, and were punished for actions that lead to their death or did not move them towards achieving his goal. Actions for which agents are rewarded can include
 \begin{enumerate}
-    \item Killing the other agent.
-    \item Successfully shooting the other agent.
-    \item Rotating in the direction of the other agent.
-    \item Walking in the direction of the other agent. 
-    \item Walking over health and ammo pickups when their health or ammo is low. 
+    \item Successfully shooting the other agent,
+    \item Rotating in the direction of the other agent,
+    \item Walking over health and ammo pickups,
+    \item Reloading when ammo is low.
 \end{enumerate}
-Actions for which agents are punished can include: 
+Actions for which agents are punished include
 \begin{enumerate}
-    \item Dying to the other agent.
-    \item Shooting at the other agent and missing.
-    \item Rotating away from the other agent.
-    \item Walking away from the other agent.
-    \item Walking over health and ammo pickups when health or ammo is already high.
+    \item Taking damage from the other agent,
+    \item Shooting at the other agent and missing,
+    \item Rotating away from the other agent,
+    \item Walking away from the other agent,
+    \item Reloading when ammo is already high. 
 \end{enumerate}
 
 \subsection{Implementation}
+\begin{itemize}
+    \item 
+\end{itemize}
 
 % 4. Experiments
 \section{Experiments}
@@ -106,7 +119,7 @@ The specific parameters being modified in this experiment are
             \item \textbf{Facing Reward}: a reward given to the agent if it is properly facing the other agent.
         \end{enumerate}
 \end{enumerate}
-Training parameters are all defined on the range \mathbf{[-1,1]}, where parameters with a positive value are rewards, and parameters with a negative value are punishments.
+Training parameters are all defined on the range [-1,1], where parameters with a positive value are rewards, and parameters with a negative value are punishments.
 
 % 5. Results
 \section{Results}
@@ -151,6 +164,7 @@ Our project shows that agents can be trained using adversarial techniques and re
 
 % 9. References
 \newpage
+\addcontentsline{toc}{section}{References}
 \bibliographystyle{plain}
 \bibliography{references}  
 \end{document}
