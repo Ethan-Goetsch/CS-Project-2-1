@@ -1,5 +1,6 @@
 ﻿using FPSSystem.TrainingSystem;
 using FPSSystem.UISystem.Component;
+using HUD;
 using R3;
 using Sirenix.OdinInspector;
 using UnityEngine;
