@@ -189,9 +189,7 @@ namespace FPSSystem.AgentSystem
 
         public void Reload()
         {
-
             Weapon.Reload();
-
         }
 
         public void Win()
