@@ -60,7 +60,7 @@ namespace FPSSystem.WeaponSystem
         public bool CanShoot => !IsReloading && CurrentAmmo > 0 && ShootTimer <= 0;
 
         [ShowInInspector, ReadOnly]
-        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo && CurrentReloads > 0;
+        public bool CanReload => !IsReloading && CurrentAmmo < MaxAmmo;
 
         public int MaxAmmo => maxAmmo;
         public int MaxReloads => maxReloads;
@@ -157,10 +157,9 @@ namespace FPSSystem.WeaponSystem
         }
 
         private IEnumerator ReloadAmmo()
-        {   
-
+        {
             var previous = CurrentAmmo;
-            CurrentReloads -= 1;
+            CurrentReloads--;
 
             onStartReload.Invoke();
             IsReloading = true;
