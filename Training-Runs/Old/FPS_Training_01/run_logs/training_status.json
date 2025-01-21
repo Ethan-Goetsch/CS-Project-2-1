@@ -1,0 +1,30 @@
+{
+    "FPS": {
+        "elo": 1196.5329301191714,
+        "checkpoints": [
+            {
+                "steps": 357325,
+                "file_path": "results\\FPS_Training_01\\FPS\\FPS-357325.onnx",
+                "reward": null,
+                "creation_time": 1732527158.5177655,
+                "auxillary_file_paths": [
+                    "results\\FPS_Training_01\\FPS\\FPS-357325.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 357325,
+            "file_path": "results\\FPS_Training_01\\FPS.onnx",
+            "reward": null,
+            "creation_time": 1732527158.5177655,
+            "auxillary_file_paths": [
+                "results\\FPS_Training_01\\FPS\\FPS-357325.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.5.0+cpu"
+    }
+}

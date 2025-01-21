@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1732989125",
+        "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\colon\\Downloads\\University\\Computer Science\\Project 2-1\\venv\\Scripts\\mlagents-learn C:\\Users\\colon\\Downloads\\University\\Computer Science\\Project 2-1\\config\\ppo\\FPS.yaml --run-id Demo_Animations",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.5.0+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1732989188"
+    },
+    "total": 63.54276199999731,
+    "count": 1,
+    "self": 0.024328400002559647,
+    "children": {
+        "run_training.setup": {
+            "total": 0.15674550000403542,
+            "count": 1,
+            "self": 0.15674550000403542
+        },
+        "TrainerController.start_learning": {
+            "total": 63.361688099990715,
+            "count": 1,
+            "self": 0.0002007999864872545,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 63.361409999997704,
+                    "count": 1,
+                    "self": 63.361409999997704
+                },
+                "TrainerController._save_models": {
+                    "total": 7.730000652372837e-05,
+                    "count": 1,
+                    "self": 7.730000652372837e-05
+                }
+            }
+        }
+    }
+}

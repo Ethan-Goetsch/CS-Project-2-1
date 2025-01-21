@@ -1,0 +1,66 @@
+{
+    "FPS": {
+        "checkpoints": [
+            {
+                "steps": 2999959,
+                "file_path": "results\\training_run_Ethan\\FPS\\FPS-2999959.onnx",
+                "reward": 313.50002414981526,
+                "creation_time": 1737379270.427499,
+                "auxillary_file_paths": [
+                    "results\\training_run_Ethan\\FPS\\FPS-2999959.pt"
+                ]
+            },
+            {
+                "steps": 3298691,
+                "file_path": "results\\training_run_Ethan\\FPS\\FPS-3298691.onnx",
+                "reward": null,
+                "creation_time": 1737380320.6315079,
+                "auxillary_file_paths": [
+                    "results\\training_run_Ethan\\FPS\\FPS-3298691.pt"
+                ]
+            },
+            {
+                "steps": 3499947,
+                "file_path": "results\\training_run_Ethan\\FPS\\FPS-3499947.onnx",
+                "reward": null,
+                "creation_time": 1737381206.3629632,
+                "auxillary_file_paths": [
+                    "results\\training_run_Ethan\\FPS\\FPS-3499947.pt"
+                ]
+            },
+            {
+                "steps": 3999972,
+                "file_path": "results\\training_run_Ethan\\FPS\\FPS-3999972.onnx",
+                "reward": 118.05000832676888,
+                "creation_time": 1737382672.0073633,
+                "auxillary_file_paths": [
+                    "results\\training_run_Ethan\\FPS\\FPS-3999972.pt"
+                ]
+            },
+            {
+                "steps": 4103979,
+                "file_path": "results\\training_run_Ethan\\FPS\\FPS-4103979.onnx",
+                "reward": null,
+                "creation_time": 1737383036.7008438,
+                "auxillary_file_paths": [
+                    "results\\training_run_Ethan\\FPS\\FPS-4103979.pt"
+                ]
+            }
+        ],
+        "elo": 1307.0310555242631,
+        "final_checkpoint": {
+            "steps": 4103979,
+            "file_path": "results\\training_run_Ethan\\FPS.onnx",
+            "reward": null,
+            "creation_time": 1737383036.7008438,
+            "auxillary_file_paths": [
+                "results\\training_run_Ethan\\FPS\\FPS-4103979.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.5.0+cpu"
+    }
+}

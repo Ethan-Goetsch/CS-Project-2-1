@@ -1,0 +1,39 @@
+{
+    "FPS": {
+        "checkpoints": [
+            {
+                "steps": 499941,
+                "file_path": "results\\FPS_Training_02\\FPS\\FPS-499941.onnx",
+                "reward": null,
+                "creation_time": 1732528442.0504773,
+                "auxillary_file_paths": [
+                    "results\\FPS_Training_02\\FPS\\FPS-499941.pt"
+                ]
+            },
+            {
+                "steps": 500197,
+                "file_path": "results\\FPS_Training_02\\FPS\\FPS-500197.onnx",
+                "reward": null,
+                "creation_time": 1732528442.143693,
+                "auxillary_file_paths": [
+                    "results\\FPS_Training_02\\FPS\\FPS-500197.pt"
+                ]
+            }
+        ],
+        "elo": 1199.5611714725849,
+        "final_checkpoint": {
+            "steps": 500197,
+            "file_path": "results\\FPS_Training_02\\FPS.onnx",
+            "reward": null,
+            "creation_time": 1732528442.143693,
+            "auxillary_file_paths": [
+                "results\\FPS_Training_02\\FPS\\FPS-500197.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.5.0+cpu"
+    }
+}

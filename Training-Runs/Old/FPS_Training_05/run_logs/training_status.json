@@ -1,0 +1,66 @@
+{
+    "FPS": {
+        "checkpoints": [
+            {
+                "steps": 499968,
+                "file_path": "results\\FPS_Training_05\\FPS\\FPS-499968.onnx",
+                "reward": -0.11875000176951289,
+                "creation_time": 1732533454.1981952,
+                "auxillary_file_paths": [
+                    "results\\FPS_Training_05\\FPS\\FPS-499968.pt"
+                ]
+            },
+            {
+                "steps": 500480,
+                "file_path": "results\\FPS_Training_05\\FPS\\FPS-500480.onnx",
+                "reward": -0.11875000176951289,
+                "creation_time": 1732533454.3387213,
+                "auxillary_file_paths": [
+                    "results\\FPS_Training_05\\FPS\\FPS-500480.pt"
+                ]
+            },
+            {
+                "steps": 500480,
+                "file_path": "results\\FPS_Training_05\\FPS\\FPS-500480.onnx",
+                "reward": null,
+                "creation_time": 1732533492.5890172,
+                "auxillary_file_paths": [
+                    "results\\FPS_Training_05\\FPS\\FPS-500480.pt"
+                ]
+            },
+            {
+                "steps": 500480,
+                "file_path": "results\\FPS_Training_05\\FPS\\FPS-500480.onnx",
+                "reward": null,
+                "creation_time": 1732533519.0807674,
+                "auxillary_file_paths": [
+                    "results\\FPS_Training_05\\FPS\\FPS-500480.pt"
+                ]
+            },
+            {
+                "steps": 546816,
+                "file_path": "results\\FPS_Training_05\\FPS\\FPS-546816.onnx",
+                "reward": null,
+                "creation_time": 1732533691.4554608,
+                "auxillary_file_paths": [
+                    "results\\FPS_Training_05\\FPS\\FPS-546816.pt"
+                ]
+            }
+        ],
+        "elo": 1200.0,
+        "final_checkpoint": {
+            "steps": 546816,
+            "file_path": "results\\FPS_Training_05\\FPS.onnx",
+            "reward": null,
+            "creation_time": 1732533691.4554608,
+            "auxillary_file_paths": [
+                "results\\FPS_Training_05\\FPS\\FPS-546816.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.5.0+cpu"
+    }
+}

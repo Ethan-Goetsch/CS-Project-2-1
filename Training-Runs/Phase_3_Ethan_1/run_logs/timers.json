@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1737383696",
+        "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\colon\\Downloads\\University\\Computer Science\\Project 2-1\\venv\\Scripts\\mlagents-learn C:\\Users\\colon\\Downloads\\University\\Computer Science\\Project 2-1\\config\\ppo\\FPS.yaml --run-id training_run_Ethan --resume",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.5.0+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1737383759"
+    },
+    "total": 63.514240199991036,
+    "count": 1,
+    "self": 0.029943699948489666,
+    "children": {
+        "run_training.setup": {
+            "total": 0.17512500000884756,
+            "count": 1,
+            "self": 0.17512500000884756
+        },
+        "TrainerController.start_learning": {
+            "total": 63.3091715000337,
+            "count": 1,
+            "self": 0.0003150000120513141,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 63.3087715000147,
+                    "count": 1,
+                    "self": 63.3087715000147
+                },
+                "TrainerController._save_models": {
+                    "total": 8.50000069476664e-05,
+                    "count": 1,
+                    "self": 8.50000069476664e-05
+                }
+            }
+        }
+    }
+}
