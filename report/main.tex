@@ -148,50 +148,54 @@ The specific parameters being modified in this experiment are
         \end{enumerate}
 \end{enumerate}
 
+All results were then graphed using the visualization tool TensorBoard.
+
 % 5. Results
 \section{Results}
 The following two graphs show the improvement of our agents between Phases 2 and 3.  
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{phase2_results.png}
-    \caption{\textit{Results for Phase 2}}
+    \caption{Results for Phase 2}
     \label{phase2}
 \end{figure}
  
-\begin{figure}
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=0.5\linewidth]{phase3_results.png}
-    \caption{\textit{Results for Phase 3}}
+    \caption{Results for Phase 3}
     \label{phase3}
 \end{figure}
 
+In Figures \ref{phase2} and \ref{phase3}, the x-axis is the number of training iterations, and the y-axis is the ELO rating. Each pair of similarly colored lines represents a different training run using a different reward structure. In the table below each graph, the column ``Run" shows the name of the training run, ``Smoothed" shows the final smoothed ELO score (corresponding with the bolder of the two lines for a given run), ``Value" shows the final true ELO score (corresponding with the lighter of the two lines for a given run), "Steps" shows how many training iterations the run went on for, and "Relative" shows how much time the run took.
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\linewidth]{phase3_parameters.png}
+    \caption{The training parameters for each run in Phase 3. Each color matches that of a run in Figure \ref{phase3}}
+    \label{parameters}
+\end{figure}
 
-Cumulative reward is the sum of all points an agent receives from the reward structure in a given number of training iterations. Its formula is $$\sum\limits_{i\in I}k_{i}w_{i},$$ where $I$ is the set of all rewards and punishments, $k$ is the number of times each reward/punishment is given to the agent, and $w$ is the amount of points a certain reward/punishment is worth.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\linewidth]{unnatural.png}
+    \caption{Agents displaying counter-intuitive behavior while training}
+    \label{behavior}
+\end{figure}
+
 
 % 6. Discussion
 \section{Discussion}
-\begin{itemize}
-    \item Interpret results:
-    \item Answer research questions.
-    \item Explain findings with evidence.
-    \item Advancing the field:
-    \item Highlight novelty factors.
-    \item Address discrepancies with prior work.
-    \item Issues and limitations:
-    \item Report unexpected results and solutions.
-    \item Identify study limitations and propose future directions.
-\end{itemize}
+
+Our results show that our AI has improved given the additional training it has received since the second phase.  In Phase 2, the highest ELO we were able to reach during testing was 1200. In Phase 3, the highest recorded ELO was 1420 - is around the level of an intermediate player - which shows a significant improvement from the previous phase. This partially answers our second research question: generative AI is as capable of technical proficiency in a video game as normal AI. However, as shown in Figure \ref{behavior}, the agents often display unnatural and immersion-breaking behavior. During some training runs, agents would both run into a corner of the training environment and continuously face each other. We suspect that this is a result of the Facing Reward, which rewards agents for correctly facing each other. Some agents likely found it more consistently rewarding to stand in the corner and face each other, and so learned this behavior, instead of the intended FPS gameplay we wanted them to learn. This shows that our generative AI model cannot rival normal AI in another important aspect of NPC design: believability and immersion from the player's perspective.
+
+This shortcoming could be remedied by further training, although further research would be needed to confirm this. We also faced numerous limitations while running this experiment, including needing to wait for long periods of time while the AI was training, having to retrain the AI from scratch every time anything about the testing environment was changed, and overall computational issues when training, such as Unity crashing repeatedly and training data being lost while storing runs. This also limited our ability to systematically test and isolate the effect of every training parameter on agent behavior. Since it took so long to train agents for a single run, it would be impossible to test each of the 9 training parameters separately. As is apparent from Figure \ref{parameters}, we changed multiple training parameters between runs. This was mostly done based off of intuition. These limitations can be overcome if we are given more time and computing power to run our experiments.
+
+For the first research question, our experiments, coupled with the implementation details explained in section 3, demonstrate how one could use machine learning to train an agent in Unity. The use of the ML-Agents library to create sensors, use Reinforcement Learning algorithms, and specify agent actions, coupled with TensorBoard to analyze and visualize our test results, show that a robust workflow to do this sort of training is possible in Unity, and how it can be done.
 
 % 7. Conclusion
 \section{Conclusion}
-\begin{itemize}
-    \item Summary: Recap main results (answer "What?").
-    \item Conclusion: Discuss implications (answer "So what?").
-    \item Outlook: Suggest future research and improvements.
-    \item Note: Avoid introducing new information.
-\end{itemize}
-Our project shows that agents can be trained using adversarial techniques and reinforcement learning on the Unity game engine. To extend the engine with the necessary tools, we used Unity's ML-Agents library. For our first research question, we showed that Unity's ML-Agents library offers sufficient infrastructure to train an agent for any given task. The library does this by allowing us to write customer sensors for the agent that record input data, using this data with machine learning algorithms to train the agent, and then having the agent perform some specified action.  
+Our project shows that agents can be trained using adversarial techniques and reinforcement learning on the Unity game engine. To extend the engine with the necessary tools, we used Unity's ML-Agents library. For our first research question, we showed that Unity's ML-Agents library offers sufficient infrastructure to train an agent for any given task. The library does this by allowing us to write customer sensors for the agent that record input data, using this data with machine learning algorithms to train the agent, and then having the agent perform some specified action. We specifically used ML-Agents' Reinforcement Learning algorithms for our training. 
 
 We also ran experiments to test the feasibility of machine learning solutions as a substitute for traditional decision tree-based AI in videos games. Our results indicate that while generative AI plays well from a technical perspective, but is still unable to capture the fluidity of action that makes NPCs immersive and realistic, thus making it look jilted and stiff from a player's perspective. As things currently stand, our experiment was not able to prove that generative AI is a good substitute for normal AI, but we also faced significant technical limitations during coding that limited our ability to train our agents. It is possible that given more time and computing resources, we could train a generative AI model that parallels normal AI from both a technical and player perspective.
 
