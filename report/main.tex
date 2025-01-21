@@ -6,6 +6,7 @@
 \usepackage{geometry}
 \usepackage{fancyhdr}
 \usepackage{setspace}
+\usepackage{float}
 \usepackage{titlesec} 
 \geometry{margin=1in}
 \setstretch{1.5}
@@ -88,6 +89,7 @@ Actions for which agents are punished include
     \item Reloading when ammo is already high. 
 \end{enumerate}
 
+% 3. Implementation
 \subsection{Implementation}
 The basic implementation structure of our game is as follows
 \begin{itemize}
@@ -117,9 +119,9 @@ We also made use of numerous external dependencies for this project to aid in de
 
 % 4. Experiments
 \section{Experiments}
-The goal of our experiments is to assess the efficiency of generative AI in training our agents, and to compare that to normal AI. To do this, we measured the performance of our generative AI based on (1) technical proficiency, and (2) immersion. Technical proficiency is defined here as how many points our agent can receive from the reward structure in a given number of training iteration. Its formula is $$\sum\limits_{i\in I}k_{i}w_{i},$$ where $I$ is the set of all rewards and punishments, $k$ is the number of times each reward/punishment is given to the agent, and $w$ is the amount of points a certain reward/punishment is worth. $w$ is defined on a normalized scale of $[-1,1]$ where training parameters with a positive value are rewards, and parameters with a negative value are punishments. This is recommended practice in the ML-Agents documentation \cite{unity_ml_agents_documentation}.
+The goal of our experiments is to assess the efficiency of generative AI in training our agents, and to compare that to normal AI. To do this, we measured the performance of our generative AI based on (1) technical proficiency, and (2) immersion. Technical proficiency is defined here with an agents ELO during self-play. ELO is a measure used to determine the relative skill level of two players in a zero-sum game. Its specific implementation is provided by ML-Agents, and is described in the documentation \cite{unity_training_configuration}. $w$ is defined on a normalized scale of $[-1,1]$ where training parameters with a positive value are rewards, and parameters with a negative value are punishments. This is recommended practice in the ML-Agents documentation \cite{unity_ml_agents_documentation}.
 
-Immersion is defined as how natural-seeming the behavior of an agent here. This is primarily measured by intuition, as the goal is to see how believable the behavior of an agent is from the subjective experience of a player.
+Immersion is defined as how natural-seeming the behavior of an agent here. This is primarily measured by intuition and direct observation of the agent, as the goal is to see how believable the behavior of an agent is from the subjective experience of a player.
 
 The specific parameters being modified in this experiment are
 \begin{enumerate}
@@ -148,6 +150,24 @@ The specific parameters being modified in this experiment are
 
 % 5. Results
 \section{Results}
+The following two graphs show the improvement of our agents between Phases 2 and 3.  
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{phase2_results.png}
+    \caption{\textit{Results for Phase 2}}
+    \label{phase2}
+\end{figure}
+ 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{phase3_results.png}
+    \caption{\textit{Results for Phase 3}}
+    \label{phase3}
+\end{figure}
+
+
+
+Cumulative reward is the sum of all points an agent receives from the reward structure in a given number of training iterations. Its formula is $$\sum\limits_{i\in I}k_{i}w_{i},$$ where $I$ is the set of all rewards and punishments, $k$ is the number of times each reward/punishment is given to the agent, and $w$ is the amount of points a certain reward/punishment is worth.
 
 % 6. Discussion
 \section{Discussion}
