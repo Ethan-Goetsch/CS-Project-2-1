@@ -1,0 +1,66 @@
+{
+    "FPS": {
+        "checkpoints": [
+            {
+                "steps": 3499988,
+                "file_path": "results\\ppo\\FPS\\FPS-3499988.onnx",
+                "reward": 1820.625,
+                "creation_time": 1737393576.7232037,
+                "auxillary_file_paths": [
+                    "results\\ppo\\FPS\\FPS-3499988.pt"
+                ]
+            },
+            {
+                "steps": 3999940,
+                "file_path": "results\\ppo\\FPS\\FPS-3999940.onnx",
+                "reward": null,
+                "creation_time": 1737394724.9474468,
+                "auxillary_file_paths": [
+                    "results\\ppo\\FPS\\FPS-3999940.pt"
+                ]
+            },
+            {
+                "steps": 4499999,
+                "file_path": "results\\ppo\\FPS\\FPS-4499999.onnx",
+                "reward": 3292.125,
+                "creation_time": 1737395843.4978197,
+                "auxillary_file_paths": [
+                    "results\\ppo\\FPS\\FPS-4499999.pt"
+                ]
+            },
+            {
+                "steps": 4999942,
+                "file_path": "results\\ppo\\FPS\\FPS-4999942.onnx",
+                "reward": 356.625,
+                "creation_time": 1737396930.8772604,
+                "auxillary_file_paths": [
+                    "results\\ppo\\FPS\\FPS-4999942.pt"
+                ]
+            },
+            {
+                "steps": 5000070,
+                "file_path": "results\\ppo\\FPS\\FPS-5000070.onnx",
+                "reward": 356.625,
+                "creation_time": 1737396930.9650526,
+                "auxillary_file_paths": [
+                    "results\\ppo\\FPS\\FPS-5000070.pt"
+                ]
+            }
+        ],
+        "elo": 1403.3917870148925,
+        "final_checkpoint": {
+            "steps": 5000070,
+            "file_path": "results\\ppo\\FPS.onnx",
+            "reward": 356.625,
+            "creation_time": 1737396930.9650526,
+            "auxillary_file_paths": [
+                "results\\ppo\\FPS\\FPS-5000070.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
