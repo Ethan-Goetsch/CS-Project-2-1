@@ -1,4 +1,5 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,12pt,twocolumn]{article}
+
 
 % Packages
 \usepackage{graphicx}
@@ -40,18 +41,18 @@ Controlling Agents in the Unity Game Engine and Applications in Video Game Devel
 % Title Page
 \maketitle
 \thispagestyle{empty}
-\newpage
+\clearpage
 
 % Table of Contents
 % Start page numbering from the Table of Contents
 \thispagestyle{empty}
 \tableofcontents
-\newpage
+\clearpage
 
 \setcounter{page}{1}
 % 1. Introduction
 \section{Abstract}
-This project analyzes the feasibility of machine learning solutions for agent training in a real-time three-dimensional environment. We investigate the application and performance of Reinforcement Learning algorithms in agent training within Unity's ML-Agents framework. The approach included creating custom sensors, setting the training parameters, training the agents, and evaluating their performance using statistical techniques. We also performed experiments to find out if our generative AI could rival the performance of the traditional decision tree-based AI used in video games. Our study documents how to use Unity's ML-Agents library to train an agent, and our experiment results indicate that while generative AI is able to play our video game well from a technical perspective, it is unable to do so in a way that seems natural and immersive to the player.
+This project analyzes the feasibility of machine learning solutions for agent training in a real-time three-dimensional environment. We investigate the application and performance of Reinforcement Learning algorithms in agent training within Unity's ML-Agents framework. The approach included creating custom sensors, setting the training parameters, training the agents, and evaluating their performance using ELO scores. We also performed experiments to find out if our generative AI could rival the performance of the traditional decision tree-based AI used in video games. Our study documents how to use Unity's ML-Agents library to train an agent, and our experiment results indicate that while generative AI is able to play our video game well from a technical perspective, it is unable to do so in a way that seems natural and immersive to the player, however additional training and computational resources may be able to remedy this.
 
 \section{Introduction}
 As machine learning becomes an increasingly popular field in computer science, many have started researching applications of machine learning solutions to agent training and game development. A popular game engine that offers native support for AI implementations is Unity, which allows for the development of 3D real-time video games. To train and create our agents, we made use of the Unity Machine Learning Agents Toolkit, also known as ML-Agents \cite{juliani2020unity}. This adds a collection of Deep Reinforcement Learning algorithms and environments that can be used to test them. For the purposes of our experiments, we decided to create our own custom environment for training agents and testing their behavior.
@@ -63,7 +64,7 @@ This research has numerous important implications for the field of game developm
     \item Can generative AI rival the performance of normal AI in a video game setting? 
 \end{enumerate}
 
-Our approach mainly consists of using ML-Agents' Reinforced Learning algorithms. Reinforced Learning works by setting up a reward structure for the machine learning model, where the model is rewarded for certain actions that bring it closer to a certain goal, and punished for certain actions that prevent it from achieving said goal. The model then uses this reward structure to optimize itself over multiple training iterations, altering its behavior such that it maximizes how much it is rewarded and how little it is punished. Instead of using one of ML-Agents' pre-made agents, we created our own prototype first person shooter (FPS) game and designed agents that can function as non-playable characters (NPCs) in our game. The machine learning model we trained on these agents could theoretically be used as (NPCs) in a fully fleshed out FPS game. How these NPCs could be implemented in such a game represents another possible avenue of research that follows from our project.
+Our approach mainly consists of using ML-Agents' Reinforced Learning algorithms. Reinforced Learning works by setting up a reward structure for the machine learning model, where the model is rewarded for certain actions that bring it closer to a certain goal, and punished for certain actions that prevent it from achieving said goal. The model then uses this reward structure to optimize itself over multiple training iterations, altering its behavior such that it maximizes how much it is rewarded and how little it is punished. Instead of using one of ML-Agents' pre-made agents, we created our own prototype shooter game and designed agents that can function as non-playable characters (NPCs) in our game. The machine learning model we trained on these agents could theoretically be used as (NPCs) in a fully fleshed out shooter game. How these NPCs could be implemented in such a game represents another possible avenue of research that follows from our project.
 
 In section 3 of the report, we will describe our approach to training agents in Unity, including technical details of our implementation. These will be provided in sufficient detail to allow the reader to replicate our project. In section 4, we describe the set-up of our experiments and what we wanted to test with our experiments. In section 5, we display the results of our experiments in graph form. In section 6, we discuss the significance and limitations of our findings. 
 
@@ -71,7 +72,7 @@ In section 3 of the report, we will describe our approach to training agents in 
 \section{Methods}
 ML-Agents trains agents by taking in input data using sensors, using that data with a machine learning algorithm to train the agent, and then having the agent perform a specific action based on the algorithm's output. By using custom sensors and specifying the actions we want the agent to take, we can specify agent behavior and training based on the task at hand.
 
-For our custom environments, we created a rudimentary first-person shooter (FPS) game, complete with guns, bullets, health and ammo stats, and the necessary animations. In each training environment, there are two agents with guns, who both have the objective of killing the other agent. Environments also include 10 pickup spawn locations dotted across every environment, divided between 5 health pickup locations and 5 ammo pickup locations. At any given point in time, only one health pickup and one ammo pickup are present in the training environment. When an agent walks over a pickup, a small amount of health or ammo is given o them, and the pickup disappears. The pickup will then respawn at one of the other locations at random after a certain cooldown period. In the scene we use in Unity to train agents, there are 16 training environments running simultaneously. This helps speed up the training process and increase its efficiency.
+For our custom environments, we created a rudimentary first-person shooter (shooter) game, complete with guns, bullets, health and ammo stats, and the necessary animations. In each training environment, there are two agents with guns, who both have the objective of killing the other agent. Environments also include 10 pickup spawn locations dotted across every environment, divided between 5 health pickup locations and 5 ammo pickup locations. At any given point in time, only one health pickup and one ammo pickup are present in the training environment. When an agent walks over a pickup, a small amount of health or ammo is given o them, and the pickup disappears. The pickup will then respawn at one of the other locations at random after a certain cooldown period. In the scene we use in Unity to train agents, there are 16 training environments running simultaneously. This helps speed up the training process and increase its efficiency.
 
 We trained our agents using ML-Agents' Reinforcement Learning algorithms. Reinforcement Learning is a training protocol where agents are given a number of points to reward "good" behavior, and have points taken away to punish "bad" behavior. This allows the machine learning model to modify its training parameters over numerous training iterations such that it is able to achieve the highest number of points possible given the training protocol. For the purposes of this project, agents were rewarded for actions that helped them kill the other agent, and were punished for actions that lead to their death or did not move them towards achieving his goal. Actions for which agents are rewarded include
 \begin{enumerate}
@@ -95,7 +96,7 @@ The basic implementation structure of our game is as follows
 \begin{itemize}
     \item TrainingManager: manages all the multiple training environments and controllers in the scene
     \item TrainingController: Controls the training for a single environment, and its' agents, pickups, and UI
-    \item FPSAgent: An agent with movement, rotation, shooting, reloading, healing, dying, and picking up health and ammo.
+    \item shooterAgent: An agent with movement, rotation, shooting, reloading, healing, dying, and picking up health and ammo.
 \end{itemize}
 To create our agent, we also needed to create custom sensors which take in input data from the game and pass it on to ML-Agents. The sensors we created were
 \begin{enumerate}
@@ -153,14 +154,14 @@ All results were then graphed using the visualization tool TensorBoard.
 % 5. Results
 \section{Results}
 The following two graphs show the improvement of our agents between Phases 2 and 3.  
-\begin{figure}
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.5\linewidth]{phase2_results.png}
     \caption{Results for Phase 2}
     \label{phase2}
 \end{figure}
  
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.5\linewidth]{phase3_results.png}
     \caption{Results for Phase 3}
@@ -169,14 +170,14 @@ The following two graphs show the improvement of our agents between Phases 2 and
 
 In Figures \ref{phase2} and \ref{phase3}, the x-axis is the number of training iterations, and the y-axis is the ELO rating. Each pair of similarly colored lines represents a different training run using a different reward structure. In the table below each graph, the column ``Run" shows the name of the training run, ``Smoothed" shows the final smoothed ELO score (corresponding with the bolder of the two lines for a given run), ``Value" shows the final true ELO score (corresponding with the lighter of the two lines for a given run), "Steps" shows how many training iterations the run went on for, and "Relative" shows how much time the run took.
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.5\linewidth]{phase3_parameters.png}
     \caption{The training parameters for each run in Phase 3. Each color matches that of a run in Figure \ref{phase3}}
     \label{parameters}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{unnatural.png}
     \caption{Agents displaying counter-intuitive behavior while training}
@@ -187,7 +188,7 @@ In Figures \ref{phase2} and \ref{phase3}, the x-axis is the number of training i
 % 6. Discussion
 \section{Discussion}
 
-Our results show that our AI has improved given the additional training it has received since the second phase.  In Phase 2, the highest ELO we were able to reach during testing was 1200. In Phase 3, the highest recorded ELO was 1420 - is around the level of an intermediate player - which shows a significant improvement from the previous phase. This partially answers our second research question: generative AI is as capable of technical proficiency in a video game as normal AI. However, as shown in Figure \ref{behavior}, the agents often display unnatural and immersion-breaking behavior. During some training runs, agents would both run into a corner of the training environment and continuously face each other. We suspect that this is a result of the Facing Reward, which rewards agents for correctly facing each other. Some agents likely found it more consistently rewarding to stand in the corner and face each other, and so learned this behavior, instead of the intended FPS gameplay we wanted them to learn. This shows that our generative AI model cannot rival normal AI in another important aspect of NPC design: believability and immersion from the player's perspective.
+Our results show that our AI has improved given the additional training it has received since the second phase.  In Phase 2, the highest ELO we were able to reach during testing was 1200. In Phase 3, the highest recorded ELO was 1420 - is around the level of an intermediate player - which shows a significant improvement from the previous phase. This partially answers our second research question: generative AI is as capable of technical proficiency in a video game as normal AI. However, as shown in Figure \ref{behavior}, the agents often display unnatural and immersion-breaking behavior. During some training runs, agents would both run into a corner of the training environment and continuously face each other. We suspect that this is a result of the Facing Reward, which rewards agents for correctly facing each other. Some agents likely found it more consistently rewarding to stand in the corner and face each other, and so learned this behavior, instead of the intended shooter gameplay we wanted them to learn. This shows that our generative AI model cannot rival normal AI in another important aspect of NPC design: believability and immersion from the player's perspective.
 
 This shortcoming could be remedied by further training, although further research would be needed to confirm this. We also faced numerous limitations while running this experiment, including needing to wait for long periods of time while the AI was training, having to retrain the AI from scratch every time anything about the testing environment was changed, and overall computational issues when training, such as Unity crashing repeatedly and training data being lost while storing runs. This also limited our ability to systematically test and isolate the effect of every training parameter on agent behavior. Since it took so long to train agents for a single run, it would be impossible to test each of the 9 training parameters separately. As is apparent from Figure \ref{parameters}, we changed multiple training parameters between runs. This was mostly done based off of intuition. These limitations can be overcome if we are given more time and computing power to run our experiments.
 
@@ -195,19 +196,9 @@ For the first research question, our experiments, coupled with the implementatio
 
 % 7. Conclusion
 \section{Conclusion}
-Our project shows that agents can be trained using adversarial techniques and reinforcement learning on the Unity game engine. To extend the engine with the necessary tools, we used Unity's ML-Agents library. For our first research question, we showed that Unity's ML-Agents library offers sufficient infrastructure to train an agent for any given task. The library does this by allowing us to write customer sensors for the agent that record input data, using this data with machine learning algorithms to train the agent, and then having the agent perform some specified action. We specifically used ML-Agents' Reinforcement Learning algorithms for our training. 
+Our project shows that agents can be trained using adversarial techniques and reinforcement learning on the Unity game engine. To extend the engine with the necessary tools, we used Unity's ML-Agents library. For our first research question, we showed that Unity's ML-Agents library offers sufficient infrastructure to train an agent for any given task. The library does this by allowing us to write custom sensors for the agent that record input data, using this data with machine learning algorithms to train the agent, and then having the agent perform some specified action. We specifically used ML-Agents' Reinforcement Learning algorithms for our training. 
 
-We also ran experiments to test the feasibility of machine learning solutions as a substitute for traditional decision tree-based AI in videos games. Our results indicate that while generative AI plays well from a technical perspective, but is still unable to capture the fluidity of action that makes NPCs immersive and realistic, thus making it look jilted and stiff from a player's perspective. As things currently stand, our experiment was not able to prove that generative AI is a good substitute for normal AI, but we also faced significant technical limitations during coding that limited our ability to train our agents. It is possible that given more time and computing resources, we could train a generative AI model that parallels normal AI from both a technical and player perspective.
-
-% 8. Appendix
-\section{Appendix}
-\begin{itemize}
-    \item Additional material:
-    \item Raw data.
-    \item (Pseudo)-code.
-    \item Extra tables/figures.
-    \item Labeling: Refer to appendices in the main text.
-\end{itemize}
+We also ran experiments to test the feasibility of machine learning solutions as a substitute for traditional decision tree-based AI in videos games. Our results indicate that generative AI plays well from a technical perspective, but is still unable to capture the fluidity of action that makes NPCs immersive and realistic, thus making it look jilted and stiff from a player's perspective. As things currently stand, our experiment was not able to prove that generative AI is a good substitute for normal AI, but we also faced significant technical limitations during coding that limited our ability to train our agents. It is possible that given more time and computing resources, we could train a generative AI model that parallels normal AI from both a technical and player perspective.
 
 % 9. References
 \newpage
