@@ -49,8 +49,7 @@ MonoBehaviour:
   projectileDefinition: {fileID: 11400000, guid: 126e4aa0bae762b49bfa126bfeadfe74,
     type: 2}
   maxAmmo: 10
-  maxReloads: 10
-  reloadDuration: 0.75
+  maxReloads: 5
   shootRadius: 25
   reloadRadius: 15
   onShoot:

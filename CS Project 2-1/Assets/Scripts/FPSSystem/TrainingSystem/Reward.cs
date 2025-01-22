@@ -47,6 +47,10 @@ namespace FPSSystem.TrainingSystem
         [Tooltip("Reward given to an agent for facing the opponent")]
         public float FacingReward = 0.1f;
 
+        [Range(0, 30)]
+        [Tooltip("The angle in which the agent is rewarded for facing the other agent")]
+        public float rewardAngle = 10;
+
         public readonly float KillReward = 1f;
         public readonly float KilledReward = -1f;
     }

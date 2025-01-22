@@ -18,6 +18,7 @@ namespace FPSSystem.HealthSystem
                 Radius = soundRadius,
             });
             healable.TakeHealing(healAmount);
+            _onEvent.OnNext(new IPickupEvent.OnPickupCollected(this));
         }
     }
 }

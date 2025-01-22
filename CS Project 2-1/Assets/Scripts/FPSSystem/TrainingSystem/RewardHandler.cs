@@ -1,33 +1,24 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 using System.IO;
-using UnityEngine.AI;
-using System.Diagnostics.Eventing.Reader;
-using System.Collections;
+
 
 namespace FPSSystem.TrainingSystem
 {
     [Serializable]
     public class RewardHandler : MonoBehaviour
-    {
-        private String rewardSetupDirectory = "/Rewards/";
+    {   
 
-        private String gameDataPath;
-
-        private String finalRewardPath;
-        public String FinalRewardPath() => finalRewardPath;
 
         [SerializeField]
         private Reward currentRewardSetup; // The setup where you can adjust rewards with sliders in the editor
 
         [SerializeField]
-        [Tooltip("Save the current reward setup made in the editor to a file after a training run is started")]
-        private Boolean saveRewardSetupToFile = true;
+        [Tooltip("Save the current reward setup made in the editor to a file after a training run is started. Also disables loading rewards from static file in StreamingAssets.")]
+        private Boolean saveRewardSetupToFile = false;
 
         [SerializeField]
-        private String rewardFilename = "Test";
+        private String customFilename = "defaultRewardSetupName";
 
         public Reward CurrentReward => currentRewardSetup;
 
@@ -36,52 +27,59 @@ namespace FPSSystem.TrainingSystem
         private TextAsset setupFile;
 
 
+        private String streamingAssetsDirectory;
+        private String assetsDirectory;
+        private String rewardsStorageDirectory = "/Rewards/";
+        private String rewardsStorageFileName = "rewards";
+        private String rewardsWriteDirectory = "/SavedRewards/";
+
+
         public void SaveRewardSetup(Reward data, string filePath)
         {
             string json = JsonUtility.ToJson(data, prettyPrint: true);
 
             File.WriteAllText(filePath, json);
 
-            Debug.Log($"Data saved to {filePath}");
+            Debug.Log($"Rewards saved to {filePath}");
         }
 
         public RewardHandler()
         {
-            gameDataPath = Application.streamingAssetsPath;
-            finalRewardPath = gameDataPath + rewardSetupDirectory;
-            Debug.Log("Saving rewards to : " + finalRewardPath);
+            streamingAssetsDirectory = Application.streamingAssetsPath;
+            assetsDirectory = Application.dataPath;
         }
 
-        public ArrayList availableFiles;
+        public void ReadRewardSetup(){
+            string storedRewardPath = streamingAssetsDirectory + rewardsStorageDirectory + rewardsStorageFileName + ".json";
 
-        public ArrayList GetAvailable(){
-
-            ArrayList paths = new ArrayList();
-
-            foreach(string filename in Directory.GetFiles(gameDataPath + rewardSetupDirectory))
+            if (File.Exists(storedRewardPath))
             {
-                if(!filename.Contains(".meta")){
-                    paths.Add(filename);
-                }
-
+                this.currentRewardSetup = JsonUtility.FromJson<Reward>(File.ReadAllText(storedRewardPath));
+                Debug.Log("Read reward setup from " + storedRewardPath);
+            } else {
+                Debug.Log("Reward setup file \"reward.json\" not found in " + streamingAssetsDirectory + rewardsStorageDirectory + ". Loading defaults.");
             }
-
-            this.availableFiles = paths;
-            return paths;
-        }
-
-        public void ReadRewardSetup(String path){
-            this.currentRewardSetup = JsonUtility.FromJson<Reward>(File.ReadAllText(path));
-            Debug.Log("Read reward setup from " + path);
+            
         }
 
         public void Awake(){
-            if(setupFile != null){
+            // Read reward setup from file dropped into setupFile field in the editor
+            if(setupFile != null && !saveRewardSetupToFile){
                 currentRewardSetup = JsonUtility.FromJson<Reward>(setupFile.text);
-            }
-            else if(saveRewardSetupToFile)
+                saveRewardSetupToFile = false;
+                return;
+            } 
+            // Read reward setup from static file in streaming assets if not choosing to save reward setup to file
+            else if(!saveRewardSetupToFile)
             {
-                SaveRewardSetup(currentRewardSetup, finalRewardPath + rewardFilename + ".json");
+                ReadRewardSetup();
+                saveRewardSetupToFile = false;
+            }
+
+            // If rewards have not been read from anything
+            if(saveRewardSetupToFile)
+            {
+                SaveRewardSetup(currentRewardSetup, assetsDirectory + rewardsWriteDirectory + customFilename + ".json");
             }
         }
 
