@@ -330,7 +330,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: 381f9a6bd5671604cb2417fd539b680c, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 2
   m_BehaviorName: FPS
   TeamId: 0
   m_UseChildSensors: 1
